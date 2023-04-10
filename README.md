@@ -1,1 +1,1 @@
-"# me.formei-backend" 
+O Me.Formei é um aplicativo projetado para fornecer assistência abrangente aos estudantes universitários em seu percurso acadêmico. Com nosso aplicativo, os estudantes podem facilmente monitorar seu progresso no curso, incluindo as disciplinas que estão atualmente matriculados, aquelas que já completaram e as que planejam cursar no futuro.
