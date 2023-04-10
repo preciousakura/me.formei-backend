@@ -6,7 +6,7 @@ Back-end do trabalho final da cadeira de Engenharia de Software do curso Ciênci
 O Me.Formei é um aplicativo projetado para fornecer assistência abrangente aos estudantes universitários em seu percurso acadêmico. Com ele, os estudantes podem facilmente monitorar seu progresso no curso, incluindo as disciplinas que estão atualmente matriculados, aquelas que já completaram e as que planejam cursar no futuro.
 </p>
 </br>
-Equipe: <a href="https://github.com/brnamaia">Bruna Maia</a>, <a href="https://github.com/preciousakura">Isabel Cristinaa</a>, <a href="https://github.com/SabrinaSioli">Sabrina Oliveira</a>, <a href="https://github.com/carolmax">Maria Carolina</a>, <a href="https://github.com/italoalencar">Itálo Sousa</a> e <a href="[https://github.com/brnamaia](https://github.com/luismaia-git)">Luís Maia</a>
+Equipe: <a href="https://github.com/brnamaia">Bruna Maia</a>, <a href="https://github.com/preciousakura">Isabel Cristina</a>, <a href="https://github.com/SabrinaSioli">Sabrina Oliveira</a>, <a href="https://github.com/carolmax">Maria Carolina</a>, <a href="https://github.com/italoalencar">Itálo Sousa</a> e <a href="https://github.com/luismaia-git">Luís Maia</a>
 
 ## Compilação
 
