@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  students Student[]
+  admins   Admin[]
+}
+
+model Student {
+  registration  String @id @unique
+  curriculum    Curriculum @relation(fields: [curriculumId], references: [id])
+  curriculumId  String
+  user          User @relation(fields: [userId], references: [id])
+  userId        String
+  courseHistory CourseHistory[]
+  extracurricularActivitiesHistory ExtraCurricularActivitiesHistory [] 
+}
+
+model Admin {
+  id     String @id @default(uuid())
+  user   User @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Course {
+  id         String @id @default(uuid())
+  name       String @unique
+  curriculum Curriculum[]
+}
+
+model University {
+  id         String @id @default(uuid())
+  name       String @unique
+  abv        String @unique
+  curriculum Curriculum []
+}
+
+model Curriculum {
+  id                   String @id @default(uuid())
+  students             Student[]
+  course               Course @relation(fields: [courseId], references: [id])
+  courseId             String
+  description          String
+  university           University @relation(fields: [universityId], references: [id])
+  universityId         String
+  requiredHours        Int
+  optionalHours        Int
+  extraCurricularHours Int
+  discipline           Discipline []
+}
+
+model Discipline {
+  id String @id @default(uuid())
+  cod String @unique
+  optional Boolean
+  name String
+  hours Int
+  courseOutline String?
+  prerequisiteParent Discipline? @relation("DisctoDisc", fields: [prerequisite], references: [cod])
+  prerequisite String?
+  disciplines Discipline[] @relation("DisctoDisc")
+  description String
+  curriculum Curriculum @relation(fields: [curriculumId], references: [id])
+  curriculumId String
+  courseHistory CourseHistory []
+}
+
+
+model CourseHistory {
+  id String @id @default(uuid())
+  studentId String 
+  student Student @relation(fields: [studentId], references: [registration])
+  disciplineId String 
+  discipline Discipline @relation(fields: [disciplineId], references: [id])
+  status StatusCourseHistory 
+}
+
+enum StatusCourseHistory {
+  DONE
+  INPROGRESS
+  FAILED
+  WITHDRAWAL
+}
+
+model ExtraCurricularActivitiesHistory {
+  id String @id @default(uuid())
+  studentId String 
+  student Student @relation(fields: [studentId], references: [registration])
+  extraCurricularName String
+  hours Int
+}
