@@ -1,32 +1,30 @@
-import { randomUUID } from 'crypto';
+import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
 import { User, UserProps } from '../user/user';
 
-export interface StudentProps {
+export interface StudentProps extends UserProps {
   registration: string;
   curriculumId: string;
 }
 
-export class Student extends User {
-  private _props: StudentProps;
-
-  constructor(userProps: UserProps, props: StudentProps, id?: string) {
-    super(userProps, id ?? randomUUID());
-    this._props = props;
+export class Student extends User<StudentProps> {
+  static create(props: StudentProps, id?: UniqueEntityID) {
+    const student = new Student(props, id);
+    return student;
   }
 
   public set registration(registration: string) {
-    this._props.registration = registration;
+    this.props.registration = registration;
   }
 
   public get registration() {
-    return this._props.registration;
+    return this.props.registration;
   }
 
   public set curriculumId(curriculumId: string) {
-    this._props.curriculumId = curriculumId;
+    this.props.curriculumId = curriculumId;
   }
 
   public get curriculumId() {
-    return this._props.curriculumId;
+    return this.props.curriculumId;
   }
 }

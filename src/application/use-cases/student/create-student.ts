@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { Student } from '@application/entities/student/student';
-import { User } from '@application/entities/user/user';
+import { User, UserProps } from '@application/entities/user/user';
 import { StudentsRepository } from '@application/repositories/students-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
 
@@ -15,7 +15,7 @@ interface CreateStudentRequest {
 
 interface CreateStudentResponse {
   student: Student;
-  user: User; // for test
+  user: User<UserProps>;
 }
 
 @Injectable()
@@ -28,13 +28,18 @@ export class CreateStudent {
   async execute(request: CreateStudentRequest): Promise<CreateStudentResponse> {
     const { curriculumId, email, name, password, registration } = request;
 
-    const user = new User({
+    const user = User.create({
       name: name,
       email: email,
       password: password,
     });
 
-    const student = new Student(user, { curriculumId, registration }, user.id);
+    //Validar se curriculo existe
+
+    const student = Student.create(
+      { curriculumId, registration, name, email, password },
+      user.id,
+    );
 
     await this.usersRepository.create(user);
     await this.studentsRepository.create(student);

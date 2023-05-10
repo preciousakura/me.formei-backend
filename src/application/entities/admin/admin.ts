@@ -1,30 +1,21 @@
-import { randomUUID } from 'crypto';
-import { Replace } from 'src/helpers/replace';
+import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
 import { User, UserProps } from '../user/user';
 
-export interface AdminProps {
-  adminId?: string;
+export interface AdminProps extends UserProps {
+  adminId?: UniqueEntityID;
 }
 
-export class Admin extends User {
-  private _props: AdminProps;
-  constructor(
-    userProps: UserProps,
-    props?: Replace<AdminProps, { adminId?: string }>,
-    id?: string,
-  ) {
-    super(userProps, id ?? randomUUID());
-    this._props = {
-      ...props,
-      adminId: props?.adminId ?? randomUUID(),
-    };
+export class Admin extends User<AdminProps> {
+  static create(props: AdminProps, id?: UniqueEntityID) {
+    const admin = new Admin(props, id);
+    return admin;
   }
 
-  public set adminId(adminId: string) {
-    this._props.adminId = adminId;
+  public set adminId(adminId: UniqueEntityID) {
+    this.props.adminId = adminId;
   }
 
   public get adminId() {
-    return this._props.adminId;
+    return this.props.adminId;
   }
 }

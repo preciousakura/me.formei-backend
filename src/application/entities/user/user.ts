@@ -1,16 +1,16 @@
+import { Entity } from '@core/entities/entity';
+import { UniqueEntityID } from '@core/entities/unique-entity-id';
+
 export interface UserProps {
   name: string;
   email: string;
   password: string;
 }
 
-export class User {
-  private _id: string;
-  private props: UserProps;
-
-  constructor(props: UserProps, id?: string) {
-    this._id = id;
-    this.props = props;
+export class User<Props extends UserProps> extends Entity<Props> {
+  static create(props: UserProps, id?: UniqueEntityID) {
+    const user = new User(props, id);
+    return user;
   }
 
   public set name(name: string) {
@@ -19,10 +19,6 @@ export class User {
 
   public get name() {
     return this.props.name;
-  }
-
-  public get id() {
-    return this._id;
   }
 
   public set email(email: string) {

@@ -22,7 +22,8 @@
       "@application/*": ["./src/application/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@infra/*": ["./src/infra/*"],
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
+      "@core/*": ["./src/core/*"]
     }
   }
 }

@@ -63,7 +63,10 @@ export class PrismaStudentsRepository implements StudentsRepository {
   }
 
   async list(): Promise<Student[] | []> {
-    const students = await this.prisma.student.findMany();
+    const students = await this.prisma.student.findMany({
+      include: { user: true },
+    });
+
     return students.map(PrismaStudentMapper.toDomain);
   }
 }
