@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="x5MRRwAtuDwKRfn0gbdV" name="Página-1">
-        <mxGraphModel dx="1930" dy="1827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2157" dy="1634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -89,13 +89,13 @@
                     <mxGeometry x="430" y="45" width="170" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="39" value="&lt;p&gt;&lt;font face=&quot;Georgia&quot;&gt;&lt;b&gt;ToPrisma&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=4;" vertex="1" parent="1">
-                    <mxGeometry x="715" y="-120" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="870" y="-150" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="40" value="&lt;p&gt;&lt;font face=&quot;Georgia&quot;&gt;&lt;b&gt;ToDomain&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=4;" vertex="1" parent="1">
-                    <mxGeometry x="710" y="305" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="880" y="235" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="41" value="&lt;p&gt;&lt;font face=&quot;Georgia&quot;&gt;&lt;b&gt;ToHTTP&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=4;" vertex="1" parent="1">
-                    <mxGeometry x="495" y="260" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="545" y="220" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="42" value="&lt;p&gt;&lt;font face=&quot;Georgia&quot;&gt;&lt;b&gt;HttpModule&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=4;" vertex="1" parent="1">
                     <mxGeometry x="480" width="60" height="30" as="geometry"/>
@@ -104,7 +104,16 @@
                     <mxGeometry x="-110" y="-95" width="153.25" height="130" as="geometry"/>
                 </mxCell>
                 <mxCell id="46" value="&lt;p&gt;&lt;font face=&quot;Georgia&quot;&gt;&lt;b&gt;UseCase&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=4;" vertex="1" parent="1">
-                    <mxGeometry x="454" y="530" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="454" y="515" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" value="StudentViewModel" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;strokeColor=#994c00;gradientColor=none;gradientDirection=north;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="250" width="170" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="PrismaStudentMapper" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;strokeColor=#2FCCCC;gradientColor=none;gradientDirection=north;" vertex="1" parent="1">
+                    <mxGeometry x="827" y="265" width="170" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="53" value="PrismaStudentMapper" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=4;strokeColor=#2FCCCC;gradientColor=none;gradientDirection=north;" vertex="1" parent="1">
+                    <mxGeometry x="815" y="-120" width="170" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
