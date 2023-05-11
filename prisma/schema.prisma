@@ -10,82 +10,105 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model State {
+  id     String @id @default(uuid())
+  name   String @unique
+  cities City[]
+}
+
+model City {
+  id      String @id @default(uuid())
+  name    String
+  state   State  @relation(fields: [stateId], references: [id])
+  stateId String
+  users   User[]
+}
+
 model User {
-  id       String @id @default(uuid())
+  id       String    @id @default(uuid())
   name     String
-  email    String   @unique
+  lastname String
+  username String
+  email    String    @unique
   password String
   students Student[]
   admins   Admin[]
+  city     City      @relation(fields: [cityId], references: [id])
+  cityId   String
 }
 
 model Student {
-  registration  String @id @unique
-  curriculum    Curriculum @relation(fields: [curriculumId], references: [id])
-  curriculumId  String
-  user          User @relation(fields: [userId], references: [id])
-  userId        String
-  courseHistory CourseHistory[]
-  extracurricularActivitiesHistory ExtraCurricularActivitiesHistory [] 
+  id                               String                             @id @default(uuid())
+  registration                     String                             @unique
+  curriculum                       Curriculum                         @relation(fields: [curriculumId], references: [id])
+  curriculumId                     String
+  user                             User                               @relation(fields: [userId], references: [id])
+  userId                           String
+  courseHistory                    CourseHistory[]
+  extracurricularActivitiesHistory ExtraCurricularActivitiesHistory[]
+  enrollmentYear                   Int
+  enrollmentSemester               Int
+  currentSemester                  Int
 }
 
 model Admin {
   id     String @id @default(uuid())
-  user   User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String
 }
 
 model Course {
-  id         String @id @default(uuid())
-  name       String @unique
+  id         String       @id @default(uuid())
+  name       String       @unique
   curriculum Curriculum[]
 }
 
 model University {
-  id         String @id @default(uuid())
-  name       String @unique
-  abv        String @unique
-  curriculum Curriculum []
+  id         String       @id @default(uuid())
+  name       String       @unique
+  abv        String       @unique
+  curriculum Curriculum[]
 }
 
 model Curriculum {
-  id                   String @id @default(uuid())
+  id                   String       @id @default(uuid())
   students             Student[]
-  course               Course @relation(fields: [courseId], references: [id])
+  course               Course       @relation(fields: [courseId], references: [id])
   courseId             String
   description          String
-  university           University @relation(fields: [universityId], references: [id])
+  university           University   @relation(fields: [universityId], references: [id])
   universityId         String
   requiredHours        Int
   optionalHours        Int
   extraCurricularHours Int
-  discipline           Discipline []
+  discipline           Discipline[]
 }
 
 model Discipline {
-  id String @id @default(uuid())
-  cod String @unique
-  optional Boolean
-  name String
-  hours Int
-  courseOutline String?
-  prerequisiteParent Discipline? @relation("DisctoDisc", fields: [prerequisite], references: [cod])
-  prerequisite String?
-  disciplines Discipline[] @relation("DisctoDisc")
-  description String
-  curriculum Curriculum @relation(fields: [curriculumId], references: [id])
-  curriculumId String
-  courseHistory CourseHistory []
+  id                 String          @id @default(uuid())
+  cod                String          @unique
+  optional           Boolean
+  name               String
+  hours              Int
+  courseOutline      String?
+  prerequisiteParent Discipline?     @relation("DisctoDisc", fields: [prerequisite], references: [cod])
+  prerequisite       String?
+  disciplines        Discipline[]    @relation("DisctoDisc")
+  description        String
+  curriculum         Curriculum      @relation(fields: [curriculumId], references: [id])
+  curriculumId       String
+  courseHistory      CourseHistory[]
 }
 
-
 model CourseHistory {
-  id String @id @default(uuid())
-  studentId String 
-  student Student @relation(fields: [studentId], references: [registration])
-  disciplineId String 
-  discipline Discipline @relation(fields: [disciplineId], references: [id])
-  status StatusCourseHistory 
+  id                  String              @id @default(uuid())
+  studentRegistration String
+  student             Student             @relation(fields: [studentRegistration], references: [registration])
+  disciplineId        String
+  discipline          Discipline          @relation(fields: [disciplineId], references: [id])
+  status              StatusCourseHistory
+  createdAt           DateTime            @default(now())
+  semester            Int
 }
 
 enum StatusCourseHistory {
@@ -96,9 +119,9 @@ enum StatusCourseHistory {
 }
 
 model ExtraCurricularActivitiesHistory {
-  id String @id @default(uuid())
-  studentId String 
-  student Student @relation(fields: [studentId], references: [registration])
+  id                  String  @id @default(uuid())
+  studentId           String
+  student             Student @relation(fields: [studentId], references: [registration])
   extraCurricularName String
-  hours Int
+  hours               Int
 }

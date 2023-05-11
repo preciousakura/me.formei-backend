@@ -14,7 +14,17 @@ export class PrismaAdminsRepository implements AdminsRepository {
       where: {
         id: adminId,
       },
-      include: { user: true },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!admin) {

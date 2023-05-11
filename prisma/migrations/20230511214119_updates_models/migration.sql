@@ -2,22 +2,46 @@
 CREATE TYPE "StatusCourseHistory" AS ENUM ('DONE', 'INPROGRESS', 'FAILED', 'WITHDRAWAL');
 
 -- CreateTable
+CREATE TABLE "State" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "State_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "City" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "stateId" TEXT,
+
+    CONSTRAINT "City_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "lastname" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "cityId" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Student" (
+    "id" TEXT NOT NULL,
     "registration" TEXT NOT NULL,
     "curriculumId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
+    "enrollmentYear" TIMESTAMP(3) NOT NULL,
+    "enrollmentSemester" INTEGER NOT NULL,
+    "currentSemester" INTEGER NOT NULL,
 
-    CONSTRAINT "Student_pkey" PRIMARY KEY ("registration")
+    CONSTRAINT "Student_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -76,9 +100,11 @@ CREATE TABLE "Discipline" (
 -- CreateTable
 CREATE TABLE "CourseHistory" (
     "id" TEXT NOT NULL,
-    "studentId" TEXT NOT NULL,
+    "studentRegistration" TEXT NOT NULL,
     "disciplineId" TEXT NOT NULL,
     "status" "StatusCourseHistory" NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "semester" INTEGER NOT NULL,
 
     CONSTRAINT "CourseHistory_pkey" PRIMARY KEY ("id")
 );
@@ -94,7 +120,13 @@ CREATE TABLE "ExtraCurricularActivitiesHistory" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "State_name_key" ON "State"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Student_registration_key" ON "Student"("registration");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Course_name_key" ON "Course"("name");
@@ -107,6 +139,12 @@ CREATE UNIQUE INDEX "University_abv_key" ON "University"("abv");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Discipline_cod_key" ON "Discipline"("cod");
+
+-- AddForeignKey
+ALTER TABLE "City" ADD CONSTRAINT "City_stateId_fkey" FOREIGN KEY ("stateId") REFERENCES "State"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Student" ADD CONSTRAINT "Student_curriculumId_fkey" FOREIGN KEY ("curriculumId") REFERENCES "Curriculum"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -130,7 +168,7 @@ ALTER TABLE "Discipline" ADD CONSTRAINT "Discipline_prerequisite_fkey" FOREIGN K
 ALTER TABLE "Discipline" ADD CONSTRAINT "Discipline_curriculumId_fkey" FOREIGN KEY ("curriculumId") REFERENCES "Curriculum"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CourseHistory" ADD CONSTRAINT "CourseHistory_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("registration") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CourseHistory" ADD CONSTRAINT "CourseHistory_studentRegistration_fkey" FOREIGN KEY ("studentRegistration") REFERENCES "Student"("registration") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CourseHistory" ADD CONSTRAINT "CourseHistory_disciplineId_fkey" FOREIGN KEY ("disciplineId") REFERENCES "Discipline"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

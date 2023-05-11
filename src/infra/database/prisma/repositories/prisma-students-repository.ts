@@ -13,7 +13,23 @@ export class PrismaStudentsRepository implements StudentsRepository {
       where: {
         registration: studentId,
       },
-      include: { user: true },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+        curriculum: {
+          include: {
+            course: true,
+            university: true,
+          },
+        },
+      },
     });
 
     if (!student) {
