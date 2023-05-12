@@ -58,16 +58,16 @@ model Admin {
 }
 
 model Course {
-  id         String       @id @default(uuid())
-  name       String       @unique
-  curriculum Curriculum[]
+  id          String       @id @default(uuid())
+  name        String       @unique
+  curriculums Curriculum[]
 }
 
 model University {
-  id         String       @id @default(uuid())
-  name       String       @unique
-  abv        String       @unique
-  curriculum Curriculum[]
+  id          String       @id @default(uuid())
+  name        String       @unique
+  abv         String       @unique
+  curriculums Curriculum[]
 }
 
 model Curriculum {
@@ -81,7 +81,7 @@ model Curriculum {
   requiredHours        Int
   optionalHours        Int
   extraCurricularHours Int
-  discipline           Discipline[]
+  disciplines          Discipline[]
 }
 
 model Discipline {
