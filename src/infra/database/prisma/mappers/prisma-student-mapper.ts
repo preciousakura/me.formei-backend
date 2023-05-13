@@ -1,12 +1,14 @@
 import { City } from '@application/entities/city/city';
+import { Course } from '@application/entities/curriculum/course';
+import { University } from '@application/entities/curriculum/university';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
 import {
   City as CityPrisma,
-  Course,
-  Curriculum,
+  Course as CoursePrisma,
+  Curriculum as CurriculumPrisma,
   Student as RawStudentPrisma,
   State,
-  University,
+  University as UniversityPrisma,
   User,
 } from '@prisma/client';
 import { Student } from 'src/application/entities/student/student';
@@ -38,8 +40,19 @@ export class PrismaStudentMapper {
           new UniqueEntityID(raw.user.city.id),
         ),
         state: raw.user.city.state.name,
-        course: raw.curriculum.course.name,
-        university: raw.curriculum.university.name,
+        course: Course.create(
+          {
+            name: raw.curriculum.course.name,
+          },
+          new UniqueEntityID(raw.curriculum.course.id),
+        ),
+        university: University.create(
+          {
+            name: raw.curriculum.university.name,
+            abv: raw.curriculum.university.abv,
+          },
+          new UniqueEntityID(raw.curriculum.university.id),
+        ),
         username: raw.user.username,
         lastname: raw.user.lastname,
         currentSemester: raw.currentSemester,
@@ -57,8 +70,8 @@ type RawStudent = RawStudentPrisma & {
       state: State;
     };
   };
-  curriculum: Curriculum & {
-    course: Course;
-    university: University;
+  curriculum: CurriculumPrisma & {
+    course: CoursePrisma;
+    university: UniversityPrisma;
   };
 };

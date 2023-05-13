@@ -7,6 +7,9 @@ import { CurriculumsRepository } from '@application/repositories/curriculums-rep
 import { StatesRepository } from '@application/repositories/states-repository';
 import { StudentsRepository } from '@application/repositories/students-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
+import { CityNotFound } from '../errors/city-not-found';
+import { CurriculumNotFound } from '../errors/curriculum-not-found';
+import { StateNotFound } from '../errors/state-not-found';
 
 interface CreateStudentRequest {
   registration: string;
@@ -52,24 +55,22 @@ export class CreateStudent {
       enrollmentYear,
     } = request;
 
-    //verificar se cidade existe
-
     const curriculum = await this.curriculumsRepository.findById(curriculumId);
 
     if (!curriculum) {
-      throw Error('Curriculum not found');
+      throw new CurriculumNotFound();
     }
 
     const city = await this.citiesRepository.findById(cityId);
 
     if (!city) {
-      throw Error('City not found');
+      throw new CityNotFound();
     }
 
     const state = await this.statesRepository.findById(city.stateId);
 
     if (!state) {
-      throw Error('State not found');
+      throw new StateNotFound();
     }
 
     const user = User.create({
@@ -82,9 +83,6 @@ export class CreateStudent {
       state: state.name,
     });
 
-    //Validar se curriculo existe
-    //encontra a matriz e ja passa as informaçoes pro student
-
     const student = Student.create(
       {
         curriculumId,
@@ -93,13 +91,13 @@ export class CreateStudent {
         email,
         password,
         city,
-        course: curriculum.course.name,
+        course: curriculum.course,
         currentSemester,
         enrollmentSemester,
         enrollmentYear,
         lastname,
         state: state.name,
-        university: curriculum.university.name,
+        university: curriculum.university,
         username,
       },
       user.id,

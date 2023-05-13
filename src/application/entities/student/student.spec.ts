@@ -1,3 +1,5 @@
+import { makeCourse } from '@test/factories/course-factory';
+import { makeUniversity } from '@test/factories/university-factory';
 import { City } from '../city/city';
 import { Student } from './student';
 
@@ -14,13 +16,13 @@ describe('Student', () => {
         name: 'example city name',
         stateId: 'example-state-id',
       }),
-      course: 'Example course',
+      course: makeCourse(),
       currentSemester: 1,
       enrollmentSemester: 1,
       enrollmentYear: 2021,
       lastname: 'Example lastname',
       state: 'Example state',
-      university: 'Example university name',
+      university: makeUniversity(),
     });
 
     expect(student).toBeTruthy();

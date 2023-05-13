@@ -85,19 +85,18 @@ model Curriculum {
 }
 
 model Discipline {
-  id                 String          @id @default(uuid())
-  cod                String          @unique
-  optional           Boolean
-  name               String
-  hours              Int
-  courseOutline      String?
-  prerequisiteParent Discipline?     @relation("DisctoDisc", fields: [prerequisite], references: [cod])
-  prerequisite       String?
-  disciplines        Discipline[]    @relation("DisctoDisc")
-  description        String
-  curriculum         Curriculum      @relation(fields: [curriculumId], references: [id])
-  curriculumId       String
-  courseHistory      CourseHistory[]
+  id                       String          @id @default(uuid())
+  cod                      String          @unique
+  optional                 Boolean
+  name                     String
+  hours                    Int
+  courseOutline            String?
+  prerequisites            Discipline[]    @relation("prequisitesToDiscipline")
+  prerequisitesDisciplines Discipline[]    @relation("prequisitesToDiscipline")
+  description              String
+  curriculum               Curriculum      @relation(fields: [curriculumId], references: [id])
+  curriculumId             String
+  courseHistory            CourseHistory[]
 }
 
 model CourseHistory {

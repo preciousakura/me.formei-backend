@@ -18,7 +18,17 @@ export class PrismaCurriculumsRepository implements CurriculumsRepository {
       include: {
         course: true,
         university: true,
-        discipline: true,
+        disciplines: {
+          include: {
+            prerequisitesDisciplines: true,
+            curriculum: {
+              include: {
+                course: true,
+                university: true,
+              },
+            },
+          },
+        },
       },
     });
 
