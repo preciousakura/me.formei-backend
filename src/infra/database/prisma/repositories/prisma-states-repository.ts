@@ -62,4 +62,18 @@ export class PrismaStatesRepository implements StatesRepository {
       data: raw,
     });
   }
+
+  async list(): Promise<State[] | []> {
+    const states = await this.prisma.state.findMany();
+
+    return states.map(PrismaStateMapper.toDomain);
+  }
+
+  async delete(stateId: string): Promise<void> {
+    await this.prisma.state.delete({
+      where: {
+        id: stateId,
+      },
+    });
+  }
 }

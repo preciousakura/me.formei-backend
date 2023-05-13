@@ -37,4 +37,18 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
       this.universities[index] = university;
     }
   }
+
+  async list(): Promise<University[] | []> {
+    return this.universities;
+  }
+
+  async delete(universityId: string): Promise<void> {
+    const universitiesIndex = this.universities.findIndex(
+      (item) => item.id.toString() === universityId,
+    );
+
+    if (universitiesIndex >= 0) {
+      this.universities.splice(universitiesIndex, 1);
+    }
+  }
 }

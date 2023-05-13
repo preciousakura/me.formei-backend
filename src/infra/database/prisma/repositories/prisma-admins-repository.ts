@@ -72,4 +72,19 @@ export class PrismaAdminsRepository implements AdminsRepository {
       data: raw,
     });
   }
+  async list(): Promise<Admin[] | []> {
+    const admin = await this.prisma.admin.findMany({
+      include: { user: true },
+    });
+
+    return admin.map(PrismaAdminMapper.toDomain);
+  }
+
+  async delete(adminId: string): Promise<void> {
+    await this.prisma.admin.delete({
+      where: {
+        id: adminId,
+      },
+    });
+  }
 }

@@ -65,4 +65,20 @@ export class PrismaCitiesRepository implements CitiesRepository {
       data: raw,
     });
   }
+
+  async list(): Promise<City[] | []> {
+    const cities = await this.prisma.city.findMany({
+      include: { state: true },
+    });
+
+    return cities.map(PrismaCityMapper.toDomain);
+  }
+
+  async delete(cityId: string): Promise<void> {
+    await this.prisma.city.delete({
+      where: {
+        id: cityId,
+      },
+    });
+  }
 }

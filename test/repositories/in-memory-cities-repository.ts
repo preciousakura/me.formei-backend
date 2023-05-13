@@ -33,4 +33,18 @@ export class InMemoryCitiesRepository implements CitiesRepository {
       this.cities[index] = city;
     }
   }
+
+  async list(): Promise<City[] | []> {
+    return this.cities;
+  }
+
+  async delete(cityId: string): Promise<void> {
+    const citiesIndex = this.cities.findIndex(
+      (item) => item.id.toString() === cityId,
+    );
+
+    if (citiesIndex >= 0) {
+      this.cities.splice(citiesIndex, 1);
+    }
+  }
 }

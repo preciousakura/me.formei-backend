@@ -1,10 +1,9 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
-import { Curriculum } from './curriculum';
 
 export interface CourseProps {
   name: string;
-  curriculums?: Curriculum[]; //muitos dados?
+  curriculums?: string[] | []; //muitos dados?
 }
 
 export class Course extends Entity<CourseProps> {

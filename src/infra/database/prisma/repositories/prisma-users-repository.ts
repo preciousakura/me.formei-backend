@@ -69,4 +69,20 @@ export class PrismaUsersRepository implements UsersRepository {
       data: raw,
     });
   }
+
+  async list(): Promise<User<UserProps>[] | []> {
+    const users = await this.prisma.user.findMany({
+      include: { city: { include: { state: true } } },
+    });
+
+    return users.map(PrismaUserMapper.toDomain);
+  }
+
+  async delete(userId: string): Promise<void> {
+    await this.prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+  }
 }

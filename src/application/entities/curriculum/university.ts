@@ -1,11 +1,10 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
-import { Curriculum } from './curriculum';
 
 export interface UniversityProps {
   name: string;
   abv: string;
-  curriculums?: Curriculum[];
+  curriculums?: string[] | [];
 }
 
 export class University extends Entity<UniversityProps> {
@@ -30,7 +29,7 @@ export class University extends Entity<UniversityProps> {
     return this.props.abv;
   }
 
-  // public set curriculums(curriculums:  Curriculum[]) {
+  // public set curriculums(curriculums: string[]) {
   //   this.props.curriculums = curriculums;
   // }
 

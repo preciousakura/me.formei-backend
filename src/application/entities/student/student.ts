@@ -1,4 +1,4 @@
-import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
+import { UniqueEntityID } from '@core/entities/unique-entity-id';
 import { Course } from '../curriculum/course';
 import { University } from '../curriculum/university';
 import { User, UserProps } from '../user/user';
@@ -16,7 +16,10 @@ export interface StudentProps extends UserProps {
 
 export class Student extends User<StudentProps> {
   static create(props: StudentProps, id?: UniqueEntityID) {
-    const student = new Student(props, id);
+    const student = new Student(
+      { ...props, studentId: props.studentId ?? new UniqueEntityID() },
+      id,
+    );
     return student;
   }
 

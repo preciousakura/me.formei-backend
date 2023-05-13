@@ -80,13 +80,33 @@ export class PrismaStudentsRepository implements StudentsRepository {
 
   async list(): Promise<Student[] | []> {
     const students = await this.prisma.student.findMany({
-      include: { user: true },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+        curriculum: {
+          include: {
+            course: true,
+            university: true,
+          },
+        },
+      },
     });
 
     return students.map(PrismaStudentMapper.toDomain);
   }
 
   async delete(studentId: string): Promise<void> {
-    //
+    await this.prisma.student.delete({
+      where: {
+        id: studentId,
+      },
+    });
   }
 }

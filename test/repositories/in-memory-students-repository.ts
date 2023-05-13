@@ -6,7 +6,7 @@ export class InMemoryStudentsRepository implements StudentsRepository {
 
   async findById(studentId: string): Promise<Student | null> {
     const student = this.students.find(
-      (item) => item.registration === studentId,
+      (item) => item.studentId.toString() === studentId,
     );
 
     if (!student) {
@@ -41,9 +41,10 @@ export class InMemoryStudentsRepository implements StudentsRepository {
   async list(): Promise<Student[] | []> {
     return this.students;
   }
+
   async delete(studentId: string): Promise<void> {
     const studentIndex = this.students.findIndex(
-      (item) => item.id.toString() === studentId,
+      (item) => item.studentId.toString() === studentId,
     );
 
     if (studentIndex >= 0) {

@@ -33,4 +33,18 @@ export class InMemoryStatesRepository implements StatesRepository {
       this.states[index] = state;
     }
   }
+
+  async list(): Promise<State[] | []> {
+    return this.states;
+  }
+
+  async delete(stateId: string): Promise<void> {
+    const statesIndex = this.states.findIndex(
+      (item) => item.id.toString() === stateId,
+    );
+
+    if (statesIndex >= 0) {
+      this.states.splice(statesIndex, 1);
+    }
+  }
 }

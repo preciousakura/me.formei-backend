@@ -77,4 +77,34 @@ export class PrismaCurriculumsRepository implements CurriculumsRepository {
       data: raw,
     });
   }
+
+  async list(): Promise<Curriculum[] | []> {
+    const curriculums = await this.prisma.curriculum.findMany({
+      include: {
+        course: true,
+        university: true,
+        disciplines: {
+          include: {
+            prerequisitesDisciplines: true,
+            curriculum: {
+              include: {
+                course: true,
+                university: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return curriculums.map(PrismaCurriculumMapper.toDomain);
+  }
+
+  async delete(curriculumId: string): Promise<void> {
+    await this.prisma.curriculum.delete({
+      where: {
+        id: curriculumId,
+      },
+    });
+  }
 }
