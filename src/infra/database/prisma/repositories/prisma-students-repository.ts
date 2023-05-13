@@ -85,4 +85,8 @@ export class PrismaStudentsRepository implements StudentsRepository {
 
     return students.map(PrismaStudentMapper.toDomain);
   }
+
+  async delete(studentId: string): Promise<void> {
+    //
+  }
 }

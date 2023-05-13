@@ -41,4 +41,13 @@ export class InMemoryStudentsRepository implements StudentsRepository {
   async list(): Promise<Student[] | []> {
     return this.students;
   }
+  async delete(studentId: string): Promise<void> {
+    const studentIndex = this.students.findIndex(
+      (item) => item.id.toString() === studentId,
+    );
+
+    if (studentIndex >= 0) {
+      this.students.splice(studentIndex, 1);
+    }
+  }
 }
