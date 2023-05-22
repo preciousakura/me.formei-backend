@@ -67,15 +67,21 @@ export class PrismaStudentsRepository implements StudentsRepository {
     });
   }
 
-  async save(student: Student): Promise<void> {
+  async update(student: Student): Promise<Student> {
     const raw = PrismaStudentMapper.toPrisma(student);
 
-    await this.prisma.student.update({
+    const studentUpdated = await this.prisma.student.update({
       where: {
         registration: raw.registration,
       },
+      include: {
+        user: { include: { city: { include: { state: true } } } },
+        curriculum: { include: { university: true, course: true } },
+      },
       data: raw,
     });
+
+    return PrismaStudentMapper.toDomain(studentUpdated);
   }
 
   async list(): Promise<Student[] | []> {

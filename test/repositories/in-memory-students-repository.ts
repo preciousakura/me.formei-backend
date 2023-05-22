@@ -5,6 +5,9 @@ export class InMemoryStudentsRepository implements StudentsRepository {
   public students: Student[] = [];
 
   async findById(studentId: string): Promise<Student | null> {
+    // console.log(studentId);
+    // console.log(this.students[0].studentId);
+
     const student = this.students.find(
       (item) => item.studentId.toString() === studentId,
     );
@@ -28,7 +31,7 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     this.students.push(student);
   }
 
-  async save(student: Student): Promise<void> {
+  async update(student: Student): Promise<Student> {
     const studentIndex = this.students.findIndex(
       (item) => item.registration === student.registration,
     );
@@ -36,6 +39,7 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     if (studentIndex >= 0) {
       this.students[studentIndex] = student;
     }
+    return this.students[studentIndex];
   }
 
   async list(): Promise<Student[] | []> {

@@ -16,22 +16,17 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            rm -rf meformei-app/main/backend
             mkdir meformei-app
             cd meformei-app
             mkdir main/
             cd main/
             git clone -b main https://github.com/preciousakura/me.formei-backend.git backend
             cd backend
-            echo "APP_PORT=3000
-                  DB_NAME=sme_test_db
-                  DB_USERNAME=admin_mongo
-                  DB_PASSWORD=f5db0a98b1bf8b5a4e8b2016c888f467
-                  DB_PORT=27017
-                  " >> .env
             npm i
             npm run build
-            pm2 stop "teste-sme-backend"
-            pm2 delete "teste-sme-backend"
-            pm2 start dist/main.js --name "teste-sme-backend"
+            pm2 stop "me-formei-backend"
+            pm2 delete "me-formei-backend"
+            pm2 start dist/main.js --name "me-formei-backend"
             pm2 save
 
