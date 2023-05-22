@@ -1,0 +1,9 @@
+
+Para garantir a escalabilidade e a manutenção do backend, escolhemos a Clean Architecture como abordagem de arquitetura. Essa abordagem nos ajudou a manter a separação de responsabilidades, minimizar o acoplamento entre os componentes do sistema e a fazer testes. Para a interface do usuário, utilizamos o padrão MVC, que nos permitiu separar a lógica de controle da interface do usuário e do modelo de dados. Para implementar a Clean Architecture, utilizamos alguns padrões, como o Repository e o InMemoryDatabase.
+
+https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+
+Para implementar o padrão Repository, criamos uma interface que define as operações básicas que o repositório deve oferecer, como criar, atualizar, excluir e buscar entidades. Em seguida, implementamos essa interface para cada tipo de entidade que o sistema gerencia. Além disso, implementamos um InMemoryDatabase para armazenar temporariamente os dados do sistema durante o desenvolvimento e os testes.
+
+
+O padrão de repositório destina-se a criar uma camada de abstração entre a camada de acesso a dados e a camada de lógica de negócios de um aplicativo . É um padrão de acesso a dados que solicita uma abordagem mais fracamente acoplada ao acesso a dados.
