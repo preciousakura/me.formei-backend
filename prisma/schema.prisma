@@ -89,8 +89,8 @@ model Discipline {
   cod                      String          @unique
   optional                 Boolean
   name                     String
-  hours                    Int
   courseOutline            String?
+  semester                 Int
   prerequisites            Discipline[]    @relation("prequisitesToDiscipline")
   prerequisitesDisciplines Discipline[]    @relation("prequisitesToDiscipline")
   description              String
@@ -100,14 +100,35 @@ model Discipline {
 }
 
 model CourseHistory {
-  id                  String              @id @default(uuid())
-  studentRegistration String
-  student             Student             @relation(fields: [studentRegistration], references: [registration])
-  disciplineId        String
-  discipline          Discipline          @relation(fields: [disciplineId], references: [id])
-  status              StatusCourseHistory
-  createdAt           DateTime            @default(now())
-  semester            Int
+  id                    String                  @id @default(uuid())
+  studentRegistration   String
+  student               Student                 @relation(fields: [studentRegistration], references: [registration])
+  disciplineId          String
+  discipline            Discipline              @relation(fields: [disciplineId], references: [id])
+  status                StatusCourseHistory
+  createdAt             DateTime                @default(now())
+  semester              Int
+  startTime             DateTime                @db.Time
+  endTime               DateTime                @db.Time
+  hours                 Int
+  CourseHistoryDaysWeek CourseHistoryDaysWeek[]
+
+  @@index([studentRegistration])
+}
+
+model DaysWeek {
+  id                    String                  @id @default(uuid())
+  name                  String                  @db.VarChar(20)
+  CourseHistoryDaysWeek CourseHistoryDaysWeek[]
+}
+
+model CourseHistoryDaysWeek {
+  days            DaysWeek      @relation(fields: [daysWeekId], references: [id])
+  courseHistory   CourseHistory @relation(fields: [courseHistoryId], references: [id])
+  daysWeekId      String
+  courseHistoryId String
+
+  @@id([daysWeekId, courseHistoryId])
 }
 
 enum StatusCourseHistory {
@@ -118,9 +139,13 @@ enum StatusCourseHistory {
 }
 
 model ExtraCurricularActivitiesHistory {
-  id                  String  @id @default(uuid())
-  studentId           String
-  student             Student @relation(fields: [studentId], references: [registration])
+  id                  String   @id @default(uuid())
+  studentRegistration String
+  student             Student  @relation(fields: [studentRegistration], references: [registration])
   extraCurricularName String
+  startDate           DateTime @db.Date
+  endDate             DateTime @db.Date
   hours               Int
+
+  @@index([studentRegistration])
 }
