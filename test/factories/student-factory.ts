@@ -1,7 +1,7 @@
-import { City } from '@application/entities/city/city';
 import { Course } from '@application/entities/curriculum/course';
 import { University } from '@application/entities/curriculum/university';
 import { Student, StudentProps } from '@application/entities/student/student';
+import { makeCity } from './city-factory';
 
 type Override = Partial<StudentProps>;
 
@@ -13,10 +13,7 @@ export function makeStudent(override: Override = {}) {
     curriculumId: 'example-curriculum-id',
     registration: '0000001',
     username: 'Example username',
-    city: City.create({
-      name: 'example city name',
-      stateId: 'example-state-id',
-    }),
+    city: makeCity(),
     course: Course.create({
       name: 'example course name',
     }),

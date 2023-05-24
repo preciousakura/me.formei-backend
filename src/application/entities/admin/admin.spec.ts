@@ -1,4 +1,5 @@
 import { City } from '../city/city';
+import { State } from '../state/state';
 import { Admin } from './admin';
 
 describe('Admin', () => {
@@ -7,7 +8,12 @@ describe('Admin', () => {
       name: 'Example name',
       email: 'email@example.com',
       password: 'password123',
-      city: City.create({ name: 'city name', stateId: 'example-state-id' }),
+      city: City.create({
+        name: 'city name',
+        state: State.create({
+          name: 'example state name',
+        }),
+      }),
       lastname: 'example lastname',
       state: 'example state',
       username: 'example username',

@@ -1,9 +1,10 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
+import { State } from '../state/state';
 
 export interface CityProps {
   name: string;
-  stateId: string;
+  state: State;
 }
 
 export class City extends Entity<CityProps> {
@@ -20,11 +21,11 @@ export class City extends Entity<CityProps> {
     return this.props.name;
   }
 
-  public set stateId(stateId: string) {
-    this.props.stateId = stateId;
+  public set state(state: State) {
+    this.props.state = state;
   }
 
-  public get stateId() {
-    return this.props.stateId;
+  public get state() {
+    return this.props.state;
   }
 }

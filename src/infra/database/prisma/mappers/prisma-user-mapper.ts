@@ -1,10 +1,11 @@
 import { City } from '@application/entities/city/city';
+import { State } from '@application/entities/state/state';
 import { User, UserProps } from '@application/entities/user/user';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
 import {
   City as CityPrisma,
   User as RawUserPrisma,
-  State,
+  State as StatePrisma,
 } from '@prisma/client';
 
 export class PrismaUserMapper {
@@ -27,7 +28,13 @@ export class PrismaUserMapper {
         name: raw.name,
         password: raw.password,
         city: City.create(
-          { name: raw.city.name, stateId: raw.city.stateId },
+          {
+            name: raw.city.name,
+            state: State.create(
+              { name: raw.city.state.name },
+              new UniqueEntityID(raw.city.state.id),
+            ),
+          },
           new UniqueEntityID(raw.city.id),
         ),
         state: raw.city.state.name,
@@ -41,6 +48,6 @@ export class PrismaUserMapper {
 
 type RawUser = RawUserPrisma & {
   city: CityPrisma & {
-    state: State;
+    state: StatePrisma;
   };
 };

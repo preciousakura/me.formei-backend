@@ -1,9 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsEnum, IsInt, IsNumber, IsDateString } from 'class-validator';
+import {
+  IsDateString,
+  IsEmail,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+} from 'class-validator';
 
 export enum EnrollmentSemester {
   FIRST = 1,
-  SECOND = 2
+  SECOND = 2,
 }
 
 export class CreateStudentBody {
@@ -28,7 +34,7 @@ export class CreateStudentBody {
   @IsNotEmpty()
   password: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'Matricula do aluno', example: '493450' })
   @IsNotEmpty()
   registration: string;
 
@@ -39,21 +45,19 @@ export class CreateStudentBody {
   @ApiProperty()
   @IsNotEmpty()
   cityId: string;
-  
-  @ApiProperty()
+
+  @ApiProperty({ example: 7 })
   @IsNotEmpty()
   @IsInt()
   currentSemester: number;
 
-  @ApiProperty({description: "1 ou 2"})
+  @ApiProperty({ description: '1 ou 2', example: 1 })
   @IsNotEmpty()
   @IsEnum(EnrollmentSemester)
   enrollmentSemester: number;
 
-  @ApiProperty()
+  @ApiProperty({ example: '2023' })
   @IsNotEmpty()
   @IsDateString()
-  enrollmentYear: number
+  enrollmentYear: number;
 }
-
-

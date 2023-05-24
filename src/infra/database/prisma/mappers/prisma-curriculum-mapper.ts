@@ -1,11 +1,9 @@
 import { Course } from '@application/entities/curriculum/course';
 import { Curriculum } from '@application/entities/curriculum/curriculum';
 import { University } from '@application/entities/curriculum/university';
-import { Discipline } from '@application/entities/discipline/discipline';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
 import {
   Course as CoursePrisma,
-  Discipline as DisciplinePrisma,
   Curriculum as RawCurriculumPrisma,
   University as UniversityPrisma,
 } from '@prisma/client';
@@ -37,7 +35,6 @@ export class PrismaCurriculumMapper {
       course,
       description,
       extraCurricularHours,
-      disciplines,
       id,
       optionalHours,
       requiredHours,
@@ -51,7 +48,7 @@ export class PrismaCurriculumMapper {
           new UniqueEntityID(course.id),
         ),
         description,
-        disciplines: MappingDiscipline(disciplines),
+        // disciplines: MappingDiscipline(disciplines),
         extraCurricularHours,
         optionalHours,
         requiredHours,
@@ -65,49 +62,48 @@ export class PrismaCurriculumMapper {
   }
 }
 
-function MappingDiscipline(disciplines: RawDisciplinesCurriculum) {
-  return disciplines.map((discipline) =>
-    Discipline.create({
-      cod: discipline.cod,
-      course: Course.create(
-        {
-          name: discipline.curriculum.course.name,
-        },
-        new UniqueEntityID(discipline.curriculum.course.id),
-      ),
-      courseOutline: discipline.courseOutline,
-      description: discipline.description,
-      hours: discipline.hours,
-      name: discipline.name,
-      optional: discipline.optional,
-      university: University.create(
-        {
-          name: discipline.curriculum.university.name,
-          abv: discipline.curriculum.university.abv,
-        },
-        new UniqueEntityID(discipline.curriculum.university.id),
-      ),
-      prerequisiteDisciplines: discipline.prerequisitesDisciplines.map(
-        (discipline) => discipline.cod,
-      ),
-    }),
-  );
-  return;
-}
+// function MappingDiscipline(disciplines: RawDisciplinesCurriculum) {
+//   return disciplines.map((discipline) =>
+//     Discipline.create({
+//       cod: discipline.cod,
+//       course: Course.create(
+//         {
+//           name: discipline.curriculum.course.name,
+//         },
+//         new UniqueEntityID(discipline.curriculum.course.id),
+//       ),
+//       courseOutline: discipline.courseOutline,
+//       description: discipline.description,
+//       name: discipline.name,
+//       optional: discipline.optional,
+//       university: University.create(
+//         {
+//           name: discipline.curriculum.university.name,
+//           abv: discipline.curriculum.university.abv,
+//         },
+//         new UniqueEntityID(discipline.curriculum.university.id),
+//       ),
+//       prerequisiteDisciplines: discipline.prerequisitesDisciplines.map(
+//         (discipline) => discipline.cod,
+//       ),
+//     }),
+//   );
+//   return;
+// }
 
 type RawCurriculum = RawCurriculumPrisma & {
   course: CoursePrisma;
   university: UniversityPrisma;
-  disciplines: RawDisciplinesCurriculum;
+  // disciplines: RawDisciplinesCurriculum;
 };
 
-type RawDisciplinesCurriculum = (DisciplinePrisma & {
-  prerequisitesDisciplines: DisciplinePrisma[];
-  curriculum: RawCurriculumPrisma & {
-    course: CoursePrisma;
-    university: UniversityPrisma;
-  };
-})[];
+// type RawDisciplinesCurriculum = (DisciplinePrisma & {
+//   prerequisitesDisciplines: DisciplinePrisma[];
+//   curriculum: RawCurriculumPrisma & {
+//     course: CoursePrisma;
+//     university: UniversityPrisma;
+//   };
+// })[];
 
 // type RawCurriculum2 = RawCurriculumPrisma & {
 //   course: CoursePrisma;

@@ -1,6 +1,6 @@
+import { makeCity } from '@test/factories/city-factory';
 import { makeCourse } from '@test/factories/course-factory';
 import { makeUniversity } from '@test/factories/university-factory';
-import { City } from '../city/city';
 import { Student } from './student';
 
 describe('Student', () => {
@@ -12,10 +12,7 @@ describe('Student', () => {
       curriculumId: 'example-curriculum-id',
       registration: '0000001',
       username: 'Example username',
-      city: City.create({
-        name: 'example city name',
-        stateId: 'example-state-id',
-      }),
+      city: makeCity(),
       course: makeCourse(),
       currentSemester: 1,
       enrollmentSemester: 1,

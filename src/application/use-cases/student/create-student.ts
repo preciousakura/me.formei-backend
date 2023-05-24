@@ -67,7 +67,7 @@ export class CreateStudent {
       throw new CityNotFound();
     }
 
-    const state = await this.statesRepository.findById(city.stateId);
+    const state = await this.statesRepository.findById(city.state.id.toValue());
 
     if (!state) {
       throw new StateNotFound();

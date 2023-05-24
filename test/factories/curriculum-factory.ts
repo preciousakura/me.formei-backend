@@ -17,7 +17,6 @@ export function makeCurriculum(override: Override = {}) {
       name: 'example university-name',
       abv: 'example abv',
     }),
-    disciplines: [],
     extraCurricularHours: 192,
     optionalHours: 1200,
     requiredHours: 3200,

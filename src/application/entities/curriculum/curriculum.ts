@@ -1,6 +1,5 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
-import { Discipline } from '../discipline/discipline';
 import { Course } from './course';
 import { University } from './university';
 
@@ -11,7 +10,6 @@ export interface CurriculumProps {
   requiredHours: number;
   optionalHours: number;
   extraCurricularHours: number;
-  disciplines: Discipline[];
 }
 
 export class Curriculum extends Entity<CurriculumProps> {
@@ -66,9 +64,5 @@ export class Curriculum extends Entity<CurriculumProps> {
 
   public get extraCurricularHours() {
     return this.props.extraCurricularHours;
-  }
-
-  public get disciplines() {
-    return this.props.disciplines;
   }
 }

@@ -7,12 +7,12 @@ export interface DisciplineProps {
   cod: string;
   optional: boolean;
   name: string;
-  hours: number;
   courseOutline: string;
+  semester: number;
   description: string;
-  prerequisiteDisciplines: string[] | [];
   course: Course;
   university: University;
+  prerequisiteDisciplines: string[] | [];
 }
 
 export class Discipline extends Entity<DisciplineProps> {
@@ -69,12 +69,12 @@ export class Discipline extends Entity<DisciplineProps> {
     return this.props.optional;
   }
 
-  public set hours(hours: number) {
-    this.props.hours = hours;
+  public set semester(semester: number) {
+    this.props.semester = semester;
   }
 
-  public get hours() {
-    return this.props.hours;
+  public get semester() {
+    return this.props.semester;
   }
 
   public set courseOutline(courseOutline: string) {

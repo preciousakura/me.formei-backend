@@ -29,7 +29,7 @@ describe('Create student', () => {
     statesRepository.create(state);
 
     const city = makeCity({
-      stateId: state.id.toString(),
+      state: state,
     });
 
     citiesRepository.create(city);

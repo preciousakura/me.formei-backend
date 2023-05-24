@@ -1,4 +1,4 @@
-import { City } from '../city/city';
+import { makeCity } from '@test/factories/city-factory';
 import { User } from './user';
 
 describe('User', () => {
@@ -7,7 +7,7 @@ describe('User', () => {
       name: 'Example name',
       email: 'email@example.com',
       password: 'password123',
-      city: City.create({ name: 'city name', stateId: 'example-state-id' }),
+      city: makeCity(),
       lastname: 'example lastname',
       state: 'example state',
       username: 'example username',
