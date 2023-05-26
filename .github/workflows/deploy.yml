@@ -18,7 +18,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ./ssh_key
+          key_path: ./ssh_key
           script: |
             rm -rf meformei-app/main/backend
             mkdir meformei-app
