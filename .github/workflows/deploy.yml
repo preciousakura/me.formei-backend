@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Create temporary SSH key file
+      - name: Create temporary SSH key filee
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
           chmod 600 ssh_key
