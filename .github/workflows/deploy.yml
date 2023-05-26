@@ -31,5 +31,5 @@ jobs:
             npm run build
             pm2 stop "me-formei-backend"
             pm2 delete "me-formei-backend"
-            pm2 start dist/main.js --name "me-formei-backend"
+            pm2 start dist/src/main.js --name "me-formei-backend"
             pm2 save
