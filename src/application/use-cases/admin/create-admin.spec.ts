@@ -1,8 +1,8 @@
 import { makeCity } from '@test/factories/city-factory';
 import { makeState } from '@test/factories/state-factory';
+import { InMemoryAdminsRepository } from '@test/repositories/in-memory-admins-repository';
 import { InMemoryCitiesRepository } from '@test/repositories/in-memory-cities-repository';
 import { InMemoryStatesRepository } from '@test/repositories/in-memory-states-repository';
-import { InMemoryAdminsRepository } from '@test/repositories/in-memory-admins-repository';
 import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository';
 import { CityNotFound } from '../errors/city-not-found';
 import { CreateAdmin } from './create-admin';
@@ -19,7 +19,7 @@ describe('Create admin', () => {
     statesRepository.create(state);
 
     const city = makeCity({
-      stateId: state.id.toString(),
+      state: state,
     });
 
     citiesRepository.create(city);
@@ -47,7 +47,6 @@ describe('Create admin', () => {
     expect(adminsRepository.admins[0]).toEqual(admin);
   });
 
-
   it('should not be able to create a admin if non existing city', async () => {
     const adminsRepository = new InMemoryAdminsRepository();
     const usersRepository = new InMemoryUsersRepository();
@@ -62,11 +61,10 @@ describe('Create admin', () => {
     );
 
     expect(() => {
-      return createSdmin.execute({
+      return createAdmin.execute({
         name: 'Example name',
         email: 'email@example.com',
         password: 'password123',
-        registration: '0000001',
         cityId: 'fake city id',
         lastname: 'Example lastname',
         username: 'Example username',

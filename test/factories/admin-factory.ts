@@ -1,5 +1,5 @@
-import { City } from '@application/entities/city/city';
 import { Admin, AdminProps } from '@application/entities/admin/admin';
+import { makeCity } from './city-factory';
 
 type Override = Partial<AdminProps>;
 
@@ -9,10 +9,7 @@ export function makeAdmin(override: Override = {}) {
     email: 'email@example.com',
     password: 'password123',
     username: 'Example username',
-    city: City.create({
-      name: 'example city name',
-      stateId: 'example-state-id',
-    }),
+    city: makeCity(),
     lastname: 'Example lastname',
     state: 'Example state',
     ...override,

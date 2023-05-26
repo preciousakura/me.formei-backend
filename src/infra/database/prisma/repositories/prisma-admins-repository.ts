@@ -4,6 +4,7 @@ import { Admin } from 'src/application/entities/admin/admin';
 import { AdminsRepository } from 'src/application/repositories/admins-repository';
 import { PrismaAdminMapper } from '../mappers/prisma-admin-mapper';
 import { PrismaService } from '../prisma.service';
+import { FindByEmailAndUserNameRequest } from './prisma-students-repository';
 
 @Injectable()
 export class PrismaAdminsRepository implements AdminsRepository {
@@ -62,15 +63,28 @@ export class PrismaAdminsRepository implements AdminsRepository {
     });
   }
 
-  async save(admin: Admin): Promise<void> {
+  async update(admin: Admin): Promise<Admin> {
     const raw = PrismaAdminMapper.toPrisma(admin);
 
-    await this.prisma.admin.update({
+    const adminFinded = await this.prisma.admin.update({
       where: {
         id: raw.id,
       },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+      },
       data: raw,
     });
+
+    return PrismaAdminMapper.toDomain(adminFinded);
   }
   async list(): Promise<Admin[] | []> {
     const admin = await this.prisma.admin.findMany({
@@ -86,5 +100,38 @@ export class PrismaAdminsRepository implements AdminsRepository {
         id: adminId,
       },
     });
+  }
+
+  async findByEmailAndUserName(
+    request: FindByEmailAndUserNameRequest,
+  ): Promise<Admin | null> {
+    const { email, username } = request;
+    const admin = await this.prisma.admin.findFirst({
+      where: {
+        OR: {
+          user: {
+            email,
+            username,
+          },
+        },
+      },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!admin) {
+      return null;
+    }
+
+    return PrismaAdminMapper.toDomain(admin);
   }
 }

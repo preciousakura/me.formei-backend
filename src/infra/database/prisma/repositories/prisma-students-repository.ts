@@ -115,4 +115,48 @@ export class PrismaStudentsRepository implements StudentsRepository {
       },
     });
   }
+
+  async findByEmailAndUserName(
+    request: FindByEmailAndUserNameRequest,
+  ): Promise<Student | null> {
+    const { email, username } = request;
+    const student = await this.prisma.student.findFirst({
+      where: {
+        OR: {
+          user: {
+            email,
+            username,
+          },
+        },
+      },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+        curriculum: {
+          include: {
+            course: true,
+            university: true,
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      return null;
+    }
+
+    return PrismaStudentMapper.toDomain(student);
+  }
+}
+
+export interface FindByEmailAndUserNameRequest {
+  email: string;
+  username: string;
 }

@@ -1,3 +1,4 @@
+import { FindByEmailAndUserNameRequest } from '@infra/database/prisma/repositories/prisma-students-repository';
 import { Student } from 'src/application/entities/student/student';
 import { StudentsRepository } from 'src/application/repositories/students-repository';
 
@@ -54,5 +55,19 @@ export class InMemoryStudentsRepository implements StudentsRepository {
     if (studentIndex >= 0) {
       this.students.splice(studentIndex, 1);
     }
+  }
+
+  async findByEmailAndUserName(
+    request: FindByEmailAndUserNameRequest,
+  ): Promise<Student | null> {
+    const { email, username } = request;
+    const student = this.students.find(
+      (item) => item.email === email || item.username == username,
+    );
+    if (!student) {
+      return null;
+    }
+
+    return student;
   }
 }

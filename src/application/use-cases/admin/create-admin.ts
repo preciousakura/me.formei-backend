@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
 import { Admin } from '@application/entities/admin/admin';
 import { User, UserProps } from '@application/entities/user/user';
+import { AdminsRepository } from '@application/repositories/admins-repository';
 import { CitiesRepository } from '@application/repositories/cities-repository';
 import { StatesRepository } from '@application/repositories/states-repository';
-import { AdminsRepository } from '@application/repositories/admins-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
+import { Injectable } from '@nestjs/common';
 import { CityNotFound } from '../errors/city-not-found';
 import { StateNotFound } from '../errors/state-not-found';
 
@@ -32,20 +32,17 @@ export class CreateAdmin {
   ) {}
 
   async execute(request: CreateAdminRequest): Promise<CreateAdminResponse> {
-    const {
-      cityId,
-      lastname,
-      username,
-      email,
-      name,
-      password,
-    } = request;
+    const { cityId, lastname, username, email, name, password } = request;
+
+    const city = await this.citiesRepository.findById(cityId);
 
     if (!city) {
       throw new CityNotFound();
     }
 
-    const state = await this.statesRepository.findById(city.stateId);
+    const state = await this.statesRepository.findById(
+      city.state.id.toString(),
+    );
 
     if (!state) {
       throw new StateNotFound();

@@ -7,7 +7,7 @@ import { AdminNotFound } from '../errors/admin-not-found';
 interface UpdateAdminRequest {
   admin: Admin;
 }
-interface UpdateSdminResponse {
+interface UpdateAdminResponse {
   admin: Admin;
 }
 

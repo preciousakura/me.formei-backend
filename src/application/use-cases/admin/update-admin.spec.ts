@@ -1,33 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { makeAdmin } from '@test/factories/admin-factory';
+import { InMemoryAdminsRepository } from '@test/repositories/in-memory-admins-repository';
+import { UpdateAdmin } from './update-admin';
 
-import { Admin } from '@application/entities/admin/admin';
-import { AdminsRepository } from '@application/repositories/admins-repository';
-import { AdminNotFound } from '../errors/admin-not-found';
+describe('Update admin', () => {
+  it('should be able to update a admin', async () => {
+    const adminsRepository = new InMemoryAdminsRepository();
 
-interface UpdateAdminRequest {
-  admin: Admin;
-}
-interface UpdateAdminResponse {
-  admin: Admin;
-}
+    const updateAdmin = new UpdateAdmin(adminsRepository);
+    const admin = makeAdmin();
+    adminsRepository.create(admin);
 
-@Injectable()
-export class UpdateAdmin {
-  constructor(private adminsRepository: AdminsRepository) {}
+    const adminRequest = admin;
+    adminRequest.name = 'Fulano';
+    adminRequest.username = 'Novo username';
 
-  async execute(request: UpdateAdminRequest): Promise<UpdateAdminResponse> {
-    const { admin } = request;
+    const { admin: adminUpdated } = await updateAdmin.execute({
+      admin: adminRequest,
+    });
 
-    const adminFinded = await this.adminsRepository.findById(
-      admin.adminId.toString(),
-    );
-
-    if (!adminFinded) throw new AdminNotFound();
-
-    const adminUpdated = await this.adminsRepository.update(admin);
-
-    return {
-      admin: adminUpdated,
-    };
-  }
-}
+    expect(adminsRepository.admins[0]).toEqual(adminUpdated);
+  });
+});

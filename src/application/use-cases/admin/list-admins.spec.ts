@@ -15,7 +15,7 @@ describe('List admins', () => {
     adminsRepository.create(admin3);
     const { admins } = await listAdmins.execute();
 
-    expect(adminsRepository.sdmins).toEqual(admins);
+    expect(adminsRepository.admins).toEqual(admins);
     expect(adminsRepository.admins[0]).toEqual(admin1);
     expect(adminsRepository.admins[1]).toEqual(admin2);
     expect(adminsRepository.admins[2]).toEqual(admin3);
