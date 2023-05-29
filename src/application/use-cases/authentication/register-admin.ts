@@ -9,7 +9,7 @@ import { UserAlreadyExists } from '../errors/user-already-exists';
 import { Admin } from '@application/entities/admin/admin';
 import { AdminsRepository } from '@application/repositories/admins-repository';
 import { CreateAdminBody } from '@infra/http/dto/admin/create-admin.dto';
-import * as bcrypt from 'bcrypt';
+import { EncriptionPassword } from './encription-password';
 
 export class RegisterAccountAdmin {
   constructor(
@@ -17,6 +17,7 @@ export class RegisterAccountAdmin {
     private usersRepository: UsersRepository,
     private citiesRepository: CitiesRepository,
     private statesRepository: StatesRepository,
+    private encriptionPassword: EncriptionPassword,
   ) {}
 
   async execute(request: CreateAdminBody) {
@@ -44,7 +45,7 @@ export class RegisterAccountAdmin {
       throw new StateNotFound();
     }
 
-    const hashedPassword = await bcrypt.hash(password, 8);
+    const hashedPassword = await this.encriptionPassword.execute({ password });
 
     const user = User.create({
       name,

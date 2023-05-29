@@ -6,6 +6,7 @@ import { InMemoryCitiesRepository } from '@test/repositories/in-memory-cities-re
 import { InMemoryStatesRepository } from '@test/repositories/in-memory-states-repository';
 import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository';
 import { UserAlreadyExists } from '../errors/user-already-exists';
+import { EncriptionPassword } from './encription-password';
 import { RegisterAccountAdmin } from './register-admin';
 
 describe('Register admin', () => {
@@ -14,6 +15,7 @@ describe('Register admin', () => {
     const usersRepository = new InMemoryUsersRepository();
     const citiesRepository = new InMemoryCitiesRepository();
     const statesRepository = new InMemoryStatesRepository();
+    const encriptionPassword = new EncriptionPassword();
 
     const state = makeState();
 
@@ -30,6 +32,7 @@ describe('Register admin', () => {
       usersRepository,
       citiesRepository,
       statesRepository,
+      encriptionPassword,
     );
 
     const Admin = makeAdmin({ city: city });
@@ -51,6 +54,7 @@ describe('Register admin', () => {
     const usersRepository = new InMemoryUsersRepository();
     const citiesRepository = new InMemoryCitiesRepository();
     const statesRepository = new InMemoryStatesRepository();
+    const encriptionPassword = new EncriptionPassword();
 
     const state = makeState();
 
@@ -71,6 +75,7 @@ describe('Register admin', () => {
       usersRepository,
       citiesRepository,
       statesRepository,
+      encriptionPassword,
     );
 
     expect(() => {

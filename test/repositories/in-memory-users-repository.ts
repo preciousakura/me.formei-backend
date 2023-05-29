@@ -47,4 +47,13 @@ export class InMemoryUsersRepository implements UsersRepository {
       this.users.splice(usersIndex, 1);
     }
   }
+
+  async findByUsername(username: string): Promise<User<UserProps> | null> {
+    const student = this.users.find((item) => item.username == username);
+    if (!student) {
+      return null;
+    }
+
+    return student;
+  }
 }

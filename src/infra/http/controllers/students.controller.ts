@@ -4,7 +4,7 @@ import { FindStudent } from '@application/use-cases/student/find-student';
 import { ListStudents } from '@application/use-cases/student/list-students';
 import { UpdateStudent } from '@application/use-cases/student/update-student';
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { makeStudent } from '@test/factories/student-factory';
 import { StudentHttp } from '../types-class-http/student-http';
 import { StudentViewModel } from '../view-models/student-view-model';
@@ -17,6 +17,7 @@ export class ResponseStudent {
 }
 
 @Controller('students')
+@ApiTags('Estudantes')
 export class StudentsController {
   constructor(
     private createStudent: CreateStudent,

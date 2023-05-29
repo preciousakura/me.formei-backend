@@ -134,4 +134,50 @@ export class PrismaAdminsRepository implements AdminsRepository {
 
     return PrismaAdminMapper.toDomain(admin);
   }
+
+  async findByUsername(username: string): Promise<Admin | null> {
+    const admin = await this.prisma.admin.findFirst({
+      where: { user: { username } },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!admin) {
+      return null;
+    }
+
+    return PrismaAdminMapper.toDomain(admin);
+  }
+
+  async findByUserId(userId: string): Promise<Admin | null> {
+    const admin = await this.prisma.admin.findFirst({
+      where: { userId },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!admin) {
+      return null;
+    }
+
+    return PrismaAdminMapper.toDomain(admin);
+  }
 }
