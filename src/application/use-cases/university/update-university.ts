@@ -19,7 +19,7 @@ export class UpdateUniversity {
     const { university } = request;
 
     const universityFinded = await this.universitiesRepository.findById(
-      university.universityId.toString(),
+      university.id.toString(),
     );
 
     if (!universityFinded) throw new UniversityNotFound();

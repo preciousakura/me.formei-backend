@@ -22,7 +22,7 @@ export class DeleteUniversity {
       throw new UniversityNotFound();
     }
 
-    await this.universitiesRepository.delete(university.universityId.toString());
+    await this.universitiesRepository.delete(university.id.toString());
 
     return {
       university,
