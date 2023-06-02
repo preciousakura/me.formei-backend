@@ -6,7 +6,7 @@ describe('Create university', () => {
     const universitiesRepository = new InMemoryUniversitiesRepository();
     const createUniversity = new CreateUniversity(universitiesRepository);
 
-    const university = await createUniversity.execute({
+    const { university } = await createUniversity.execute({
       name: 'Example university',
       abv: 'Example abv',
     });

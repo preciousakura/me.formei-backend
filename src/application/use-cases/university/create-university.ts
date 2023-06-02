@@ -14,22 +14,17 @@ interface CreateUniversityResponse {
 
 @Injectable()
 export class CreateUniversity {
-  constructor(
-    private universitiesRepository: UniversitiesRepository,
-  ) {}
+  constructor(private universitiesRepository: UniversitiesRepository) {}
 
-  async execute(request: CreateUniversityRequest): Promise<CreateUniversityResponse> {
-    const {
+  async execute(
+    request: CreateUniversityRequest,
+  ): Promise<CreateUniversityResponse> {
+    const { name, abv } = request;
+
+    const university = University.create({
       name,
       abv,
-    } = request;
-
-    const university = University.create(
-      {
-        name,
-        abv
-      },
-    );
+    });
 
     await this.universitiesRepository.create(university);
 
