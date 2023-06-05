@@ -28,7 +28,7 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
     this.universities.push(university);
   }
 
-  async save(university: University): Promise<void> {
+  async update(university: University): Promise<University> {
     const index = this.universities.findIndex(
       (item) => item.id === university.id,
     );
@@ -36,6 +36,7 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
     if (index >= 0) {
       this.universities[index] = university;
     }
+    return this.universities[index];
   }
 
   async list(): Promise<University[] | []> {
