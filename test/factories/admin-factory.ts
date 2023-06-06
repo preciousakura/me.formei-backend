@@ -1,6 +1,5 @@
 import { Admin, AdminProps } from '@application/entities/admin/admin';
 
-
 type Override = Partial<AdminProps>;
 
 export function makeAdmin(override: Override = {}) {

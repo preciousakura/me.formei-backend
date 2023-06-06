@@ -1,14 +1,10 @@
-import { City } from '@application/entities/city/city';
 import { Course } from '@application/entities/curriculum/course';
 import { University } from '@application/entities/curriculum/university';
-import { State } from '@application/entities/state/state';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
 import {
-  City as CityPrisma,
   Course as CoursePrisma,
   Curriculum as CurriculumPrisma,
   Student as RawStudentPrisma,
-  State as StatePrisma,
   University as UniversityPrisma,
   User,
 } from '@prisma/client';
@@ -36,17 +32,8 @@ export class PrismaStudentMapper {
         curriculumId: raw.curriculumId,
         registration: raw.registration,
         studentId: new UniqueEntityID(raw.id),
-        city: City.create(
-          {
-            name: raw.user.city.name,
-            state: State.create(
-              { name: raw.user.city.state.name },
-              new UniqueEntityID(raw.user.city.state.id),
-            ),
-          },
-          new UniqueEntityID(raw.user.city.id),
-        ),
-        state: raw.user.city.state.name,
+        city: raw.user.city,
+        state: raw.user.state,
         course: Course.create(
           {
             name: raw.curriculum.course.name,
@@ -57,6 +44,8 @@ export class PrismaStudentMapper {
           {
             name: raw.curriculum.university.name,
             abv: raw.curriculum.university.abv,
+            city: raw.curriculum.university.city,
+            state: raw.curriculum.university.state,
           },
           new UniqueEntityID(raw.curriculum.university.id),
         ),
@@ -72,11 +61,7 @@ export class PrismaStudentMapper {
 }
 
 type RawStudent = RawStudentPrisma & {
-  user: User & {
-    city: CityPrisma & {
-      state: StatePrisma;
-    };
-  };
+  user: User;
   curriculum: CurriculumPrisma & {
     course: CoursePrisma;
     university: UniversityPrisma;

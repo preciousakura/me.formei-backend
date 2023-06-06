@@ -6,7 +6,7 @@ import { DeleteStudent } from '@application/use-cases/student/delete-student';
 import { FindStudent } from '@application/use-cases/student/find-student';
 import { ListStudents } from '@application/use-cases/student/list-students';
 import { UpdateStudent } from '@application/use-cases/student/update-student';
-import { jwtConstants, jwtOptions } from '@config/constants';
+import { jwtConstants } from '@config/constants';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { CreateStudent } from 'src/application/use-cases/student/create-student';
@@ -19,7 +19,6 @@ import { StudentsController } from './controllers/students.controller';
     DatabaseModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: jwtOptions,
     }),
   ],
   controllers: [StudentsController, AuthController], //controllers http

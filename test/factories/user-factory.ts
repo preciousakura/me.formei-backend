@@ -7,7 +7,7 @@ export function makeUser(override: Override = {}) {
     name: 'Example name',
     email: 'email@example.com',
     password: 'password123',
-    city:'example city',
+    city: 'example city',
     lastname: 'example lastname',
     state: 'example state',
     username: 'example username',
