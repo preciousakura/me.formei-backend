@@ -81,4 +81,10 @@ export class PrismaUniversitiesRepository implements UniversitiesRepository {
       },
     });
   }
+
+  async update(university: University): Promise<University> {
+    const raw = PrismaUniversityMapper.toPrisma(university)
+    const uni = await this.prisma.university.update({where:{id: university.id.toString()} , data: raw , include: {curriculums:true}})
+    return PrismaUniversityMapper.toDomain(uni)
+  }
 }

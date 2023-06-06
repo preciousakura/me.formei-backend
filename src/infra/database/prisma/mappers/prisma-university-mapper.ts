@@ -7,6 +7,8 @@ export class PrismaUniversityMapper {
       id: university.id.toString(),
       name: university.name,
       abv: university.abv,
+      city: university.city,
+      state: university.state,
     };
   }
 
@@ -15,6 +17,8 @@ export class PrismaUniversityMapper {
       {
         name: raw.name,
         abv: raw.abv,
+        city: raw.city,
+        state: raw.state,
         curriculums: raw.curriculums.map((curriculum) => curriculum.id),
       },
       new UniqueEntityID(raw.id),

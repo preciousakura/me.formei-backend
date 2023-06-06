@@ -55,7 +55,7 @@ export class InMemoryAdminsRepository implements AdminsRepository {
     }
   }
 
-  async findByEmailAndUserName(
+  async findByEmailOrUserName(
     request: FindByEmailAndUserNameRequest,
   ): Promise<Admin | null> {
     const { email, username } = request;

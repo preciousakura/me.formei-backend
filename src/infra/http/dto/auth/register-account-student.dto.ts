@@ -48,7 +48,11 @@ export class RegisterAccountStudentBody {
 
   @ApiProperty()
   @IsNotEmpty()
-  cityId: string;
+  city: string;
+  
+  @ApiProperty()
+  @IsNotEmpty()
+  state: string;
 
   @ApiProperty({ example: 7 })
   @IsNotEmpty()

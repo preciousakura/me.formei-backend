@@ -16,15 +16,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
         id: adminId,
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
       },
     });
 
@@ -71,15 +63,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
         id: raw.id,
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
       },
       data: raw,
     });
@@ -117,15 +101,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
         },
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
       },
     });
 
@@ -140,15 +116,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
     const admin = await this.prisma.admin.findFirst({
       where: { user: { username } },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
       },
     });
 
@@ -163,15 +131,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
     const admin = await this.prisma.admin.findFirst({
       where: { userId },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
       },
     });
 

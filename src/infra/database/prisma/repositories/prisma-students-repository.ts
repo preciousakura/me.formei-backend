@@ -14,15 +14,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
         registration: studentId,
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
         curriculum: {
           include: {
             course: true,
@@ -75,7 +67,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
         registration: raw.registration,
       },
       include: {
-        user: { include: { city: { include: { state: true } } } },
+        user: true,
         curriculum: { include: { university: true, course: true } },
       },
       data: raw,
@@ -87,15 +79,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
   async list(): Promise<Student[] | []> {
     const students = await this.prisma.student.findMany({
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
         curriculum: {
           include: {
             course: true,
@@ -130,15 +114,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
         },
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
         curriculum: {
           include: {
             course: true,
@@ -159,15 +135,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
     const student = await this.prisma.student.findFirst({
       where: { user: { username } },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
         curriculum: {
           include: {
             course: true,
@@ -188,15 +156,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
     const student = await this.prisma.student.findFirst({
       where: { userId },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
         curriculum: {
           include: {
             course: true,

@@ -44,7 +44,11 @@ export class CreateStudentBody {
 
   @ApiProperty()
   @IsNotEmpty()
-  cityId: string;
+  city: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  state: string;
 
   @ApiProperty({ example: 7 })
   @IsNotEmpty()

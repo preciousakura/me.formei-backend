@@ -6,6 +6,8 @@ import { UniversitiesRepository } from '@application/repositories/universities-r
 interface CreateUniversityRequest {
   name: string;
   abv: string;
+  city: string;
+  state: string;
 }
 
 interface CreateUniversityResponse {
@@ -19,11 +21,13 @@ export class CreateUniversity {
   async execute(
     request: CreateUniversityRequest,
   ): Promise<CreateUniversityResponse> {
-    const { name, abv } = request;
+    const { name, abv , city, state} = request;
 
     const university = University.create({
       name,
       abv,
+      city,
+      state
     });
 
     await this.universitiesRepository.create(university);

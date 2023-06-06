@@ -73,7 +73,8 @@ export class AuthController {
     const {
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,
@@ -86,7 +87,8 @@ export class AuthController {
     await this.registerAdmin.execute({
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,
@@ -103,7 +105,8 @@ export class AuthController {
     const {
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,
@@ -122,7 +125,8 @@ export class AuthController {
     await this.registerStudent.execute({
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,

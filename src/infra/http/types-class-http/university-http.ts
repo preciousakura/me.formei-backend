@@ -9,4 +9,10 @@ export class UniversityHttp {
 
   @ApiProperty({ example: 'UFC' })
   abv: string;
+
+  @ApiProperty()
+  city: string;
+
+  @ApiProperty()
+  state: string;
 }
