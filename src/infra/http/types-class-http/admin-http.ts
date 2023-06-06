@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CityHttp } from './city-http';
 
 export class AdminHttp {
   @ApiProperty()
@@ -21,5 +20,9 @@ export class AdminHttp {
   username: string;
 
   @ApiProperty()
-  city: CityHttp;
+  city: string;
+
+  @ApiProperty()
+  state: string;
+
 }

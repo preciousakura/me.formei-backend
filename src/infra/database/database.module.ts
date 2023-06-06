@@ -1,6 +1,4 @@
-import { CitiesRepository } from '@application/repositories/cities-repository';
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
-import { StatesRepository } from '@application/repositories/states-repository';
 import { UniversitiesRepository } from '@application/repositories/universities-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
 import { Module } from '@nestjs/common';
@@ -8,9 +6,7 @@ import { AdminsRepository } from 'src/application/repositories/admins-repository
 import { StudentsRepository } from 'src/application/repositories/students-repository';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaAdminsRepository } from './prisma/repositories/prisma-admins-repository';
-import { PrismaCitiesRepository } from './prisma/repositories/prisma-cities-repository';
 import { PrismaCurriculumsRepository } from './prisma/repositories/prisma-curriculums-repository';
-import { PrismaStatesRepository } from './prisma/repositories/prisma-states-repository';
 import { PrismaStudentsRepository } from './prisma/repositories/prisma-students-repository';
 import { PrismaUniversitiesRepository } from './prisma/repositories/prisma-university-repository';
 import { PrismaUsersRepository } from './prisma/repositories/prisma-users-repository';
@@ -30,14 +26,7 @@ import { PrismaUsersRepository } from './prisma/repositories/prisma-users-reposi
       provide: UsersRepository,
       useClass: PrismaUsersRepository,
     },
-    {
-      provide: CitiesRepository,
-      useClass: PrismaCitiesRepository,
-    },
-    {
-      provide: StatesRepository,
-      useClass: PrismaStatesRepository,
-    },
+
     {
       provide: UniversitiesRepository,
       useClass: PrismaUniversitiesRepository,
@@ -51,8 +40,6 @@ import { PrismaUsersRepository } from './prisma/repositories/prisma-users-reposi
     StudentsRepository,
     AdminsRepository,
     UsersRepository,
-    CitiesRepository,
-    StatesRepository,
     UniversitiesRepository,
     CurriculumsRepository,
   ],

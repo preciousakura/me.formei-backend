@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CityHttp } from './city-http';
 import { CourseHttp } from './course-http';
 import { UniversityHttp } from './university-http';
 
@@ -44,5 +43,8 @@ export class StudentHttp {
   username: string;
 
   @ApiProperty()
-  city: CityHttp;
+  city: string;
+
+  @ApiProperty()
+  state: string;
 }

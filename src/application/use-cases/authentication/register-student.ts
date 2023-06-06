@@ -1,8 +1,6 @@
 import { Student } from '@application/entities/student/student';
 import { User } from '@application/entities/user/user';
-import { CitiesRepository } from '@application/repositories/cities-repository';
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
-import { StatesRepository } from '@application/repositories/states-repository';
 import { StudentsRepository } from '@application/repositories/students-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
 import { CityNotFound } from '../errors/city-not-found';
@@ -19,8 +17,6 @@ export class RegisterAccountStudent {
   constructor(
     private studentsRepository: StudentsRepository,
     private usersRepository: UsersRepository,
-    private citiesRepository: CitiesRepository,
-    private statesRepository: StatesRepository,
     private curriculumsRepository: CurriculumsRepository,
   ) {}
 
@@ -36,7 +32,8 @@ export class RegisterAccountStudent {
       currentSemester,
       enrollmentSemester,
       enrollmentYear,
-      cityId,
+      city,
+      state,
     } = request;
 
     const studentAlreadyExists =
@@ -52,18 +49,6 @@ export class RegisterAccountStudent {
       throw new CurriculumNotFound();
     }
 
-    const city = await this.citiesRepository.findById(cityId);
-
-    if (!city) {
-      throw new CityNotFound();
-    }
-
-    const state = await this.statesRepository.findById(city.state.id.toValue());
-
-    if (!state) {
-      throw new StateNotFound();
-    }
-
     const hashedPassword = await bcrypt.hash(password, 8);
 
     const user = User.create({
@@ -73,7 +58,7 @@ export class RegisterAccountStudent {
       city,
       lastname,
       username,
-      state: state.name,
+      state: state,
     });
 
     const student = Student.create(
@@ -89,7 +74,7 @@ export class RegisterAccountStudent {
         enrollmentSemester,
         enrollmentYear,
         lastname,
-        state: state.name,
+        state: state,
         university: curriculum.university,
         username,
       },

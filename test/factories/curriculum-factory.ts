@@ -3,7 +3,8 @@ import {
   Curriculum,
   CurriculumProps,
 } from '@application/entities/curriculum/curriculum';
-import { University } from '@application/entities/curriculum/university';
+
+import { makeUniversity } from './university-factory';
 
 type Override = Partial<CurriculumProps>;
 
@@ -13,10 +14,7 @@ export function makeCurriculum(override: Override = {}) {
       name: 'example-name',
     }),
     description: 'Example description',
-    university: University.create({
-      name: 'example university-name',
-      abv: 'example abv',
-    }),
+    university: makeUniversity(),
     extraCurricularHours: 192,
     optionalHours: 1200,
     requiredHours: 3200,

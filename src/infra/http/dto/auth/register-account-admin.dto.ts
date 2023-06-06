@@ -29,5 +29,9 @@ export class RegisterAccountAdminBody {
 
   @ApiProperty()
   @IsNotEmpty()
-  cityId: string;
+  city: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  state: string;
 }

@@ -15,13 +15,6 @@ export class PrismaUsersRepository implements UsersRepository {
       where: {
         id: userId,
       },
-      include: {
-        city: {
-          include: {
-            state: true,
-          },
-        },
-      },
     });
 
     if (!user) {
@@ -71,9 +64,7 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async list(): Promise<User<UserProps>[] | []> {
-    const users = await this.prisma.user.findMany({
-      include: { city: { include: { state: true } } },
-    });
+    const users = await this.prisma.user.findMany();
 
     return users.map(PrismaUserMapper.toDomain);
   }
@@ -89,13 +80,6 @@ export class PrismaUsersRepository implements UsersRepository {
   async findByUsername(username: string): Promise<User<UserProps> | null> {
     const user = await this.prisma.user.findFirst({
       where: { username },
-      include: {
-        city: {
-          include: {
-            state: true,
-          },
-        },
-      },
     });
 
     if (!user) {

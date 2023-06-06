@@ -10,20 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model State {
-  id     String @id @default(uuid())
-  name   String @unique
-  cities City[]
-}
-
-model City {
-  id      String @id @default(uuid())
-  name    String
-  state   State  @relation(fields: [stateId], references: [id])
-  stateId String
-  users   User[]
-}
-
 model User {
   id       String    @id @default(uuid())
   name     String
@@ -33,8 +19,8 @@ model User {
   password String
   students Student[]
   admins   Admin[]
-  city     City      @relation(fields: [cityId], references: [id])
-  cityId   String
+  city     String
+  state    String
 }
 
 model Student {
@@ -67,6 +53,8 @@ model University {
   id          String       @id @default(uuid())
   name        String       @unique
   abv         String       @unique
+  city     String
+  state    String
   curriculums Curriculum[]
 }
 
@@ -146,6 +134,19 @@ model ExtraCurricularActivitiesHistory {
   startDate           DateTime @db.Date
   endDate             DateTime @db.Date
   hours               Int
+  situation           SituationType
+  activityType        String
+  participationType   String?
+  atUfc               Boolean
+  institutionName     String
+  institutionCountry  String?
+  institutionCnpj     String?
 
   @@index([studentRegistration])
+}
+
+enum SituationType {
+  DEFERIDO
+  INDEFERIDO 
+  SEM_RESPOSTA
 }

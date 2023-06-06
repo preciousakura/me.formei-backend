@@ -19,6 +19,9 @@ export class ResponseLoginStudent {
 
   @ApiProperty()
   token: string;
+
+  @ApiProperty()
+  isAdmin: boolean;
 }
 
 export class ResponseLoginAdmin {
@@ -29,6 +32,9 @@ export class ResponseLoginAdmin {
 
   @ApiProperty()
   token: string;
+
+  @ApiProperty()
+  isAdmin: boolean;
 }
 
 @Controller('auth')
@@ -56,6 +62,7 @@ export class AuthController {
         message: 'Logado com sucesso',
         user: StudentViewModel.toHTTP(student),
         token,
+        isAdmin: false,
       };
     }
 
@@ -63,6 +70,7 @@ export class AuthController {
       message: 'Logado com sucesso',
       user: AdminViewModel.toHTTP(admin),
       token,
+      isAdmin: true,
     };
   }
 
@@ -73,7 +81,8 @@ export class AuthController {
     const {
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,
@@ -86,7 +95,8 @@ export class AuthController {
     await this.registerAdmin.execute({
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,
@@ -103,7 +113,8 @@ export class AuthController {
     const {
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,
@@ -122,7 +133,8 @@ export class AuthController {
     await this.registerStudent.execute({
       username,
       password,
-      cityId,
+      city,
+      state,
       email,
       lastname,
       name,
