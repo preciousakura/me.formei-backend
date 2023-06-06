@@ -10,6 +10,8 @@ export abstract class StudentsRepository {
   abstract findByEmailAndUserName(
     request: FindByEmailAndUserNameRequest,
   ): Promise<Student | null>;
+  abstract findByUsername(username: string): Promise<Student | null>;
+  abstract findByUserId(userId: string): Promise<Student | null>;
   // abstract countManyByAnyId(anyId: string): Promise<number>;
   // abstract findManyByAnyId(anyId: string): Promise<Student[]>;
 }

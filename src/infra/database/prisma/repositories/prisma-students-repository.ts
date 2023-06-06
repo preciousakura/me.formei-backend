@@ -154,6 +154,64 @@ export class PrismaStudentsRepository implements StudentsRepository {
 
     return PrismaStudentMapper.toDomain(student);
   }
+
+  async findByUsername(username: string): Promise<Student | null> {
+    const student = await this.prisma.student.findFirst({
+      where: { user: { username } },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+        curriculum: {
+          include: {
+            course: true,
+            university: true,
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      return null;
+    }
+
+    return PrismaStudentMapper.toDomain(student);
+  }
+
+  async findByUserId(userId: string): Promise<Student | null> {
+    const student = await this.prisma.student.findFirst({
+      where: { userId },
+      include: {
+        user: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+        curriculum: {
+          include: {
+            course: true,
+            university: true,
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      return null;
+    }
+
+    return PrismaStudentMapper.toDomain(student);
+  }
 }
 
 export interface FindByEmailAndUserNameRequest {

@@ -85,4 +85,23 @@ export class PrismaUsersRepository implements UsersRepository {
       },
     });
   }
+
+  async findByUsername(username: string): Promise<User<UserProps> | null> {
+    const user = await this.prisma.user.findFirst({
+      where: { username },
+      include: {
+        city: {
+          include: {
+            state: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return PrismaUserMapper.toDomain(user);
+  }
 }

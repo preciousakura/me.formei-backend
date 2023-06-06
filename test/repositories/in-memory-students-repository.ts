@@ -70,4 +70,22 @@ export class InMemoryStudentsRepository implements StudentsRepository {
 
     return student;
   }
+
+  async findByUsername(username: string): Promise<Student | null> {
+    const student = this.students.find((item) => item.username == username);
+    if (!student) {
+      return null;
+    }
+
+    return student;
+  }
+
+  async findByUserId(userId: string): Promise<Student | null> {
+    const student = this.students.find((item) => item.id.toString() == userId);
+    if (!student) {
+      return null;
+    }
+
+    return student;
+  }
 }

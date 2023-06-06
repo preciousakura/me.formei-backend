@@ -68,4 +68,22 @@ export class InMemoryAdminsRepository implements AdminsRepository {
 
     return admin;
   }
+
+  async findByUsername(username: string): Promise<Admin | null> {
+    const admin = this.admins.find((item) => item.username == username);
+    if (!admin) {
+      return null;
+    }
+
+    return admin;
+  }
+
+  async findByUserId(userId: string): Promise<Admin | null> {
+    const admin = this.admins.find((item) => item.id.toString() == userId);
+    if (!admin) {
+      return null;
+    }
+
+    return admin;
+  }
 }

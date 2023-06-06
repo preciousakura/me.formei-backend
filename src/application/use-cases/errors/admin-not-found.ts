@@ -1,5 +1,7 @@
-export class AdminNotFound extends Error {
-    constructor() {
-      super('Admin not found.');
-    }
+import { NotFoundException } from '@nestjs/common';
+
+export class AdminNotFound extends NotFoundException {
+  constructor() {
+    super('Admin not found.');
   }
+}

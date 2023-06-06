@@ -23,13 +23,13 @@ export class StudentHttp {
   course: CourseHttp;
 
   @ApiProperty({ example: 7 })
-  currentSemester: string;
+  currentSemester: number;
 
   @ApiProperty({ description: '1 ou 2', example: 1 })
-  enrollmentSemester: string;
+  enrollmentSemester: number;
 
   @ApiProperty({ example: '2023' })
-  enrollmentYear: string;
+  enrollmentYear: number;
 
   @ApiProperty()
   lastname: string;
