@@ -34,6 +34,10 @@ export class RegisterAccountStudentBody {
   @IsNotEmpty()
   password: string;
 
+  @ApiProperty()
+  @IsNotEmpty()
+  passwordConfirmation: string;
+
   @ApiProperty({ description: 'Matricula do aluno', example: '493450' })
   @IsNotEmpty()
   registration: string;

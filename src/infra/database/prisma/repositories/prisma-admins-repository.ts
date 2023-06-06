@@ -102,10 +102,11 @@ export class PrismaAdminsRepository implements AdminsRepository {
     });
   }
 
-  async findByEmailAndUserName(
+  async findByEmailOrUserName(
     request: FindByEmailAndUserNameRequest,
   ): Promise<Admin | null> {
     const { email, username } = request;
+
     const admin = await this.prisma.admin.findFirst({
       where: {
         OR: {

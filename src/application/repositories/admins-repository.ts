@@ -8,7 +8,7 @@ export abstract class AdminsRepository {
   abstract list(): Promise<Admin[] | []>;
   abstract findById(adminId: string): Promise<Admin | null>;
   abstract findByUsername(username: string): Promise<Admin | null>;
-  abstract findByEmailAndUserName(
+  abstract findByEmailOrUserName(
     request: FindByEmailAndUserNameRequest,
   ): Promise<Admin | null>;
   abstract findByUserId(userId: string): Promise<Admin | null>;

@@ -4,13 +4,15 @@ import { StatesRepository } from '@application/repositories/states-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
 import { CityNotFound } from '../errors/city-not-found';
 import { StateNotFound } from '../errors/state-not-found';
-import { UserAlreadyExists } from '../errors/user-already-exists';
 
 import { Admin } from '@application/entities/admin/admin';
 import { AdminsRepository } from '@application/repositories/admins-repository';
 import { CreateAdminBody } from '@infra/http/dto/admin/create-admin.dto';
+import { Injectable } from '@nestjs/common';
+import { UserAlreadyExists } from '../errors/user-already-exists';
 import { EncriptionPassword } from './encription-password';
 
+@Injectable()
 export class RegisterAccountAdmin {
   constructor(
     private adminsRepository: AdminsRepository,
@@ -24,9 +26,9 @@ export class RegisterAccountAdmin {
     const { lastname, username, email, name, password, cityId } = request;
 
     const adminAlreadyExists =
-      await this.adminsRepository.findByEmailAndUserName({
-        email,
-        username,
+      await this.adminsRepository.findByEmailOrUserName({
+        email: email,
+        username: username,
       });
 
     if (adminAlreadyExists) {

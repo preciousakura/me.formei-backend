@@ -1,9 +1,11 @@
 import { Login } from '@application/use-cases/authentication/login';
 import { RegisterAccountAdmin } from '@application/use-cases/authentication/register-admin';
 import { RegisterAccountStudent } from '@application/use-cases/authentication/register-student';
-import { Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginBody } from '../dto/auth/login.dto';
+import { RegisterAccountAdminBody } from '../dto/auth/register-account-admin.dto';
+import { RegisterAccountStudentBody } from '../dto/auth/register-account-student.dto';
 import { AdminHttp } from '../types-class-http/admin-http';
 import { StudentHttp } from '../types-class-http/student-http';
 import { AdminViewModel } from '../view-models/admin-view-model';
@@ -38,7 +40,7 @@ export class AuthController {
     private registerStudent: RegisterAccountStudent,
   ) {}
 
-  @Post('login')
+  @Post('signin')
   @ApiResponse({ type: ResponseLoginStudent || ResponseLoginAdmin })
   async sigin(
     @Body() request: LoginBody,
@@ -61,6 +63,78 @@ export class AuthController {
       message: 'Logado com sucesso',
       user: AdminViewModel.toHTTP(admin),
       token,
+    };
+  }
+
+  @Post('signup/admin')
+  // @UseGuards(AuthGuard)
+  @ApiResponse({ type: 'messagem' })
+  async signupAdmin(@Body() request: RegisterAccountAdminBody) {
+    const {
+      username,
+      password,
+      cityId,
+      email,
+      lastname,
+      name,
+      passwordConfirmation,
+    } = request;
+
+    if (passwordConfirmation != password) {
+      throw new BadRequestException('password confirmation error');
+    }
+    await this.registerAdmin.execute({
+      username,
+      password,
+      cityId,
+      email,
+      lastname,
+      name,
+    });
+
+    return {
+      message: 'Registrado com sucesso',
+    };
+  }
+
+  @Post('signup/student')
+  @ApiResponse({ type: 'messagem' })
+  async signupStudent(@Body() request: RegisterAccountStudentBody) {
+    const {
+      username,
+      password,
+      cityId,
+      email,
+      lastname,
+      name,
+      currentSemester,
+      curriculumId,
+      enrollmentSemester,
+      enrollmentYear,
+      registration,
+      passwordConfirmation,
+    } = request;
+
+    if (passwordConfirmation != password) {
+      throw new BadRequestException('password confirmation error');
+    }
+
+    await this.registerStudent.execute({
+      username,
+      password,
+      cityId,
+      email,
+      lastname,
+      name,
+      currentSemester,
+      curriculumId,
+      enrollmentSemester,
+      enrollmentYear,
+      registration,
+    });
+
+    return {
+      message: 'Registrado com sucesso',
     };
   }
 }

@@ -1,3 +1,4 @@
+import { EncriptionPassword } from '@application/use-cases/authentication/encription-password';
 import { Login } from '@application/use-cases/authentication/login';
 import { RegisterAccountAdmin } from '@application/use-cases/authentication/register-admin';
 import { RegisterAccountStudent } from '@application/use-cases/authentication/register-student';
@@ -31,6 +32,7 @@ import { StudentsController } from './controllers/students.controller';
     Login,
     RegisterAccountAdmin,
     RegisterAccountStudent,
+    EncriptionPassword,
   ], // casos de uso
 })
 export class HttpModule {}

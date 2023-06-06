@@ -16,12 +16,16 @@ export class RegisterAccountAdminBody {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsEmail({}, { message: 'Precisa ser um email' })
+  @IsEmail({}, { message: 'email precisa ter um formato de email' })
   email: string;
 
   @ApiProperty()
   @IsNotEmpty()
   password: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  passwordConfirmation: string;
 
   @ApiProperty()
   @IsNotEmpty()

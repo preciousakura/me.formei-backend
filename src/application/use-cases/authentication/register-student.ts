@@ -11,8 +11,10 @@ import { StateNotFound } from '../errors/state-not-found';
 import { UserAlreadyExists } from '../errors/user-already-exists';
 
 import { CreateStudentBody } from '@infra/http/dto/student/create-student.dto';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+@Injectable()
 export class RegisterAccountStudent {
   constructor(
     private studentsRepository: StudentsRepository,

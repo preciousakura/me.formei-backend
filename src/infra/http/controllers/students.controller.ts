@@ -30,11 +30,11 @@ export class StudentsController {
   @Get()
   @ApiResponse({ type: StudentHttp, isArray: true })
   async listAllStudents() {
-    // const { students } = await this.listStudents.execute();
-    const students = [
-      makeStudent({ name: 'Estudante1', registration: '439990' }),
-      makeStudent({ name: 'Estudante2', registration: '429490' }),
-    ];
+    const { students } = await this.listStudents.execute();
+    // const students = [
+    //   makeStudent({ name: 'Estudante1', registration: '439990' }),
+    //   makeStudent({ name: 'Estudante2', registration: '429490' }),
+    // ];
 
     return {
       students: students.map(StudentViewModel.toHTTP),
