@@ -4,7 +4,7 @@ type Override = Partial<CourseProps>;
 
 export function makeCourse(override: Override = {}) {
   return Course.create({
-    name: 'example name state',
+    name: 'example name course',
     ...override,
   });
 }
