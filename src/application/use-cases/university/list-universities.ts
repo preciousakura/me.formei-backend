@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { University } from '@application/entities/curriculum/university';
 import { UniversitiesRepository } from '@application/repositories/universities-repository';
 
-
 interface ListUniversitiesResponse {
   universities: University[];
 }

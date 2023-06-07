@@ -15,8 +15,12 @@ interface DeleteUniversityRequest {
 export class DeleteUniversity {
   constructor(private universitiesRepository: UniversitiesRepository) {}
 
-  async execute(request: DeleteUniversityRequest): Promise<DeleteUniversityResponse> {
-    const university = await this.universitiesRepository.findById(request.universityId);
+  async execute(
+    request: DeleteUniversityRequest,
+  ): Promise<DeleteUniversityResponse> {
+    const university = await this.universitiesRepository.findById(
+      request.universityId,
+    );
 
     if (!university) {
       throw new UniversityNotFound();

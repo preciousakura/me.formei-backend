@@ -10,7 +10,7 @@ describe('Create university', () => {
       name: 'Example university',
       abv: 'Example abv',
       city: 'Example city',
-      state: 'Example state'
+      state: 'Example state',
     });
 
     expect(universitiesRepository.universities).toHaveLength(1);

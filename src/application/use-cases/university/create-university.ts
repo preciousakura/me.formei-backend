@@ -21,13 +21,13 @@ export class CreateUniversity {
   async execute(
     request: CreateUniversityRequest,
   ): Promise<CreateUniversityResponse> {
-    const { name, abv , city, state} = request;
+    const { name, abv, city, state } = request;
 
     const university = University.create({
       name,
       abv,
       city,
-      state
+      state,
     });
 
     await this.universitiesRepository.create(university);
