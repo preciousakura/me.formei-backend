@@ -26,12 +26,13 @@ export class InMemoryCoursesRepository implements CoursesRepository {
     this.courses.push(course);
   }
 
-  async save(course: Course): Promise<void> {
+  async update(course: Course): Promise<Course> {
     const index = this.courses.findIndex((item) => item.id === course.id);
 
     if (index >= 0) {
       this.courses[index] = course;
     }
+    return this.courses[index];
   }
 
   async list(): Promise<Course[] | []> {
