@@ -15,7 +15,9 @@ interface FindUniversityResponse {
 export class FindUniversity {
   constructor(private universitiesRepository: UniversitiesRepository) {}
 
-  async execute(request: FindUniversityRequest): Promise<FindUniversityResponse> {
+  async execute(
+    request: FindUniversityRequest,
+  ): Promise<FindUniversityResponse> {
     const { universityId } = request;
     const university = await this.universitiesRepository.findById(universityId);
 
