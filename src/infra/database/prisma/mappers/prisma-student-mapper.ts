@@ -60,7 +60,7 @@ export class PrismaStudentMapper {
   }
 }
 
-type RawStudent = RawStudentPrisma & {
+export type RawStudent = RawStudentPrisma & {
   user: User;
   curriculum: CurriculumPrisma & {
     course: CoursePrisma;
