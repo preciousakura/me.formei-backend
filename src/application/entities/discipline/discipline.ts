@@ -13,6 +13,7 @@ export interface DisciplineProps {
   course: Course;
   university: University;
   prerequisiteDisciplines: string[] | [];
+  curriculumId: string;
 }
 
 export class Discipline extends Entity<DisciplineProps> {
@@ -87,5 +88,13 @@ export class Discipline extends Entity<DisciplineProps> {
 
   public get prerequisiteDisciplines() {
     return this.props.prerequisiteDisciplines;
+  }
+
+  public set curriculumId(curriculumId: string) {
+    this.props.curriculumId = curriculumId;
+  }
+
+  public get curriculumId() {
+    return this.props.curriculumId;
   }
 }
