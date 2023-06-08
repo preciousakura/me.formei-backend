@@ -1,11 +1,7 @@
 import { Entity } from '@core/entities/entity';
-import { ExtraCurricularActivitiesHistory } from '@prisma/client';
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
-import { Student } from '../student/student';
 
-type SituationType = "DEFERIDO" | "INDEFERIDO" | "SEM_RESPOSTA"
-
-
+type SituationType = 'DEFERIDO' | 'INDEFERIDO' | 'SEM_RESPOSTA';
 
 export interface ExtraCurricularProps {
   studentRegistration: string;
@@ -67,7 +63,6 @@ export class ExtraCurricular extends Entity<ExtraCurricularProps> {
   public get hours() {
     return this.props.hours;
   }
-  
 
   public set situation(situation: SituationType) {
     this.props.situation = situation;
@@ -124,5 +119,4 @@ export class ExtraCurricular extends Entity<ExtraCurricularProps> {
   public get institutionCnpj() {
     return this.props.institutionCnpj;
   }
-
 }

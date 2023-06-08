@@ -6,5 +6,7 @@ export abstract class ExtraCurricularRepository {
   abstract delete(extraCurricularId: string): Promise<void>;
   abstract list(): Promise<ExtraCurricular[] | []>;
   abstract findById(extraCurricularId: string): Promise<ExtraCurricular | null>;
-  abstract findByStudentRegistration(studentRegistration: string): Promise<ExtraCurricular[] | []>;
+  abstract findByStudentRegistration(
+    studentRegistration: string,
+  ): Promise<ExtraCurricular[] | []>;
 }

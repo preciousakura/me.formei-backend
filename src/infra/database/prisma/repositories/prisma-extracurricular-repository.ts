@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import { PrismaService } from '../prisma.service';
-import { FindByEmailAndUserNameRequest } from './prisma-students-repository';
+import { ExtraCurricular } from '@application/entities/extracurricular-activities/extracurricular-activities';
 import { ExtraCurricularRepository } from '@application/repositories/extracurricular-repository';
 import { PrismaExtraCurricularMapper } from '../mappers/prisma-extracurricular-mapper';
-import { ExtraCurricular } from '@application/entities/extracurricular-activities/extracurricular-activities';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
-export class PrismaExtraCurricularRepository implements ExtraCurricularRepository {
+export class PrismaExtraCurricularRepository
+  implements ExtraCurricularRepository
+{
   constructor(private prisma: PrismaService) {}
 
   async findById(extraCurricularId: string): Promise<ExtraCurricular | null> {
@@ -24,7 +25,6 @@ export class PrismaExtraCurricularRepository implements ExtraCurricularRepositor
     return PrismaExtraCurricularMapper.toDomain(exc);
   }
 
-
   async create(exc: ExtraCurricular): Promise<void> {
     const raw = PrismaExtraCurricularMapper.toPrisma(exc);
 
@@ -36,18 +36,19 @@ export class PrismaExtraCurricularRepository implements ExtraCurricularRepositor
   async update(exc: ExtraCurricular): Promise<ExtraCurricular> {
     const raw = PrismaExtraCurricularMapper.toPrisma(exc);
 
-    const excFinded = await this.prisma.extraCurricularActivitiesHistory.update({
-      where: {
-        id: raw.id,
+    const excFinded = await this.prisma.extraCurricularActivitiesHistory.update(
+      {
+        where: {
+          id: raw.id,
+        },
+        data: raw,
       },
-      data: raw,
-    });
+    );
 
     return PrismaExtraCurricularMapper.toDomain(excFinded);
   }
   async list(): Promise<ExtraCurricular[] | []> {
-    const exc = await this.prisma.extraCurricularActivitiesHistory.findMany({
-    });
+    const exc = await this.prisma.extraCurricularActivitiesHistory.findMany({});
 
     return exc.map(PrismaExtraCurricularMapper.toDomain);
   }
@@ -60,7 +61,9 @@ export class PrismaExtraCurricularRepository implements ExtraCurricularRepositor
     });
   }
 
-  async findByStudentRegistration(studentRegistration: string): Promise<ExtraCurricular[] | []> {
+  async findByStudentRegistration(
+    studentRegistration: string,
+  ): Promise<ExtraCurricular[] | []> {
     const exc = await this.prisma.extraCurricularActivitiesHistory.findMany({
       where: {
         studentRegistration: studentRegistration,
@@ -74,5 +77,3 @@ export class PrismaExtraCurricularRepository implements ExtraCurricularRepositor
     return exc.map(PrismaExtraCurricularMapper.toDomain);
   }
 }
-   
-   
