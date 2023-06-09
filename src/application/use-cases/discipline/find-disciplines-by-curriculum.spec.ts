@@ -1,3 +1,4 @@
+import { makeCurriculum } from '@test/factories/curriculum-factory';
 import { makeDiscipline } from '@test/factories/discipline-factory';
 import { InMemoryDisciplinesRepository } from '@test/repositories/in-memory-disciplines-repository';
 import { FindDisciplinesByCurriculum } from './find-disciplines-by-curriculum';
@@ -9,11 +10,15 @@ describe('Find disciplines by curriculum', () => {
     const findDisciplines = new FindDisciplinesByCurriculum(
       disciplinesRepository,
     );
-    const discipline = makeDiscipline();
+
+    const curriculum = makeCurriculum();
+    const discipline = makeDiscipline({
+      curriculumId: curriculum.id.toString(),
+    });
     disciplinesRepository.create(discipline);
 
     const { disciplines: findedDisciplines } = await findDisciplines.execute({
-      curriculumId: discipline.curriculumId.toString(),
+      curriculumId: curriculum.id.toString(),
     });
 
     expect(disciplinesRepository.disciplines).toEqual(findedDisciplines);
