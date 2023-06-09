@@ -11,7 +11,6 @@ describe('Register admin', () => {
     const usersRepository = new InMemoryUsersRepository();
     const encriptionPassword = new EncriptionPassword();
 
-
     const registerAdmin = new RegisterAccountAdmin(
       adminsRepository,
       usersRepository,
@@ -33,7 +32,7 @@ describe('Register admin', () => {
     expect(adminsRepository.admins[0]).toEqual(adminUpdated);
   });
 
-  it('should not be able to create a admin if existing a admin with email and username match', async () => {
+  it('should not be able to create a admin if existing a admin with username match', async () => {
     const adminsRepository = new InMemoryAdminsRepository();
     const usersRepository = new InMemoryUsersRepository();
     const encriptionPassword = new EncriptionPassword();

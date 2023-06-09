@@ -14,8 +14,8 @@ model User {
   id       String    @id @default(uuid())
   name     String
   lastname String
-  username String
-  email    String    @unique
+  username String    @unique
+  email    String
   password String
   students Student[]
   admins   Admin[]
@@ -53,8 +53,8 @@ model University {
   id          String       @id @default(uuid())
   name        String       @unique
   abv         String       @unique
-  city     String
-  state    String
+  city        String
+  state       String
   curriculums Curriculum[]
 }
 
@@ -127,12 +127,12 @@ enum StatusCourseHistory {
 }
 
 model ExtraCurricularActivitiesHistory {
-  id                  String   @id @default(uuid())
+  id                  String        @id @default(uuid())
   studentRegistration String
-  student             Student  @relation(fields: [studentRegistration], references: [registration])
+  student             Student       @relation(fields: [studentRegistration], references: [registration])
   extraCurricularName String
-  startDate           DateTime @db.Date
-  endDate             DateTime @db.Date
+  startDate           DateTime      @db.Date
+  endDate             DateTime      @db.Date
   hours               Int
   situation           SituationType
   activityType        String
@@ -147,6 +147,6 @@ model ExtraCurricularActivitiesHistory {
 
 enum SituationType {
   DEFERIDO
-  INDEFERIDO 
+  INDEFERIDO
   SEM_RESPOSTA
 }

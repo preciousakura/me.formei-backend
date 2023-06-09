@@ -34,8 +34,9 @@ export class RegisterAccountStudent {
       state,
     } = request;
 
-    const studentAlreadyExists =
-      await this.studentsRepository.findByEmailAndUserName({ email, username });
+    const studentAlreadyExists = await this.studentsRepository.findByUsername(
+      username,
+    );
 
     if (studentAlreadyExists) {
       throw new UserAlreadyExists();

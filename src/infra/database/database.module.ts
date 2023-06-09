@@ -1,3 +1,4 @@
+import { CoursesRepository } from '@application/repositories/courses-repository';
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
 import { UniversitiesRepository } from '@application/repositories/universities-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
@@ -6,6 +7,7 @@ import { AdminsRepository } from 'src/application/repositories/admins-repository
 import { StudentsRepository } from 'src/application/repositories/students-repository';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaAdminsRepository } from './prisma/repositories/prisma-admins-repository';
+import { PrismaCoursesRepository } from './prisma/repositories/prisma-course-repository';
 import { PrismaCurriculumsRepository } from './prisma/repositories/prisma-curriculums-repository';
 import { PrismaStudentsRepository } from './prisma/repositories/prisma-students-repository';
 import { PrismaUniversitiesRepository } from './prisma/repositories/prisma-university-repository';
@@ -35,6 +37,10 @@ import { PrismaUsersRepository } from './prisma/repositories/prisma-users-reposi
       provide: CurriculumsRepository,
       useClass: PrismaCurriculumsRepository,
     },
+    {
+      provide: CoursesRepository,
+      useClass: PrismaCoursesRepository,
+    },
   ],
   exports: [
     StudentsRepository,
@@ -42,6 +48,7 @@ import { PrismaUsersRepository } from './prisma/repositories/prisma-users-reposi
     UsersRepository,
     UniversitiesRepository,
     CurriculumsRepository,
+    CoursesRepository,
   ],
 })
 export class DatabaseModule {}

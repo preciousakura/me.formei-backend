@@ -3,7 +3,7 @@ export const jwtConstants = {
 };
 
 export const jwtOptions = {
-  expiresIn: '60m',
+  expiresIn: '10h',
   secret: jwtConstants.secret,
 };
 

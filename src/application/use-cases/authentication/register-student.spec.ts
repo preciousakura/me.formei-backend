@@ -60,7 +60,7 @@ describe('Register student', () => {
     const registerStudent = new RegisterAccountStudent(
       studentsRepository,
       usersRepository,
-      curriculumsRepository
+      curriculumsRepository,
     );
 
     expect(() => {

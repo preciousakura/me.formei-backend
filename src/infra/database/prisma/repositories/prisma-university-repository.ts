@@ -25,6 +25,40 @@ export class PrismaUniversitiesRepository implements UniversitiesRepository {
     return PrismaUniversityMapper.toDomain(university);
   }
 
+  async findByCity(city: string): Promise<University[] | null> {
+    const universities = await this.prisma.university.findMany({
+      where: {
+        city: city,
+      },
+      include: {
+        curriculums: true,
+      },
+    });
+
+    if (!universities) {
+      return null;
+    }
+
+    return universities.map(PrismaUniversityMapper.toDomain);
+  }
+
+  async findByState(state: string): Promise<University[] | null> {
+    const universities = await this.prisma.university.findMany({
+      where: {
+        state: state,
+      },
+      include: {
+        curriculums: true,
+      },
+    });
+
+    if (!universities) {
+      return null;
+    }
+
+    return universities.map(PrismaUniversityMapper.toDomain);
+  }
+
   // async findManyByAnyId(anyId: string): Promise<Student[]> {
   //   const students = await this.prisma.student.findMany({
   //     where: {

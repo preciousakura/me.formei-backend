@@ -4,13 +4,13 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UniversityViewModel {
   @ApiProperty()
   static toHTTP(university: University) {
-    const { id, name, abv, city, state} = university;
+    const { id, name, abv, city, state } = university;
 
     return {
       id: id.toValue(),
       name,
       abv,
-      city, 
+      city,
       state,
     };
   }

@@ -107,4 +107,22 @@ export class PrismaCurriculumsRepository implements CurriculumsRepository {
       },
     });
   }
+
+  async findByUniversityId(universityId: string): Promise<Curriculum[] | []> {
+    const curriculums = await this.prisma.curriculum.findMany({
+      where: {
+        universityId: universityId,
+      },
+      include: {
+        course: true,
+        university: true,
+      },
+    });
+
+    if (!curriculums) {
+      return null;
+    }
+
+    return curriculums.map(PrismaCurriculumMapper.toDomain);
+  }
 }

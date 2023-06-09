@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsDateString,
-  IsEmail,
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-} from 'class-validator';
+import { IsEmail, IsEnum, IsInt, IsNotEmpty } from 'class-validator';
 
 export enum EnrollmentSemester {
   FIRST = 1,
@@ -49,7 +43,7 @@ export class RegisterAccountStudentBody {
   @ApiProperty()
   @IsNotEmpty()
   city: string;
-  
+
   @ApiProperty()
   @IsNotEmpty()
   state: string;
@@ -64,8 +58,7 @@ export class RegisterAccountStudentBody {
   @IsEnum(EnrollmentSemester)
   enrollmentSemester: number;
 
-  @ApiProperty({ example: '2023' })
+  @ApiProperty({ example: 2023 })
   @IsNotEmpty()
-  @IsDateString()
   enrollmentYear: number;
 }

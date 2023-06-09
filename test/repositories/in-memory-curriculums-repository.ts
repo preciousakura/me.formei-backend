@@ -51,4 +51,12 @@ export class InMemoryCurriculumsRepository implements CurriculumsRepository {
       this.curriculums.splice(curriculumsIndex, 1);
     }
   }
+
+  async findByUniversityId(universityId: string): Promise<Curriculum[]> {
+    const curriculums = this.curriculums.filter(
+      (item) => item.university.id.toString() === universityId,
+    );
+
+    return curriculums;
+  }
 }

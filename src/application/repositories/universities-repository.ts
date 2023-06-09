@@ -5,6 +5,8 @@ export abstract class UniversitiesRepository {
   abstract update(university: University): Promise<University>;
   abstract delete(universityId: string): Promise<void>;
   abstract list(): Promise<University[] | []>;
+  abstract findByState(state: string): Promise<University[] | []>;
+  abstract findByCity(city: string): Promise<University[] | []>;
   // abstract countManyByAnyId(anyId: string): Promise<number>;
   // abstract findManyByAnyId(anyId: string): Promise<Admin[]>;
 }

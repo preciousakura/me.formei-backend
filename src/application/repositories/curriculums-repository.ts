@@ -3,6 +3,7 @@ import { Curriculum } from '@application/entities/curriculum/curriculum';
 export abstract class CurriculumsRepository {
   abstract create(curriculum: Curriculum): Promise<void>;
   abstract findById(curriculumId: string): Promise<Curriculum | null>;
+  abstract findByUniversityId(universityId: string): Promise<Curriculum[] | []>;
   abstract save(curriculum: Curriculum): Promise<void>;
   abstract delete(curriculumId: string): Promise<void>;
   abstract list(): Promise<Curriculum[] | []>;
