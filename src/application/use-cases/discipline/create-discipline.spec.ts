@@ -28,7 +28,10 @@ describe('Create discipline', () => {
 
     curriculumsRepository.create(curriculum);
 
-    const createDiscipline = new CreateDiscipline(disciplinesRepository);
+    const createDiscipline = new CreateDiscipline(
+      disciplinesRepository,
+      curriculumsRepository,
+    );
 
     const { discipline } = await createDiscipline.execute({
       cod: 'example code',
@@ -37,7 +40,7 @@ describe('Create discipline', () => {
       courseOutline: 'xxx',
       semester: 1,
       description: 'Example description',
-      curriculumId: 'example-curriculum-id',
+      curriculumId: curriculum.id.toString(),
     });
 
     expect(disciplinesRepository.disciplines).toHaveLength(1);
