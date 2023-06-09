@@ -1,8 +1,5 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
-import { Course } from '../curriculum/course';
-import { University } from '../curriculum/university';
-
 export interface DisciplineProps {
   cod: string;
   optional: boolean;
@@ -10,9 +7,8 @@ export interface DisciplineProps {
   courseOutline: string;
   semester: number;
   description: string;
-  course: Course;
-  university: University;
   prerequisiteDisciplines: string[] | [];
+  curriculumId: string;
 }
 
 export class Discipline extends Entity<DisciplineProps> {
@@ -21,28 +17,12 @@ export class Discipline extends Entity<DisciplineProps> {
     return discipline;
   }
 
-  public set course(course: Course) {
-    this.props.course = course;
-  }
-
-  public get course() {
-    return this.props.course;
-  }
-
   public set description(description: string) {
     this.props.description = description;
   }
 
   public get description() {
     return this.props.description;
-  }
-
-  public set university(university: University) {
-    this.props.university = university;
-  }
-
-  public get university() {
-    return this.props.university;
   }
 
   public set cod(cod: string) {
@@ -87,5 +67,13 @@ export class Discipline extends Entity<DisciplineProps> {
 
   public get prerequisiteDisciplines() {
     return this.props.prerequisiteDisciplines;
+  }
+
+  public set curriculumId(curriculumId: string) {
+    this.props.curriculumId = curriculumId;
+  }
+
+  public get curriculumId() {
+    return this.props.curriculumId;
   }
 }

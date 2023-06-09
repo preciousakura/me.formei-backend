@@ -6,7 +6,6 @@ import { InMemoryCurriculumsRepository } from '@test/repositories/in-memory-curr
 import { InMemoryStudentsRepository } from '@test/repositories/in-memory-students-repository';
 import { InMemoryUniversitiesRepository } from '@test/repositories/in-memory-universities-repository';
 import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository';
-import { CityNotFound } from '../errors/city-not-found';
 import { CurriculumNotFound } from '../errors/curriculum-not-found';
 import { CreateStudent } from './create-student';
 
@@ -88,5 +87,4 @@ describe('Create student', () => {
       });
     }).rejects.toThrow(CurriculumNotFound);
   });
-
 });

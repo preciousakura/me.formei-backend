@@ -7,7 +7,7 @@ describe('Curriculum', () => {
     const course = Course.create({
       name: 'Example name',
     });
-    const university = makeUniversity()
+    const university = makeUniversity();
     const curriculum = Curriculum.create({
       course: course,
       description: 'Example description',
