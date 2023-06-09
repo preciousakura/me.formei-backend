@@ -1,7 +1,7 @@
-import { User } from '@application/entities/user/user';
-import { UsersRepository } from '@application/repositories/users-repository';
 import { Admin } from '@application/entities/admin/admin';
+import { User } from '@application/entities/user/user';
 import { AdminsRepository } from '@application/repositories/admins-repository';
+import { UsersRepository } from '@application/repositories/users-repository';
 import { CreateAdminBody } from '@infra/http/dto/admin/create-admin.dto';
 import { Injectable } from '@nestjs/common';
 import { UserAlreadyExists } from '../errors/user-already-exists';
@@ -27,7 +27,6 @@ export class RegisterAccountAdmin {
     if (adminAlreadyExists) {
       throw new UserAlreadyExists();
     }
-
 
     const hashedPassword = await this.encriptionPassword.execute({ password });
 

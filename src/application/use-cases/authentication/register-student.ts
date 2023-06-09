@@ -3,9 +3,7 @@ import { User } from '@application/entities/user/user';
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
 import { StudentsRepository } from '@application/repositories/students-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
-import { CityNotFound } from '../errors/city-not-found';
 import { CurriculumNotFound } from '../errors/curriculum-not-found';
-import { StateNotFound } from '../errors/state-not-found';
 import { UserAlreadyExists } from '../errors/user-already-exists';
 
 import { CreateStudentBody } from '@infra/http/dto/student/create-student.dto';

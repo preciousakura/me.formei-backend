@@ -1,6 +1,5 @@
 import { InMemoryAdminsRepository } from '@test/repositories/in-memory-admins-repository';
 import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository';
-import { CityNotFound } from '../errors/city-not-found';
 import { CreateAdmin } from './create-admin';
 
 describe('Create admin', () => {
@@ -8,10 +7,7 @@ describe('Create admin', () => {
     const adminsRepository = new InMemoryAdminsRepository();
     const usersRepository = new InMemoryUsersRepository();
 
-    const createAdmin = new CreateAdmin(
-      adminsRepository,
-      usersRepository,
-    );
+    const createAdmin = new CreateAdmin(adminsRepository, usersRepository);
 
     const { admin, user } = await createAdmin.execute({
       name: 'Example name',
@@ -29,5 +25,4 @@ describe('Create admin', () => {
     expect(adminsRepository.admins).toHaveLength(1);
     expect(adminsRepository.admins[0]).toEqual(admin);
   });
-
 });

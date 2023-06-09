@@ -1,8 +1,6 @@
 import { User, UserProps } from '@application/entities/user/user';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
-import {
-  User as RawUserPrisma,
-} from '@prisma/client';
+import { User as RawUserPrisma } from '@prisma/client';
 
 export class PrismaUserMapper {
   static toPrisma(user: User<UserProps>) {
@@ -34,4 +32,4 @@ export class PrismaUserMapper {
   }
 }
 
-type RawUser = RawUserPrisma 
+type RawUser = RawUserPrisma;
