@@ -1,5 +1,3 @@
-import { Course } from '@application/entities/curriculum/course';
-import { University } from '@application/entities/curriculum/university';
 import { Discipline } from '@application/entities/discipline/discipline';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
 import {
@@ -33,21 +31,6 @@ export class PrismaDisciplineMapper {
         semester: raw.semester,
         description: raw.description,
         curriculumId: raw.curriculumId,
-        course: Course.create(
-          {
-            name: raw.curriculum.course.name,
-          },
-          new UniqueEntityID(raw.curriculum.course.id),
-        ),
-        university: University.create(
-          {
-            name: raw.curriculum.university.name,
-            abv: raw.curriculum.university.abv,
-            city: raw.curriculum.university.city,
-            state: raw.curriculum.university.state,
-          },
-          new UniqueEntityID(raw.curriculum.university.id),
-        ),
         prerequisiteDisciplines: [],
       },
       new UniqueEntityID(raw.id),
@@ -55,9 +38,4 @@ export class PrismaDisciplineMapper {
   }
 }
 
-type RawDiscipline = RawDisciplinePrisma & {
-  curriculum: CurriculumPrisma & {
-    university: UniversityPrisma;
-    course: CoursePrisma;
-  };
-};
+type RawDiscipline = RawDisciplinePrisma;

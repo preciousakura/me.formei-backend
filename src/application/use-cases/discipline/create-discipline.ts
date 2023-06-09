@@ -2,8 +2,6 @@ import { Discipline } from '@application/entities/discipline/discipline'; // tes
 import { DisciplinesRepository } from '@application/repositories/disciplines-repository';
 
 import { Injectable } from '@nestjs/common';
-import { Curriculum } from '@prisma/client';
-import { CurriculumNotFound } from '../errors/curriculum-not-found';
 
 interface CreateDisciplineRequest {
   cod: string;
@@ -12,7 +10,6 @@ interface CreateDisciplineRequest {
   courseOutline: string;
   semester: number;
   description: string;
-  curriculum: Curriculum;
   curriculumId: string;
 }
 
@@ -38,12 +35,6 @@ export class CreateDiscipline {
       curriculumId,
     } = request;
 
-    const curriculum = await this.curriculumsRepository.findById(curriculumId);
-
-    if (!curriculum) {
-      throw new CurriculumNotFound();
-    }
-
     const discipline = Discipline.create({
       cod,
       optional,
@@ -52,8 +43,6 @@ export class CreateDiscipline {
       semester,
       description,
       curriculumId,
-      course: curriculum.course,
-      university: curriculum.university,
       prerequisiteDisciplines: [],
     });
 

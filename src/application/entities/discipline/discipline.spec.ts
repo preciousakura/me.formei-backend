@@ -1,5 +1,3 @@
-import { makeCourse } from '@test/factories/course-factory';
-import { makeUniversity } from '@test/factories/university-factory';
 import { Discipline } from './discipline';
 
 describe('Discipline', () => {
@@ -12,8 +10,6 @@ describe('Discipline', () => {
       semester: 1,
       description: 'Example description',
       curriculumId: 'example-curriculum-id',
-      course: makeCourse(),
-      university: makeUniversity(),
       prerequisiteDisciplines: [],
     });
 

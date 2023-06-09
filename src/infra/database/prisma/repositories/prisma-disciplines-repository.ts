@@ -13,14 +13,14 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
       where: {
         id: disciplineId,
       },
-      include: {
+      /*  include: {
         curriculum: {
           include: {
             course: true,
             university: true,
           },
         },
-      },
+      }, */
     });
 
     if (!discipline) {
@@ -58,23 +58,8 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
     });
   }
 
-  async save(discipline: Discipline): Promise<void> {
-    const raw = PrismaDisciplineMapper.toPrisma(discipline);
-
-    await this.prisma.discipline.update({
-      where: {
-        id: raw.id,
-      },
-      data: raw,
-    });
-  }
-
   async list(): Promise<Discipline[] | []> {
-    const disciplines = await this.prisma.discipline.findMany({
-      include: {
-        curriculum: true,
-      },
-    });
+    const disciplines = await this.prisma.discipline.findMany();
 
     return disciplines.map(PrismaDisciplineMapper.toDomain);
   }
@@ -89,18 +74,14 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
 
   async update(discipline: Discipline): Promise<Discipline> {
     const raw = PrismaDisciplineMapper.toPrisma(discipline);
-    const uni = await this.prisma.discipline.update({
-      where: { id: discipline.id.toString() },
-      data: raw,
-      include: {
-        curriculum: {
-          include: {
-            course: true,
-            university: true,
-          },
-        },
+
+    const disciplineFinded = await this.prisma.discipline.update({
+      where: {
+        id: raw.id,
       },
+      data: raw,
     });
-    return PrismaDisciplineMapper.toDomain(uni);
+
+    return PrismaDisciplineMapper.toDomain(disciplineFinded);
   }
 }
