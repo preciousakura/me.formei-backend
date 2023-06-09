@@ -16,6 +16,14 @@ export class InMemoryDisciplinesRepository implements DisciplinesRepository {
     return discipline;
   }
 
+  async findByCurriculum(curriculumId: string): Promise<Discipline[] | []> {
+    const disciplinesSearched = this.disciplines.filter(
+      (item) => item.curriculumId.toString() === curriculumId,
+    );
+
+    return disciplinesSearched;
+  }
+
   // async findManyByAnyId(AnyId: string): Promise<Curriculum[]> {
   //   return this.universitys.filter((ciscipline) => ciscipline.AnyId === AnyId);
   // }

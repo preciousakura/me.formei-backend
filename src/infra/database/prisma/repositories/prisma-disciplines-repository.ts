@@ -13,14 +13,6 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
       where: {
         id: disciplineId,
       },
-      /*  include: {
-        curriculum: {
-          include: {
-            course: true,
-            university: true,
-          },
-        },
-      }, */
     });
 
     if (!discipline) {
@@ -28,6 +20,16 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
     }
 
     return PrismaDisciplineMapper.toDomain(discipline);
+  }
+
+  async findByCurriculum(curriculumSearch: string): Promise<Discipline[] | []> {
+    const disciplines = await this.prisma.discipline.findMany({
+      where: {
+        curriculumId: curriculumSearch,
+      },
+    });
+
+    return disciplines.map(PrismaDisciplineMapper.toDomain);
   }
 
   // async findManyByAnyId(anyId: string): Promise<Student[]> {

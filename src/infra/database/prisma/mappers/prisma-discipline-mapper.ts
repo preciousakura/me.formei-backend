@@ -1,11 +1,6 @@
 import { Discipline } from '@application/entities/discipline/discipline';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
-import {
-  Course as CoursePrisma,
-  Curriculum as CurriculumPrisma,
-  Discipline as RawDisciplinePrisma,
-  University as UniversityPrisma,
-} from '@prisma/client';
+import { Discipline as RawDisciplinePrisma } from '@prisma/client';
 
 export class PrismaDisciplineMapper {
   static toPrisma(discipline: Discipline): RawDisciplinePrisma {
