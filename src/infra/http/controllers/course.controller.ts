@@ -54,7 +54,7 @@ export class CoursesController {
     return {
       message: 'Curso criado!',
 
-      student: CourseViewModel.toHTTP(course),
+      course: CourseViewModel.toHTTP(course),
     };
   }
 }

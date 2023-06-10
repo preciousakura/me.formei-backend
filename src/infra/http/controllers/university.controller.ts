@@ -6,12 +6,30 @@ import { FindUniversitiesByState } from '@application/use-cases/university/find-
 import { FindUniversity } from '@application/use-cases/university/find-university';
 import { ListUniversities } from '@application/use-cases/university/list-universities';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCurriculumBody } from '../dto/curriculum/create-curriculum.dto';
+import { ResponseWithMessage } from '../dto/response-message';
 import { CreateUniversityBody } from '../dto/university/create-university.dto';
+import { CourseHttp } from '../types-class-http/course-http';
+import { CurriculumHttp } from '../types-class-http/curriculum-http';
 import { UniversityHttp } from '../types-class-http/university-http';
 import { CurriculumViewModel } from '../view-models/curriculum-view-model';
 import { UniversityViewModel } from '../view-models/university-view-model';
+
+abstract class IGetCurriculumsCoursesByUniversityIdResponse extends CourseHttp {
+  @ApiProperty()
+  curriculumId: string;
+}
+
+abstract class CreateCurriculumResponse extends ResponseWithMessage {
+  @ApiProperty()
+  course: CurriculumHttp;
+}
+
+abstract class UniversityResponse extends ResponseWithMessage {
+  @ApiProperty()
+  university: UniversityHttp;
+}
 
 @Controller('universities')
 @ApiTags('Universidades')
@@ -41,6 +59,11 @@ export class UniversitiesController {
   }
 
   @Get('/state/:state')
+  @ApiResponse({
+    type: UniversityHttp,
+    isArray: true,
+    description: 'Busca Universidades por Estado',
+  })
   async listAllUniversitiesByState(@Param('state') state: string) {
     const { universities } = await this.findUniversitiesByState.execute({
       state,
@@ -52,6 +75,11 @@ export class UniversitiesController {
   }
 
   @Get('/city/:city')
+  @ApiResponse({
+    type: UniversityHttp,
+    isArray: true,
+    description: 'Busca Universidades por Cidade',
+  })
   async listAllUniversitiesByCity(@Param('city') city: string) {
     const { universities } = await this.findUniversitiesByCity.execute({
       city,
@@ -63,6 +91,10 @@ export class UniversitiesController {
   }
 
   @Get(':id')
+  @ApiResponse({
+    type: UniversityResponse,
+    description: 'Busca Universidade pelo id',
+  })
   async getUniversity(@Param('id') id: string) {
     const { university } = await this.findUniversity.execute({
       universityId: id,
@@ -73,7 +105,11 @@ export class UniversitiesController {
     };
   }
 
-  @Post(':id')
+  @Post()
+  @ApiResponse({
+    type: UniversityResponse,
+    description: 'Registra uma Universidade',
+  })
   async postUniversity(@Body() createUniversityBody: CreateUniversityBody) {
     const { university } = await this.createUniversity.execute(
       createUniversityBody,
@@ -81,12 +117,16 @@ export class UniversitiesController {
 
     return {
       message: 'Universidade criada!',
-
-      student: UniversityViewModel.toHTTP(university),
+      university: UniversityViewModel.toHTTP(university),
     };
   }
 
   @Get(':id/courses')
+  @ApiResponse({
+    type: IGetCurriculumsCoursesByUniversityIdResponse,
+    isArray: true,
+    description: 'Busca as matrizes curriculares (Cursos) por universidade',
+  })
   async getCurriculumsCoursesByUniversityId(@Param('id') id: string) {
     const { curriculums } = await this.findCurriculumsByUniversityId.execute({
       universityId: id,
@@ -108,6 +148,10 @@ export class UniversitiesController {
   }
 
   @Post(':id/courses')
+  @ApiResponse({
+    type: CreateCurriculumResponse,
+    description: 'Registra uma matriz curricular (Curso) na Universidade',
+  })
   async registerCurriculumCourseInUniversity(
     @Body() createCurriculumBody: CreateCurriculumBody,
   ) {
@@ -118,7 +162,7 @@ export class UniversitiesController {
     return {
       message: 'Matriz curricular do curso cadastrada com sucesso!',
 
-      student: CurriculumViewModel.toHTTP(curriculum),
+      course: CurriculumViewModel.toHTTP(curriculum),
     };
   }
 }
