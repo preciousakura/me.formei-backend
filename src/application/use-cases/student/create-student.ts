@@ -17,7 +17,6 @@ interface CreateStudentRequest {
   state: string;
   lastname: string;
   username: string;
-  currentSemester: number;
   enrollmentSemester: number;
   enrollmentYear: number;
 }
@@ -46,7 +45,6 @@ export class CreateStudent {
       name,
       password,
       registration,
-      currentSemester,
       enrollmentSemester,
       enrollmentYear,
     } = request;
@@ -76,7 +74,6 @@ export class CreateStudent {
         password,
         city,
         course: curriculum.course,
-        currentSemester,
         enrollmentSemester,
         enrollmentYear,
         lastname,

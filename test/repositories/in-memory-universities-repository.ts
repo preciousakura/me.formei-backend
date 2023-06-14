@@ -52,4 +52,12 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
       this.universities.splice(universitiesIndex, 1);
     }
   }
+
+  async findByCity(city: string): Promise<University[] | []> {
+    return this.universities.filter((university) => university.city === city);
+  }
+
+  async findByState(state: string): Promise<University[] | []> {
+    return this.universities.filter((university) => university.state === state);
+  }
 }

@@ -9,7 +9,7 @@ export interface StudentProps extends UserProps {
   studentId?: UniqueEntityID;
   enrollmentYear: number;
   enrollmentSemester: number;
-  currentSemester: number;
+  currentSemester?: number;
   course: Course;
   university: University;
 }
@@ -17,7 +17,14 @@ export interface StudentProps extends UserProps {
 export class Student extends User<StudentProps> {
   static create(props: StudentProps, id?: UniqueEntityID) {
     const student = new Student(
-      { ...props, studentId: props.studentId ?? new UniqueEntityID() },
+      {
+        ...props,
+        studentId: props.studentId ?? new UniqueEntityID(),
+        currentSemester: CurrentSemesterCalculator(
+          props.enrollmentYear,
+          props.enrollmentSemester,
+        ),
+      },
       id,
     );
     return student;
@@ -86,4 +93,31 @@ export class Student extends User<StudentProps> {
   public get university() {
     return this.props.university;
   }
+}
+
+function CurrentSemesterCalculator(
+  anoDeEntrada: number,
+  semestreDeEntrada: number,
+): number {
+  const now = new Date();
+  const anoAtual = now.getFullYear();
+  const mesAtual = now.getMonth() + 1;
+
+  let semestreAtual: number;
+  if (mesAtual >= 1 && mesAtual <= 6) {
+    semestreAtual = 1;
+  } else {
+    semestreAtual = 2;
+  }
+
+  const diferencaAnos = anoAtual - anoDeEntrada;
+  let semestresCompletos = diferencaAnos * 2;
+
+  if (semestreDeEntrada === 1) {
+    semestresCompletos += semestreAtual - 1;
+  } else if (semestreDeEntrada === 2) {
+    semestresCompletos += semestreAtual;
+  }
+
+  return semestresCompletos + 1;
 }

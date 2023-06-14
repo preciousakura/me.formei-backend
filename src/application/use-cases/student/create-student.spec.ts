@@ -45,7 +45,6 @@ describe('Create student', () => {
       registration: '0000001',
       city: 'example city',
       state: 'example state',
-      currentSemester: 2,
       enrollmentSemester: 1,
       enrollmentYear: 2021,
       lastname: 'Example lastname',
@@ -57,6 +56,7 @@ describe('Create student', () => {
 
     expect(studentsRepository.students).toHaveLength(1);
     expect(studentsRepository.students[0]).toEqual(student);
+    console.log(student);
   });
 
   it('should not be able to create a student if non existing curriculum', async () => {
@@ -79,7 +79,6 @@ describe('Create student', () => {
         registration: '0000001',
         city: 'example city',
         state: 'example state',
-        currentSemester: 2,
         enrollmentSemester: 1,
         enrollmentYear: 2021,
         lastname: 'Example lastname',
