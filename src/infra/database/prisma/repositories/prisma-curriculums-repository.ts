@@ -70,15 +70,21 @@ export class PrismaCurriculumsRepository implements CurriculumsRepository {
     });
   }
 
-  async save(curriculum: Curriculum): Promise<void> {
+  async update(curriculum: Curriculum): Promise<Curriculum> {
     const raw = PrismaCurriculumMapper.toPrisma(curriculum);
 
-    await this.prisma.curriculum.update({
+    const curriculumFinded = await this.prisma.curriculum.update({
       where: {
         id: raw.id,
       },
+      include: {
+        course: true,
+        university: true,
+      },
       data: raw,
     });
+
+    return PrismaCurriculumMapper.toDomain(curriculumFinded);
   }
 
   async list(): Promise<Curriculum[] | []> {
