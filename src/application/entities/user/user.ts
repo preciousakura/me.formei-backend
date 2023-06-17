@@ -17,6 +17,10 @@ export class User<Props extends UserProps> extends Entity<Props> {
     return user;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set name(name: string) {
     this.props.name = name;
   }

@@ -15,6 +15,10 @@ export class University extends Entity<UniversityProps> {
     return university;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set name(name: string) {
     this.props.name = name;
   }

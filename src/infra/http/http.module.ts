@@ -6,9 +6,13 @@ import { ValidToken } from '@application/use-cases/authentication/valid-token';
 import { CreateCourse } from '@application/use-cases/course/create-course';
 import { FindCourse } from '@application/use-cases/course/find-course';
 import { ListCourses } from '@application/use-cases/course/list-courses';
+import { UpdateCourse } from '@application/use-cases/course/update-course';
 import { CreateCurriculum } from '@application/use-cases/curriculum/create-curriculum';
 import { FindCurriculumsByUniversityId } from '@application/use-cases/curriculum/find-by-universityId';
 import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-cases/curriculum/find-by-universityId-and-curriculumId';
+import { CreateDiscipline } from '@application/use-cases/discipline/create-discipline';
+import { FindDiscipline } from '@application/use-cases/discipline/find-discipline';
+import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
 import { DeleteStudent } from '@application/use-cases/student/delete-student';
 import { FindStudent } from '@application/use-cases/student/find-student';
 import { ListStudents } from '@application/use-cases/student/list-students';
@@ -54,6 +58,7 @@ import { UniversitiesController } from './controllers/university.controller';
     CreateCourse,
     ListCourses,
     FindCourse,
+    UpdateCourse,
     CreateUniversity,
     ListUniversities,
     FindUniversity,
@@ -63,6 +68,9 @@ import { UniversitiesController } from './controllers/university.controller';
     CreateCurriculum,
     ValidToken,
     FindCurriculumsByUniversityIdAndCurriculumId,
+    CreateDiscipline,
+    FindDiscipline,
+    FindDisciplinesByCurriculum,
   ], // casos de uso
 })
 export class HttpModule {}

@@ -24,6 +24,10 @@ export class ExtraCurricular extends Entity<ExtraCurricularProps> {
     return extraCurricular;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set studentRegistration(studentRegistration: string) {
     this.props.studentRegistration = studentRegistration;
   }
