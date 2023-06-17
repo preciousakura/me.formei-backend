@@ -23,7 +23,6 @@ export class Login {
 
   async execute(request: LoginRequest) {
     const { username, password } = request;
-
     const user = await this.usersRepository.findByUsername(username);
 
     if (!user) {

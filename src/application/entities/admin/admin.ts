@@ -14,6 +14,10 @@ export class Admin extends User<AdminProps> {
     return admin;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set adminId(adminId: UniqueEntityID) {
     this.props.adminId = adminId;
   }

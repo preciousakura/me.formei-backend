@@ -17,6 +17,10 @@ export class Discipline extends Entity<DisciplineProps> {
     return discipline;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set description(description: string) {
     this.props.description = description;
   }

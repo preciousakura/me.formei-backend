@@ -1,6 +1,9 @@
 import { CreateCurriculum } from '@application/use-cases/curriculum/create-curriculum';
 import { FindCurriculumsByUniversityId } from '@application/use-cases/curriculum/find-by-universityId';
 import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-cases/curriculum/find-by-universityId-and-curriculumId';
+import { CreateDiscipline } from '@application/use-cases/discipline/create-discipline';
+import { FindDiscipline } from '@application/use-cases/discipline/find-discipline';
+import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
 import { CreateUniversity } from '@application/use-cases/university/create-university';
 import { FindUniversitiesByCity } from '@application/use-cases/university/find-universities-by-city';
 import { FindUniversitiesByState } from '@application/use-cases/university/find-universities-by-state';
@@ -9,12 +12,14 @@ import { ListUniversities } from '@application/use-cases/university/list-univers
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCurriculumBody } from '../dto/curriculum/create-curriculum.dto';
+import { CreateDisciplineBody } from '../dto/discipline/create-discipline.dto';
 import { ResponseWithMessage } from '../dto/response-message';
 import { CreateUniversityBody } from '../dto/university/create-university.dto';
 import { CourseHttp } from '../types-class-http/course-http';
 import { CurriculumHttp } from '../types-class-http/curriculum-http';
 import { UniversityHttp } from '../types-class-http/university-http';
 import { CurriculumViewModel } from '../view-models/curriculum-view-model';
+import { DisciplineViewModel } from '../view-models/discipline-view-model';
 import { UniversityViewModel } from '../view-models/university-view-model';
 
 abstract class IGetCurriculumsCoursesByUniversityIdResponse extends CourseHttp {
@@ -24,7 +29,7 @@ abstract class IGetCurriculumsCoursesByUniversityIdResponse extends CourseHttp {
 
 abstract class CreateCurriculumResponse extends ResponseWithMessage {
   @ApiProperty()
-  course: CurriculumHttp;
+  curriculum: CurriculumHttp;
 }
 
 abstract class UniversityResponse extends ResponseWithMessage {
@@ -44,6 +49,9 @@ export class UniversitiesController {
     private findUniversitiesByCity: FindUniversitiesByCity,
     private createCurriculum: CreateCurriculum,
     private findCurriculumsByUniversityIdAndCurriculumId: FindCurriculumsByUniversityIdAndCurriculumId,
+    private createDiscipline: CreateDiscipline,
+    private findDiscipline: FindDiscipline,
+    private findDisciplineByCurriculum: FindDisciplinesByCurriculum,
   ) {}
 
   @Get()
@@ -169,7 +177,7 @@ export class UniversitiesController {
     return {
       message: 'Matriz curricular do curso cadastrada com sucesso!',
 
-      course: CurriculumViewModel.toHTTP(curriculum),
+      curriculum: CurriculumViewModel.toHTTP(curriculum),
     };
   }
 
@@ -186,6 +194,42 @@ export class UniversitiesController {
 
     return {
       course: CurriculumViewModel.toHTTP(curriculum),
+    };
+  }
+
+  @Post(':id/courses/:curriculumId/disciplines')
+  async associateDisciplineInCurriculum(
+    @Param('curriculumId') curriculumId: string,
+    @Body() disciplineBody: CreateDisciplineBody,
+  ) {
+    const { discipline } = await this.createDiscipline.execute({
+      ...disciplineBody,
+      curriculumId,
+    });
+    return {
+      discipline: DisciplineViewModel.toHTTP(discipline),
+    };
+  }
+
+  @Get(':id/courses/:curriculumId/disciplines')
+  async findDisciplinesByCurriculum(
+    @Param('curriculumId') curriculumId: string,
+  ) {
+    const { disciplines } = await this.findDisciplineByCurriculum.execute({
+      curriculumId,
+    });
+    return {
+      disciplines: disciplines.map(DisciplineViewModel.toHTTP),
+    };
+  }
+
+  @Get(':id/courses/:curriculumId/disciplines/:disciplineId')
+  async findDisciplineById(@Param('disciplineId') disciplineId: string) {
+    const { discipline } = await this.findDiscipline.execute({
+      disciplineId,
+    });
+    return {
+      discipline: DisciplineViewModel.toHTTP(discipline),
     };
   }
 }

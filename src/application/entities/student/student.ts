@@ -30,6 +30,10 @@ export class Student extends User<StudentProps> {
     return student;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set registration(registration: string) {
     this.props.registration = registration;
   }
