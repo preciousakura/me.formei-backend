@@ -1,13 +1,14 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityID } from 'src/core/entities/unique-entity-id';
 import { Discipline } from '../discipline/discipline';
-import { Student } from '../student/student';
+
+export type StatusType = 'DONE' | 'INPROGRESS' | 'FAILED' | 'WITHDRAWAL';
 
 export interface CourseHistoryProps {
-  student: Student;
+  studentRegistration: string;
   discipline: Discipline;
-  status: string;
-  createAt: string;
+  status: StatusType;
+  createdAt: string;
   semester: number;
   startTime: string;
   endTime: string;
@@ -16,17 +17,18 @@ export interface CourseHistoryProps {
 }
 
 export class CourseHistory extends Entity<CourseHistoryProps> {
+  public _props: CourseHistoryProps;
   static create(props: CourseHistoryProps, id?: UniqueEntityID) {
     const courseHistory = new CourseHistory(props, id);
     return courseHistory;
   }
 
-  public set student(student: Student) {
-    this.props.student = student;
+  public set studentRegistration(studentRegistration: string) {
+    this.props.studentRegistration = studentRegistration;
   }
 
-  public get student() {
-    return this.props.student;
+  public get studentRegistration() {
+    return this.props.studentRegistration;
   }
 
   public set discipline(discipline: Discipline) {
@@ -37,7 +39,7 @@ export class CourseHistory extends Entity<CourseHistoryProps> {
     return this.props.discipline;
   }
 
-  public set status(status: string) {
+  public set status(status: StatusType) {
     this.props.status = status;
   }
 
@@ -45,12 +47,12 @@ export class CourseHistory extends Entity<CourseHistoryProps> {
     return this.props.status;
   }
 
-  public set createAt(createAt: string) {
-    this.props.createAt = createAt;
+  public set createdAt(createdAt: string) {
+    this.props.createdAt = createdAt;
   }
 
-  public get createAt() {
-    return this.props.createAt;
+  public get createdAt() {
+    return this.props.createdAt;
   }
 
   public set semester(semester: number) {

@@ -12,7 +12,7 @@ interface DeleteCourseHistoryRequest {
 }
 
 @Injectable()
-export class DeleteCourseHistory {
+export class DisassociateDisciplineInStudentSemester {
   constructor(private courseHistoriesRepository: CourseHistoriesRepository) {}
 
   async execute(

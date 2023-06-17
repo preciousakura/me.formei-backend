@@ -33,4 +33,6 @@ export class PrismaDisciplineMapper {
   }
 }
 
-type RawDiscipline = RawDisciplinePrisma;
+type RawDiscipline = RawDisciplinePrisma & {
+  prerequisitesDisciplines: RawDisciplinePrisma[];
+};

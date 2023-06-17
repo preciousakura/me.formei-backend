@@ -5,6 +5,7 @@ import { CourseHistoriesRepository } from '@application/repositories/course-hist
 import { CourseHistoryNotFound } from '../errors/course-history-not-found';
 
 interface UpdateCourseHistoryRequest {
+  id: string;
   courseHistory: CourseHistory;
 }
 interface UpdateCourseHistoryResponse {
@@ -18,16 +19,21 @@ export class UpdateCourseHistory {
   async execute(
     request: UpdateCourseHistoryRequest,
   ): Promise<UpdateCourseHistoryResponse> {
-    const { courseHistory } = request;
+    const { courseHistory, id } = request;
 
     const courseHistoryFinded = await this.courseHistoriesRepository.findById(
-      courseHistory.id.toString(),
+      id,
     );
 
     if (!courseHistoryFinded) throw new CourseHistoryNotFound();
 
+    const data = CourseHistory.create(
+      { ...courseHistoryFinded._props, ...courseHistory },
+      courseHistoryFinded.id,
+    );
+
     const courseHistoryUpdated = await this.courseHistoriesRepository.update(
-      courseHistory,
+      data,
     );
 
     return {

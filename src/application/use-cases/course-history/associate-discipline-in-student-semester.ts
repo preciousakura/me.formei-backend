@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { CourseHistory } from '@application/entities/course-history/course-history';
+import {
+  CourseHistory,
+  StatusType,
+} from '@application/entities/course-history/course-history';
 import { CourseHistoriesRepository } from '@application/repositories/course-histories-repository';
 import { DisciplinesRepository } from '@application/repositories/disciplines-repository';
 import { StudentsRepository } from '@application/repositories/students-repository';
@@ -10,8 +13,8 @@ import { StudentNotFound } from '../errors/student-not-found';
 interface CreateCourseHistoryRequest {
   studentRegistration: string;
   disciplineId: string;
-  status: string;
-  createAt: string;
+  status: StatusType;
+  createdAt: string;
   semester: number;
   startTime: string;
   endTime: string;
@@ -24,7 +27,7 @@ interface CreateCourseHistoryResponse {
 }
 
 @Injectable()
-export class CreateCourseHistory {
+export class AssociateDisciplineInStudentSemester {
   constructor(
     private courseHistoriesRepository: CourseHistoriesRepository,
     private studentsRepository: StudentsRepository,
@@ -38,7 +41,7 @@ export class CreateCourseHistory {
       studentRegistration,
       disciplineId,
       status,
-      createAt,
+      createdAt,
       semester,
       startTime,
       endTime,
@@ -59,10 +62,10 @@ export class CreateCourseHistory {
     }
 
     const courseHistory = CourseHistory.create({
-      student,
+      studentRegistration,
       discipline,
       status,
-      createAt,
+      createdAt,
       semester,
       startTime,
       endTime,

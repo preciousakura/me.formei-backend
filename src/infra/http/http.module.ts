@@ -3,6 +3,13 @@ import { Login } from '@application/use-cases/authentication/login';
 import { RegisterAccountAdmin } from '@application/use-cases/authentication/register-admin';
 import { RegisterAccountStudent } from '@application/use-cases/authentication/register-student';
 import { ValidToken } from '@application/use-cases/authentication/valid-token';
+import { AssociateDisciplineInStudentSemester } from '@application/use-cases/course-history/associate-discipline-in-student-semester';
+import { DisassociateDisciplineInStudentSemester } from '@application/use-cases/course-history/disassociate-discipline-in-student-semester';
+import { FindCourseHistoryByStatusAndStudentRegistration } from '@application/use-cases/course-history/find-course-history-by-status';
+import { FindCourseHistoryByStudentRegistrationBySemesterByDisciplineId } from '@application/use-cases/course-history/find-course-history-by-student-registration-semester-discipline-id';
+import { FindDisciplinesHistoryByStudentRegistration } from '@application/use-cases/course-history/find-disciplines-history-by-student-registration';
+import { FindDisciplinesHistoryByStudentRegistrationBySemester } from '@application/use-cases/course-history/find-disciplines-history-by-student-registration-semester';
+import { ListDisciplinesHistoryTodo } from '@application/use-cases/course-history/list-disciplines-history-to-do';
 import { CreateCourse } from '@application/use-cases/course/create-course';
 import { FindCourse } from '@application/use-cases/course/find-course';
 import { ListCourses } from '@application/use-cases/course/list-courses';
@@ -13,6 +20,9 @@ import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-c
 import { CreateDiscipline } from '@application/use-cases/discipline/create-discipline';
 import { FindDiscipline } from '@application/use-cases/discipline/find-discipline';
 import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
+import { CreateExtraCurricularActivity } from '@application/use-cases/extracurricular-activities/create-extracurricular-activity';
+import { DeleteExtraCurricular } from '@application/use-cases/extracurricular-activities/delete-extracurricular-activity';
+import { FindExtraCurricularActivityByStudent } from '@application/use-cases/extracurricular-activities/find-extracurricular-activity-by-student';
 import { DeleteStudent } from '@application/use-cases/student/delete-student';
 import { FindStudent } from '@application/use-cases/student/find-student';
 import { ListStudents } from '@application/use-cases/student/list-students';
@@ -71,6 +81,16 @@ import { UniversitiesController } from './controllers/university.controller';
     CreateDiscipline,
     FindDiscipline,
     FindDisciplinesByCurriculum,
+    AssociateDisciplineInStudentSemester,
+    DisassociateDisciplineInStudentSemester,
+    FindCourseHistoryByStudentRegistrationBySemesterByDisciplineId,
+    FindDisciplinesHistoryByStudentRegistrationBySemester,
+    FindDisciplinesHistoryByStudentRegistration,
+    FindCourseHistoryByStatusAndStudentRegistration,
+    CreateExtraCurricularActivity,
+    DeleteExtraCurricular,
+    FindExtraCurricularActivityByStudent,
+    ListDisciplinesHistoryTodo,
   ], // casos de uso
 })
 export class HttpModule {}

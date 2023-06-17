@@ -13,6 +13,9 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
       where: {
         id: disciplineId,
       },
+      include: {
+        prerequisitesDisciplines: true,
+      },
     });
 
     if (!discipline) {
@@ -26,6 +29,9 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
     const disciplines = await this.prisma.discipline.findMany({
       where: {
         curriculumId: curriculumSearch,
+      },
+      include: {
+        prerequisitesDisciplines: true,
       },
     });
 
@@ -80,6 +86,9 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
     const disciplineFinded = await this.prisma.discipline.update({
       where: {
         id: raw.id,
+      },
+      include: {
+        prerequisitesDisciplines: true,
       },
       data: raw,
     });

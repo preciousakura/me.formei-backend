@@ -24,5 +24,4 @@ export class AdminHttp {
 
   @ApiProperty()
   state: string;
-
 }

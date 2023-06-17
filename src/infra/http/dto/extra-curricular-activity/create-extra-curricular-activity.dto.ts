@@ -1,11 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { SituationType } from '@prisma/client';
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateExtraCurricularActivityBody {
-  @ApiProperty()
-  @IsNotEmpty()
-  studentRegistration: string;
-
   @ApiProperty()
   @IsNotEmpty()
   title: string;
@@ -24,7 +21,7 @@ export class CreateExtraCurricularActivityBody {
 
   @ApiProperty()
   @IsNotEmpty()
-  situation: string;
+  situation: SituationType;
 
   @ApiProperty()
   @IsNotEmpty()
