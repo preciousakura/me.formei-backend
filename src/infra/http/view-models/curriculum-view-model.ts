@@ -18,7 +18,7 @@ export class CurriculumViewModel {
 
     return {
       id: id.toValue(),
-      course: CourseViewModel.toHTTP(course),
+      curriculumCourse: CourseViewModel.toHTTP(course),
       description,
       extraCurricularHours,
       optionalHours,

@@ -12,10 +12,6 @@ export class CreateCurriculumBody {
 
   @ApiProperty()
   @IsNotEmpty()
-  universityId: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
   requiredHours: number;
 
   @ApiProperty()

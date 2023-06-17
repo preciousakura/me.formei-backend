@@ -26,20 +26,20 @@ export class StudentViewModel {
 
     return {
       id: id.toValue(),
+      studentId: studentId.toValue(),
       name,
+      lastname,
+      username,
       email,
       registration,
       curriculumId,
-      course: CourseViewModel.toHTTP(course),
+      city,
+      state,
       currentSemester,
       enrollmentSemester,
       enrollmentYear,
-      lastname,
-      studentId: studentId.toValue(),
+      course: CourseViewModel.toHTTP(course),
       university: UniversityViewModel.toHTTP(university),
-      username,
-      city,
-      state,
     };
   }
 }

@@ -1,6 +1,7 @@
-export class UniversityNotFound extends Error {
-    constructor() {
-      super('University not found.');
-    }
+import { NotFoundException } from '@nestjs/common';
+
+export class UniversityNotFound extends NotFoundException {
+  constructor() {
+    super('University not found.');
   }
-  
+}

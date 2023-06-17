@@ -8,7 +8,9 @@ import { CreateCurriculumBody } from '@infra/http/dto/curriculum/create-curricul
 import { CourseNotFound } from '../errors/course-not-found';
 import { UniversityNotFound } from '../errors/university-not-found';
 
-type CreateCourseRequest = CreateCurriculumBody;
+type CreateCourseRequest = CreateCurriculumBody & {
+  universityId: string;
+};
 
 interface CreateCurriculumResponse {
   curriculum: Curriculum;

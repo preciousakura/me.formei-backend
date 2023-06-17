@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { Curriculum } from '@application/entities/curriculum/curriculum';
-import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
+import {
+  CurriculumsRepository,
+  findByUniversityIdAndCurriculumIdRequest,
+} from '@application/repositories/curriculums-repository';
 import { PrismaCurriculumMapper } from '../mappers/prisma-curriculum-mapper';
 import { PrismaService } from '../prisma.service';
 
@@ -124,5 +127,27 @@ export class PrismaCurriculumsRepository implements CurriculumsRepository {
     }
 
     return curriculums.map(PrismaCurriculumMapper.toDomain);
+  }
+
+  async findByUniversityIdAndCurriculumId(
+    request: findByUniversityIdAndCurriculumIdRequest,
+  ): Promise<Curriculum | null> {
+    const { curriculumId, universityId } = request;
+    const curriculum = await this.prisma.curriculum.findFirst({
+      where: {
+        universityId,
+        id: curriculumId,
+      },
+      include: {
+        course: true,
+        university: true,
+      },
+    });
+
+    if (!curriculum) {
+      return null;
+    }
+
+    return PrismaCurriculumMapper.toDomain(curriculum);
   }
 }

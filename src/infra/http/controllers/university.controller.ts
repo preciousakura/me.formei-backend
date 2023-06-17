@@ -1,5 +1,6 @@
 import { CreateCurriculum } from '@application/use-cases/curriculum/create-curriculum';
 import { FindCurriculumsByUniversityId } from '@application/use-cases/curriculum/find-by-universityId';
+import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-cases/curriculum/find-by-universityId-and-curriculumId';
 import { CreateUniversity } from '@application/use-cases/university/create-university';
 import { FindUniversitiesByCity } from '@application/use-cases/university/find-universities-by-city';
 import { FindUniversitiesByState } from '@application/use-cases/university/find-universities-by-state';
@@ -42,6 +43,7 @@ export class UniversitiesController {
     private findUniversitiesByState: FindUniversitiesByState,
     private findUniversitiesByCity: FindUniversitiesByCity,
     private createCurriculum: CreateCurriculum,
+    private findCurriculumsByUniversityIdAndCurriculumId: FindCurriculumsByUniversityIdAndCurriculumId,
   ) {}
 
   @Get()
@@ -134,10 +136,13 @@ export class UniversitiesController {
     if (curriculums.length === 0) {
       return { curriculums };
     }
-    const courses = curriculums.map((curriculum) => {
+
+    const curriculumsHttp = curriculums.map(CurriculumViewModel.toHTTP);
+
+    const courses = curriculumsHttp.map((curriculum) => {
       return {
         course: {
-          ...curriculum.course,
+          ...curriculum.curriculumCourse,
           curriculumId: curriculum.id.toString(),
         },
       };
@@ -154,14 +159,32 @@ export class UniversitiesController {
   })
   async registerCurriculumCourseInUniversity(
     @Body() createCurriculumBody: CreateCurriculumBody,
+    @Param('id') universityId: string,
   ) {
-    const { curriculum } = await this.createCurriculum.execute(
-      createCurriculumBody,
-    );
+    const { curriculum } = await this.createCurriculum.execute({
+      ...createCurriculumBody,
+      universityId,
+    });
 
     return {
       message: 'Matriz curricular do curso cadastrada com sucesso!',
 
+      course: CurriculumViewModel.toHTTP(curriculum),
+    };
+  }
+
+  @Get(':id/courses/:curriculumId')
+  async getCurriculumCourseByCurriculumId(
+    @Param('id') universityId: string,
+    @Param('curriculumId') curriculumId: string,
+  ) {
+    const { curriculum } =
+      await this.findCurriculumsByUniversityIdAndCurriculumId.execute({
+        universityId,
+        curriculumId,
+      });
+
+    return {
       course: CurriculumViewModel.toHTTP(curriculum),
     };
   }

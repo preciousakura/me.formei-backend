@@ -1,8 +1,17 @@
 import { Login } from '@application/use-cases/authentication/login';
 import { RegisterAccountAdmin } from '@application/use-cases/authentication/register-admin';
 import { RegisterAccountStudent } from '@application/use-cases/authentication/register-student';
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { ValidToken } from '@application/use-cases/authentication/valid-token';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+} from '@nestjs/common';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request as RequestE } from 'express';
 import { LoginBody } from '../dto/auth/login.dto';
 import { RegisterAccountAdminBody } from '../dto/auth/register-account-admin.dto';
 import { RegisterAccountStudentBody } from '../dto/auth/register-account-student.dto';
@@ -44,6 +53,7 @@ export class AuthController {
     private login: Login,
     private registerAdmin: RegisterAccountAdmin,
     private registerStudent: RegisterAccountStudent,
+    private validToken: ValidToken,
   ) {}
 
   @Post('signin')
@@ -146,5 +156,13 @@ export class AuthController {
     return {
       message: 'Registrado com sucesso',
     };
+  }
+
+  @Get('session')
+  @ApiResponse({ type: Boolean })
+  async session(@Request() req: RequestE) {
+    const isValid = await this.validToken.execute(req);
+
+    return isValid;
   }
 }
