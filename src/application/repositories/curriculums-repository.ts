@@ -7,7 +7,7 @@ export abstract class CurriculumsRepository {
   abstract findByUniversityIdAndCurriculumId(
     request: findByUniversityIdAndCurriculumIdRequest,
   ): Promise<Curriculum | null>;
-  abstract save(curriculum: Curriculum): Promise<void>;
+  abstract update(curriculum: Curriculum): Promise<Curriculum>;
   abstract delete(curriculumId: string): Promise<void>;
   abstract list(): Promise<Curriculum[] | []>;
   // abstract countManyByAnyId(anyId: string): Promise<number>;
