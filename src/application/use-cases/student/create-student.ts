@@ -2,14 +2,10 @@ import { Injectable } from '@nestjs/common';
 
 import { Student } from '@application/entities/student/student';
 import { User, UserProps } from '@application/entities/user/user';
-import { CitiesRepository } from '@application/repositories/cities-repository';
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
-import { StatesRepository } from '@application/repositories/states-repository';
 import { StudentsRepository } from '@application/repositories/students-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
-import { CityNotFound } from '../errors/city-not-found';
 import { CurriculumNotFound } from '../errors/curriculum-not-found';
-import { StateNotFound } from '../errors/state-not-found';
 
 interface CreateStudentRequest {
   registration: string;
@@ -17,10 +13,10 @@ interface CreateStudentRequest {
   name: string;
   email: string;
   password: string;
-  cityId: string;
+  city: string;
+  state: string;
   lastname: string;
   username: string;
-  currentSemester: number;
   enrollmentSemester: number;
   enrollmentYear: number;
 }
@@ -35,14 +31,13 @@ export class CreateStudent {
   constructor(
     private studentsRepository: StudentsRepository,
     private usersRepository: UsersRepository,
-    private citiesRepository: CitiesRepository,
-    private statesRepository: StatesRepository,
     private curriculumsRepository: CurriculumsRepository,
   ) {}
 
   async execute(request: CreateStudentRequest): Promise<CreateStudentResponse> {
     const {
-      cityId,
+      city,
+      state,
       lastname,
       username,
       curriculumId,
@@ -50,7 +45,6 @@ export class CreateStudent {
       name,
       password,
       registration,
-      currentSemester,
       enrollmentSemester,
       enrollmentYear,
     } = request;
@@ -61,18 +55,6 @@ export class CreateStudent {
       throw new CurriculumNotFound();
     }
 
-    const city = await this.citiesRepository.findById(cityId);
-
-    if (!city) {
-      throw new CityNotFound();
-    }
-
-    const state = await this.statesRepository.findById(city.state.id.toValue());
-
-    if (!state) {
-      throw new StateNotFound();
-    }
-
     const user = User.create({
       name,
       email,
@@ -80,7 +62,7 @@ export class CreateStudent {
       city,
       lastname,
       username,
-      state: state.name,
+      state,
     });
 
     const student = Student.create(
@@ -92,11 +74,10 @@ export class CreateStudent {
         password,
         city,
         course: curriculum.course,
-        currentSemester,
         enrollmentSemester,
         enrollmentYear,
         lastname,
-        state: state.name,
+        state: state,
         university: curriculum.university,
         username,
       },

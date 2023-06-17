@@ -18,6 +18,10 @@ export class Curriculum extends Entity<CurriculumProps> {
     return curriculum;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set course(course: Course) {
     this.props.course = course;
   }

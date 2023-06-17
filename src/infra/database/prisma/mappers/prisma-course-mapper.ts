@@ -4,7 +4,7 @@ import { Curriculum, Course as RawCoursePrisma } from '@prisma/client';
 export class PrismaCourseMapper {
   static toPrisma(course: Course): RawCoursePrisma {
     return {
-      id: course.id.toString(),
+      id: course.id.toValue(),
       name: course.name,
     };
   }
@@ -13,7 +13,7 @@ export class PrismaCourseMapper {
     return Course.create(
       {
         name: raw.name,
-        curriculums: raw.curriculums.map((curriculum) => curriculum.id),
+        curriculums: raw?.curriculums?.map((curriculum) => curriculum.id),
       },
       new UniqueEntityID(raw.id),
     );

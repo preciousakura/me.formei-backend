@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { Curriculum } from '@application/entities/curriculum/curriculum';
-import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
+import {
+  CurriculumsRepository,
+  findByUniversityIdAndCurriculumIdRequest,
+} from '@application/repositories/curriculums-repository';
 import { PrismaCurriculumMapper } from '../mappers/prisma-curriculum-mapper';
 import { PrismaService } from '../prisma.service';
 
@@ -67,15 +70,21 @@ export class PrismaCurriculumsRepository implements CurriculumsRepository {
     });
   }
 
-  async save(curriculum: Curriculum): Promise<void> {
+  async update(curriculum: Curriculum): Promise<Curriculum> {
     const raw = PrismaCurriculumMapper.toPrisma(curriculum);
 
-    await this.prisma.curriculum.update({
+    const curriculumFinded = await this.prisma.curriculum.update({
       where: {
         id: raw.id,
       },
+      include: {
+        course: true,
+        university: true,
+      },
       data: raw,
     });
+
+    return PrismaCurriculumMapper.toDomain(curriculumFinded);
   }
 
   async list(): Promise<Curriculum[] | []> {
@@ -106,5 +115,45 @@ export class PrismaCurriculumsRepository implements CurriculumsRepository {
         id: curriculumId,
       },
     });
+  }
+
+  async findByUniversityId(universityId: string): Promise<Curriculum[] | []> {
+    const curriculums = await this.prisma.curriculum.findMany({
+      where: {
+        universityId: universityId,
+      },
+      include: {
+        course: true,
+        university: true,
+      },
+    });
+
+    if (!curriculums) {
+      return null;
+    }
+
+    return curriculums.map(PrismaCurriculumMapper.toDomain);
+  }
+
+  async findByUniversityIdAndCurriculumId(
+    request: findByUniversityIdAndCurriculumIdRequest,
+  ): Promise<Curriculum | null> {
+    const { curriculumId, universityId } = request;
+    const curriculum = await this.prisma.curriculum.findFirst({
+      where: {
+        universityId,
+        id: curriculumId,
+      },
+      include: {
+        course: true,
+        university: true,
+      },
+    });
+
+    if (!curriculum) {
+      return null;
+    }
+
+    return PrismaCurriculumMapper.toDomain(curriculum);
   }
 }

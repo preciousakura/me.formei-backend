@@ -12,6 +12,10 @@ export class Course extends Entity<CourseProps> {
     return course;
   }
 
+  public get _props() {
+    return this.props;
+  }
+
   public set name(name: string) {
     this.props.name = name;
   }

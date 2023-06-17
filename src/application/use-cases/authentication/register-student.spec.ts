@@ -1,9 +1,7 @@
+import { makeCurriculum } from '@test/factories/curriculum-factory';
 import { makeStudent } from '@test/factories/student-factory';
-import { makeCity } from '@test/factories/city-factory';
-import { makeState } from '@test/factories/state-factory';
+import { InMemoryCurriculumsRepository } from '@test/repositories/in-memory-curriculums-repository';
 import { InMemoryStudentsRepository } from '@test/repositories/in-memory-students-repository';
-import { InMemoryCitiesRepository } from '@test/repositories/in-memory-cities-repository';
-import { InMemoryStatesRepository } from '@test/repositories/in-memory-states-repository';
 import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository';
 import { UserAlreadyExists } from '../errors/user-already-exists';
 import { RegisterAccountStudent } from './register-student';
@@ -12,35 +10,34 @@ describe('Register student', () => {
   it('should be able to register a student', async () => {
     const studentsRepository = new InMemoryStudentsRepository();
     const usersRepository = new InMemoryUsersRepository();
-    const citiesRepository = new InMemoryCitiesRepository();
-    const statesRepository = new InMemoryStatesRepository();
+    const curriculumsRepository = new InMemoryCurriculumsRepository();
 
-    const state = makeState();
+    const curriculum = makeCurriculum();
 
-    statesRepository.create(state);
-
-    const city = makeCity({
-      state: state,
-    });
-
-    citiesRepository.create(city);
+    curriculumsRepository.create(curriculum);
 
     const registerStudent = new RegisterAccountStudent(
       studentsRepository,
       usersRepository,
-      citiesRepository,
-      statesRepository,
+      curriculumsRepository,
     );
 
-    const Student = makeStudent({ city: city });
+    const Student = makeStudent({
+      curriculumId: curriculum.id.toString(),
+    });
 
     const { student: studentUpdated } = await registerStudent.execute({
       email: Student.email,
-      cityId: Student.city.id.toString(),
+      city: Student.city,
+      state: Student.state,
       lastname: Student.lastname,
       name: Student.name,
       password: Student.password,
       username: Student.username,
+      curriculumId: Student.curriculumId,
+      enrollmentSemester: Student.enrollmentSemester,
+      enrollmentYear: Student.enrollmentYear,
+      registration: Student.registration,
     });
 
     expect(studentsRepository.students[0]).toEqual(studentUpdated);
@@ -49,38 +46,35 @@ describe('Register student', () => {
   it('should not be able to create a student if existing a student with email and username match', async () => {
     const studentsRepository = new InMemoryStudentsRepository();
     const usersRepository = new InMemoryUsersRepository();
-    const citiesRepository = new InMemoryCitiesRepository();
-    const statesRepository = new InMemoryStatesRepository();
+    const curriculumsRepository = new InMemoryCurriculumsRepository();
 
-    const state = makeState();
+    const curriculum = makeCurriculum();
 
-    statesRepository.create(state);
+    curriculumsRepository.create(curriculum);
 
-    const city = makeCity({
-      state: state,
-    });
-
-    citiesRepository.create(city);
-
-    const Student = makeStudent();
+    const Student = makeStudent({ curriculumId: curriculum.id.toString() });
 
     studentsRepository.create(Student);
 
     const registerStudent = new RegisterAccountStudent(
       studentsRepository,
       usersRepository,
-      citiesRepository,
-      statesRepository,
+      curriculumsRepository,
     );
 
     expect(() => {
       return registerStudent.execute({
         email: Student.email,
-        cityId: city.id.toString(),
+        city: Student.city,
+        state: Student.state,
         lastname: Student.lastname,
         name: Student.name,
         password: Student.password,
         username: Student.username,
+        curriculumId: Student.curriculumId,
+        enrollmentSemester: Student.enrollmentSemester,
+        enrollmentYear: Student.enrollmentYear,
+        registration: Student.registration,
       });
     }).rejects.toThrow(UserAlreadyExists);
   });

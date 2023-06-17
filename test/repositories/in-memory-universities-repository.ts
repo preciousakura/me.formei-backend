@@ -28,7 +28,7 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
     this.universities.push(university);
   }
 
-  async save(university: University): Promise<void> {
+  async update(university: University): Promise<University> {
     const index = this.universities.findIndex(
       (item) => item.id === university.id,
     );
@@ -36,6 +36,7 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
     if (index >= 0) {
       this.universities[index] = university;
     }
+    return this.universities[index];
   }
 
   async list(): Promise<University[] | []> {
@@ -50,5 +51,13 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
     if (universitiesIndex >= 0) {
       this.universities.splice(universitiesIndex, 1);
     }
+  }
+
+  async findByCity(city: string): Promise<University[] | []> {
+    return this.universities.filter((university) => university.city === city);
+  }
+
+  async findByState(state: string): Promise<University[] | []> {
+    return this.universities.filter((university) => university.state === state);
   }
 }

@@ -55,13 +55,31 @@ export class InMemoryAdminsRepository implements AdminsRepository {
     }
   }
 
-  async findByEmailAndUserName(
+  async findByEmailOrUserName(
     request: FindByEmailAndUserNameRequest,
   ): Promise<Admin | null> {
     const { email, username } = request;
     const admin = this.admins.find(
       (item) => item.email === email || item.username == username,
     );
+    if (!admin) {
+      return null;
+    }
+
+    return admin;
+  }
+
+  async findByUsername(username: string): Promise<Admin | null> {
+    const admin = this.admins.find((item) => item.username == username);
+    if (!admin) {
+      return null;
+    }
+
+    return admin;
+  }
+
+  async findByUserId(userId: string): Promise<Admin | null> {
+    const admin = this.admins.find((item) => item.id.toString() == userId);
     if (!admin) {
       return null;
     }

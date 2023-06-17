@@ -16,15 +16,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
         id: adminId,
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
       },
     });
 
@@ -71,15 +63,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
         id: raw.id,
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
       },
       data: raw,
     });
@@ -102,10 +86,11 @@ export class PrismaAdminsRepository implements AdminsRepository {
     });
   }
 
-  async findByEmailAndUserName(
+  async findByEmailOrUserName(
     request: FindByEmailAndUserNameRequest,
   ): Promise<Admin | null> {
     const { email, username } = request;
+
     const admin = await this.prisma.admin.findFirst({
       where: {
         OR: {
@@ -116,15 +101,37 @@ export class PrismaAdminsRepository implements AdminsRepository {
         },
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
+      },
+    });
+
+    if (!admin) {
+      return null;
+    }
+
+    return PrismaAdminMapper.toDomain(admin);
+  }
+
+  async findByUsername(username: string): Promise<Admin | null> {
+    const admin = await this.prisma.admin.findFirst({
+      where: { user: { username } },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!admin) {
+      return null;
+    }
+
+    return PrismaAdminMapper.toDomain(admin);
+  }
+
+  async findByUserId(userId: string): Promise<Admin | null> {
+    const admin = await this.prisma.admin.findFirst({
+      where: { userId },
+      include: {
+        user: true,
       },
     });
 

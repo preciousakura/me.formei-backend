@@ -1,5 +1,8 @@
 import { Curriculum } from '@application/entities/curriculum/curriculum';
-import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
+import {
+  CurriculumsRepository,
+  findByUniversityIdAndCurriculumIdRequest,
+} from '@application/repositories/curriculums-repository';
 
 export class InMemoryCurriculumsRepository implements CurriculumsRepository {
   public curriculums: Curriculum[] = [];
@@ -7,6 +10,23 @@ export class InMemoryCurriculumsRepository implements CurriculumsRepository {
   async findById(curriculumId: string): Promise<Curriculum | null> {
     const curriculum = this.curriculums.find(
       (item) => item.id.toString() === curriculumId,
+    );
+
+    if (!curriculum) {
+      return null;
+    }
+
+    return curriculum;
+  }
+
+  async findByUniversityIdAndCurriculumId(
+    request: findByUniversityIdAndCurriculumIdRequest,
+  ): Promise<Curriculum> {
+    const { universityId, curriculumId } = request;
+    const curriculum = this.curriculums.find(
+      (item) =>
+        item.university.id.toString() === universityId &&
+        item.id.toString() == curriculumId,
     );
 
     if (!curriculum) {
@@ -28,7 +48,7 @@ export class InMemoryCurriculumsRepository implements CurriculumsRepository {
     this.curriculums.push(curriculum);
   }
 
-  async save(curriculum: Curriculum): Promise<void> {
+  async update(curriculum: Curriculum): Promise<Curriculum> {
     const index = this.curriculums.findIndex(
       (item) => item.id === curriculum.id,
     );
@@ -36,6 +56,8 @@ export class InMemoryCurriculumsRepository implements CurriculumsRepository {
     if (index >= 0) {
       this.curriculums[index] = curriculum;
     }
+
+    return this.curriculums[index];
   }
 
   async list(): Promise<Curriculum[] | []> {
@@ -50,5 +72,13 @@ export class InMemoryCurriculumsRepository implements CurriculumsRepository {
     if (curriculumsIndex >= 0) {
       this.curriculums.splice(curriculumsIndex, 1);
     }
+  }
+
+  async findByUniversityId(universityId: string): Promise<Curriculum[]> {
+    const curriculums = this.curriculums.filter(
+      (item) => item.university.id.toString() === universityId,
+    );
+
+    return curriculums;
   }
 }

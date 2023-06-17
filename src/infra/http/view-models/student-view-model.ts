@@ -1,5 +1,7 @@
 import { Student } from '@application/entities/student/student';
 import { ApiProperty } from '@nestjs/swagger';
+import { CourseViewModel } from './course-view-model';
+import { UniversityViewModel } from './university-view-model';
 
 export class StudentViewModel {
   @ApiProperty()
@@ -11,33 +13,33 @@ export class StudentViewModel {
       name,
       registration,
       city,
+      state,
       course,
       currentSemester,
       enrollmentSemester,
       enrollmentYear,
       lastname,
-      state,
       studentId,
       university,
       username,
     } = student;
 
     return {
-      id,
+      id: id.toValue(),
+      studentId: studentId.toValue(),
       name,
+      lastname,
+      username,
       email,
       registration,
       curriculumId,
-      course,
+      city,
+      state,
       currentSemester,
       enrollmentSemester,
       enrollmentYear,
-      lastname,
-      state,
-      studentId,
-      university,
-      username,
-      city,
+      course: CourseViewModel.toHTTP(course),
+      university: UniversityViewModel.toHTTP(university),
     };
   }
 }

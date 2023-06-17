@@ -14,15 +14,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
         registration: studentId,
       },
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
         curriculum: {
           include: {
             course: true,
@@ -75,7 +67,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
         registration: raw.registration,
       },
       include: {
-        user: { include: { city: { include: { state: true } } } },
+        user: true,
         curriculum: { include: { university: true, course: true } },
       },
       data: raw,
@@ -87,15 +79,7 @@ export class PrismaStudentsRepository implements StudentsRepository {
   async list(): Promise<Student[] | []> {
     const students = await this.prisma.student.findMany({
       include: {
-        user: {
-          include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
-          },
-        },
+        user: true,
         curriculum: {
           include: {
             course: true,
@@ -130,15 +114,49 @@ export class PrismaStudentsRepository implements StudentsRepository {
         },
       },
       include: {
-        user: {
+        user: true,
+        curriculum: {
           include: {
-            city: {
-              include: {
-                state: true,
-              },
-            },
+            course: true,
+            university: true,
           },
         },
+      },
+    });
+
+    if (!student) {
+      return null;
+    }
+
+    return PrismaStudentMapper.toDomain(student);
+  }
+
+  async findByUsername(username: string): Promise<Student | null> {
+    const student = await this.prisma.student.findFirst({
+      where: { user: { username } },
+      include: {
+        user: true,
+        curriculum: {
+          include: {
+            course: true,
+            university: true,
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      return null;
+    }
+
+    return PrismaStudentMapper.toDomain(student);
+  }
+
+  async findByUserId(userId: string): Promise<Student | null> {
+    const student = await this.prisma.student.findFirst({
+      where: { userId },
+      include: {
+        user: true,
         curriculum: {
           include: {
             course: true,

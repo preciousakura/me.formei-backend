@@ -1,24 +1,20 @@
 import { Student } from '@application/entities/student/student';
 import { User } from '@application/entities/user/user';
-import { CitiesRepository } from '@application/repositories/cities-repository';
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
-import { StatesRepository } from '@application/repositories/states-repository';
 import { StudentsRepository } from '@application/repositories/students-repository';
 import { UsersRepository } from '@application/repositories/users-repository';
-import { CityNotFound } from '../errors/city-not-found';
 import { CurriculumNotFound } from '../errors/curriculum-not-found';
-import { StateNotFound } from '../errors/state-not-found';
 import { UserAlreadyExists } from '../errors/user-already-exists';
 
 import { CreateStudentBody } from '@infra/http/dto/student/create-student.dto';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+@Injectable()
 export class RegisterAccountStudent {
   constructor(
     private studentsRepository: StudentsRepository,
     private usersRepository: UsersRepository,
-    private citiesRepository: CitiesRepository,
-    private statesRepository: StatesRepository,
     private curriculumsRepository: CurriculumsRepository,
   ) {}
 
@@ -31,14 +27,14 @@ export class RegisterAccountStudent {
       name,
       password,
       registration,
-      currentSemester,
       enrollmentSemester,
       enrollmentYear,
-      cityId,
+      city,
+      state,
     } = request;
 
-    const studentAlreadyExists = this.studentsRepository.findByEmailAndUserName(
-      { email, username },
+    const studentAlreadyExists = await this.studentsRepository.findByUsername(
+      username,
     );
 
     if (studentAlreadyExists) {
@@ -51,18 +47,6 @@ export class RegisterAccountStudent {
       throw new CurriculumNotFound();
     }
 
-    const city = await this.citiesRepository.findById(cityId);
-
-    if (!city) {
-      throw new CityNotFound();
-    }
-
-    const state = await this.statesRepository.findById(city.state.id.toValue());
-
-    if (!state) {
-      throw new StateNotFound();
-    }
-
     const hashedPassword = await bcrypt.hash(password, 8);
 
     const user = User.create({
@@ -72,7 +56,7 @@ export class RegisterAccountStudent {
       city,
       lastname,
       username,
-      state: state.name,
+      state: state,
     });
 
     const student = Student.create(
@@ -84,11 +68,10 @@ export class RegisterAccountStudent {
         password: hashedPassword,
         city,
         course: curriculum.course,
-        currentSemester,
         enrollmentSemester,
         enrollmentYear,
         lastname,
-        state: state.name,
+        state: state,
         university: curriculum.university,
         username,
       },

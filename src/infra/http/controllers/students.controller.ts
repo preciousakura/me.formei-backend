@@ -3,20 +3,21 @@ import { DeleteStudent } from '@application/use-cases/student/delete-student';
 import { FindStudent } from '@application/use-cases/student/find-student';
 import { ListStudents } from '@application/use-cases/student/list-students';
 import { UpdateStudent } from '@application/use-cases/student/update-student';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ResponseWithMessage } from '../dto/response-message';
 import { CreateStudentBody } from '../dto/student/create-student.dto';
+import { UpdateStudentBody } from '../dto/student/update-student.dto';
 import { StudentHttp } from '../types-class-http/student-http';
 import { StudentViewModel } from '../view-models/student-view-model';
 
-export class ResponseStudent {
-  @ApiProperty()
-  message: string;
+export class StudentResponse {
   @ApiProperty()
   student: StudentHttp;
 }
 
 @Controller('students')
+@ApiTags('Estudantes')
 export class StudentsController {
   constructor(
     private createStudent: CreateStudent,
@@ -27,7 +28,7 @@ export class StudentsController {
   ) {}
 
   @Get()
-  @ApiResponse({ type: StudentHttp, isArray: true })
+  @ApiResponse({ type: StudentResponse, isArray: true })
   async listAllStudents() {
     const { students } = await this.listStudents.execute();
 
@@ -37,7 +38,7 @@ export class StudentsController {
   }
 
   @Get(':id')
-  @ApiResponse({ type: ResponseStudent })
+  @ApiResponse({ type: StudentResponse && ResponseWithMessage })
   async getStudent(@Param('id') id: string) {
     const { student } = await this.findStudent.execute({ studentId: id });
 
@@ -48,7 +49,7 @@ export class StudentsController {
   }
 
   @Post()
-  @ApiResponse({ type: ResponseStudent })
+  @ApiResponse({ type: StudentResponse && ResponseWithMessage })
   async postStudent(@Body() createStudentBody: CreateStudentBody) {
     const { student } = await this.createStudent.execute(createStudentBody);
 
@@ -59,15 +60,21 @@ export class StudentsController {
     };
   }
 
-  // @Patch(':id')
-  // @ApiResponse({ type: ResponseStudent })
-  // async patchStudent(@Body() updateStudentBody: UpdateStudentBody) {
-  //   const { student } = await this.updateStudent.execute(updateStudentBody);
+  @Patch(':id')
+  @ApiResponse({ type: StudentResponse && ResponseWithMessage })
+  async patchStudent(
+    @Body() updateStudentBody: UpdateStudentBody,
+    @Param('id') id: string,
+  ) {
+    const { student } = await this.updateStudent.execute({
+      id,
+      student: updateStudentBody,
+    });
 
-  //   return {
-  //     message: 'Estudante atualizado!',
+    return {
+      message: 'Estudante atualizado!',
 
-  //     student: StudentViewModel.toHTTP(student),
-  //   };
-  // }
+      student: StudentViewModel.toHTTP(student),
+    };
+  }
 }

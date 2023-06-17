@@ -53,7 +53,12 @@ export class PrismaCurriculumMapper {
         optionalHours,
         requiredHours,
         university: University.create(
-          { name: university.name, abv: university.abv },
+          {
+            name: university.name,
+            abv: university.abv,
+            city: university.city,
+            state: university.state,
+          },
           new UniqueEntityID(university.id),
         ),
       },

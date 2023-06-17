@@ -1,12 +1,5 @@
-import { City } from '@application/entities/city/city';
-import { State } from '@application/entities/state/state';
 import { UniqueEntityID } from '@core/entities/unique-entity-id';
-import {
-  City as CityPrisma,
-  Admin as RawAdminPrisma,
-  State as StatePrisma,
-  User,
-} from '@prisma/client';
+import { Admin as RawAdminPrisma, User } from '@prisma/client';
 import { Admin } from 'src/application/entities/admin/admin';
 
 export class PrismaAdminMapper {
@@ -24,17 +17,8 @@ export class PrismaAdminMapper {
         name: raw.user.name,
         password: raw.user.password,
         adminId: new UniqueEntityID(raw.id),
-        city: City.create(
-          {
-            name: raw.user.city.name,
-            state: State.create(
-              { name: raw.user.city.state.name },
-              new UniqueEntityID(raw.user.city.state.id),
-            ),
-          },
-          new UniqueEntityID(raw.user.city.id),
-        ),
-        state: raw.user.city.state.name,
+        city: raw.user.city,
+        state: raw.user.state,
         lastname: raw.user.lastname,
         username: raw.user.username,
       },
@@ -44,9 +28,5 @@ export class PrismaAdminMapper {
 }
 
 type RawAdmin = RawAdminPrisma & {
-  user: User & {
-    city: CityPrisma & {
-      state: StatePrisma;
-    };
-  };
+  user: User;
 };
