@@ -15,6 +15,7 @@ describe('Update student', () => {
     studentRequest.username = 'Novo username';
 
     const { student: studentUpdated } = await updateStudent.execute({
+      id: studentRequest.studentId.toString(),
       student: studentRequest,
     });
 

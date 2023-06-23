@@ -29,6 +29,7 @@ import { ListStudents } from '@application/use-cases/student/list-students';
 import { UpdateStudent } from '@application/use-cases/student/update-student';
 import { CreateUniversity } from '@application/use-cases/university/create-university';
 import { FindUniversitiesByCity } from '@application/use-cases/university/find-universities-by-city';
+import { FindUniversitiesByCityAndState } from '@application/use-cases/university/find-universities-by-city-and-state';
 import { FindUniversitiesByState } from '@application/use-cases/university/find-universities-by-state';
 import { FindUniversity } from '@application/use-cases/university/find-university';
 import { ListUniversities } from '@application/use-cases/university/list-universities';
@@ -91,6 +92,7 @@ import { UniversitiesController } from './controllers/university.controller';
     DeleteExtraCurricular,
     FindExtraCurricularActivityByStudent,
     ListDisciplinesHistoryTodo,
+    FindUniversitiesByCityAndState,
   ], // casos de uso
 })
 export class HttpModule {}

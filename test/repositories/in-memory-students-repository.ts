@@ -6,9 +6,6 @@ export class InMemoryStudentsRepository implements StudentsRepository {
   public students: Student[] = [];
 
   async findById(studentId: string): Promise<Student | null> {
-    // console.log(studentId);
-    // console.log(this.students[0].studentId);
-
     const student = this.students.find(
       (item) => item.studentId.toString() === studentId,
     );

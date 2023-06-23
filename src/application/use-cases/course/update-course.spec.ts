@@ -14,6 +14,7 @@ describe('Update course', () => {
     courseRequest.name = 'Curso Tal';
 
     const { course: courseUpdated } = await updateCourse.execute({
+      id: courseRequest.id.toString(),
       course: courseRequest,
     });
 

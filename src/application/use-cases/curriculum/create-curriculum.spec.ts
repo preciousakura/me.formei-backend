@@ -3,7 +3,8 @@ import { makeUniversity } from '@test/factories/university-factory';
 import { InMemoryCoursesRepository } from '@test/repositories/in-memory-courses-repository';
 import { InMemoryCurriculumsRepository } from '@test/repositories/in-memory-curriculums-repository';
 import { InMemoryUniversitiesRepository } from '@test/repositories/in-memory-universities-repository';
-import { CurriculumNotFound } from '../errors/curriculum-not-found';
+import { CourseNotFound } from '../errors/course-not-found';
+import { UniversityNotFound } from '../errors/university-not-found';
 import { CreateCurriculum } from './create-curriculum';
 
 describe('Create curriculum', () => {
@@ -60,10 +61,10 @@ describe('Create curriculum', () => {
         extraCurricularHours: 0,
         universityId: 'fake-id',
       });
-    }).rejects.toThrow(CurriculumNotFound);
+    }).rejects.toThrow(UniversityNotFound);
   });
 
-  it('should not be able to create a durriculum if non existing course', async () => {
+  it('should not be able to create a curriculum if non existing course', async () => {
     const curriculumsRepository = new InMemoryCurriculumsRepository();
     const coursesRepository = new InMemoryCoursesRepository();
     const universitiesRepository = new InMemoryUniversitiesRepository();
@@ -86,6 +87,6 @@ describe('Create curriculum', () => {
         extraCurricularHours: 0,
         universityId: university.id.toString(),
       });
-    }).rejects.toThrow(CurriculumNotFound);
+    }).rejects.toThrow(CourseNotFound);
   });
 });

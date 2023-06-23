@@ -6,6 +6,7 @@ import { FindDiscipline } from '@application/use-cases/discipline/find-disciplin
 import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
 import { CreateUniversity } from '@application/use-cases/university/create-university';
 import { FindUniversitiesByCity } from '@application/use-cases/university/find-universities-by-city';
+import { FindUniversitiesByCityAndState } from '@application/use-cases/university/find-universities-by-city-and-state';
 import { FindUniversitiesByState } from '@application/use-cases/university/find-universities-by-state';
 import { FindUniversity } from '@application/use-cases/university/find-university';
 import { ListUniversities } from '@application/use-cases/university/list-universities';
@@ -52,6 +53,7 @@ export class UniversitiesController {
     private createDiscipline: CreateDiscipline,
     private findDiscipline: FindDiscipline,
     private findDisciplineByCurriculum: FindDisciplinesByCurriculum,
+    private findUniversitiesByCityAndState: FindUniversitiesByCityAndState,
   ) {}
 
   @Get()
@@ -62,6 +64,26 @@ export class UniversitiesController {
   })
   async listAllUniversities() {
     const { universities } = await this.listUniversities.execute();
+
+    return {
+      universities: universities.map(UniversityViewModel.toHTTP),
+    };
+  }
+
+  @Get('/state/:state/city/:city')
+  @ApiResponse({
+    type: UniversityHttp,
+    isArray: true,
+    description: 'Busca Universidades por Estado e Cidade',
+  })
+  async listAllUniversitiesByStateAndByCity(
+    @Param('state') state: string,
+    @Param('city') city: string,
+  ) {
+    const { universities } = await this.findUniversitiesByCityAndState.execute({
+      state,
+      city,
+    });
 
     return {
       universities: universities.map(UniversityViewModel.toHTTP),

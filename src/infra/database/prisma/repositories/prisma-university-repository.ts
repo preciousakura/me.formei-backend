@@ -25,7 +25,7 @@ export class PrismaUniversitiesRepository implements UniversitiesRepository {
     return PrismaUniversityMapper.toDomain(university);
   }
 
-  async findByCity(city: string): Promise<University[] | null> {
+  async findByCity(city: string): Promise<University[]> {
     const universities = await this.prisma.university.findMany({
       where: {
         city: city,
@@ -35,14 +35,10 @@ export class PrismaUniversitiesRepository implements UniversitiesRepository {
       },
     });
 
-    if (!universities) {
-      return null;
-    }
-
     return universities.map(PrismaUniversityMapper.toDomain);
   }
 
-  async findByState(state: string): Promise<University[] | null> {
+  async findByState(state: string): Promise<University[]> {
     const universities = await this.prisma.university.findMany({
       where: {
         state: state,
@@ -51,10 +47,6 @@ export class PrismaUniversitiesRepository implements UniversitiesRepository {
         curriculums: true,
       },
     });
-
-    if (!universities) {
-      return null;
-    }
 
     return universities.map(PrismaUniversityMapper.toDomain);
   }
@@ -98,7 +90,7 @@ export class PrismaUniversitiesRepository implements UniversitiesRepository {
     });
   }
 
-  async list(): Promise<University[] | []> {
+  async list(): Promise<University[]> {
     const universities = await this.prisma.university.findMany({
       include: {
         curriculums: true,

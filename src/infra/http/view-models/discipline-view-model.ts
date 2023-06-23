@@ -13,17 +13,19 @@ export class DisciplineViewModel {
       name,
       optional,
       semester,
+      prerequisiteDisciplines,
     } = discipline;
 
     return {
       id: id.toValue(),
       name,
       cod,
-      courseOutline,
+      menu: courseOutline,
       curriculumId,
       description,
-      optional,
+      isOptional: optional,
       semester,
+      prerequisites: prerequisiteDisciplines,
     };
   }
 }

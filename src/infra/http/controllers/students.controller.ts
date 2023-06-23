@@ -174,7 +174,7 @@ export class StudentsController {
       });
 
     return {
-      disciplineHistory: courseHistories.map(CourseHistoryViewModel.toHTTP),
+      disciplineHistory: CourseHistoryViewModel.toFront(courseHistories),
     };
   }
 
@@ -188,7 +188,7 @@ export class StudentsController {
       });
 
     return {
-      disciplineHistory: courseHistories.map(CourseHistoryViewModel.toHTTP),
+      disciplineHistory: CourseHistoryViewModel.toFront(courseHistories),
     };
   }
 
@@ -219,7 +219,7 @@ export class StudentsController {
       });
 
     return {
-      disciplineHistory: courseHistory.map(CourseHistoryViewModel.toHTTP),
+      disciplineHistory: CourseHistoryViewModel.toFront(courseHistory),
     };
   }
 

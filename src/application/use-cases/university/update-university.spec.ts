@@ -15,6 +15,7 @@ describe('Update university', () => {
     universityRequest.abv = 'UFT';
 
     const { university: universityUpdated } = await updateUniversity.execute({
+      id: universityRequest.id.toString(),
       university: universityRequest,
     });
 

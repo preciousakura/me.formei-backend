@@ -14,6 +14,7 @@ describe('Update discipline', () => {
     disciplineRequest.name = 'Other Discipline';
 
     const { discipline: disciplineUpdated } = await updateDiscipline.execute({
+      id: disciplineRequest.id.toString(),
       discipline: disciplineRequest,
     });
 

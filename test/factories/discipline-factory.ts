@@ -3,7 +3,7 @@ import {
   DisciplineProps,
 } from '@application/entities/discipline/discipline';
 
-type Override = Partial<DisciplineProps>;
+export type Override = Partial<DisciplineProps>;
 
 export function makeDiscipline(override: Override = {}) {
   return Discipline.create({

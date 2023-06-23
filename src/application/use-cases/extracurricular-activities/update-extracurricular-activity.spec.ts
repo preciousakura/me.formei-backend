@@ -18,6 +18,7 @@ describe('Update exc activity', () => {
 
     const { extraCurricularActivity: extraCurricularActivityUpdated } =
       await updateExtraCurricularActivity.execute({
+        id: extraCurricularActivityRequest.id.toString(),
         extraCurricularActivity: extraCurricularActivityRequest,
       });
 

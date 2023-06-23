@@ -53,11 +53,11 @@ export class InMemoryUniversitiesRepository implements UniversitiesRepository {
     }
   }
 
-  async findByCity(city: string): Promise<University[] | []> {
+  async findByCity(city: string): Promise<University[]> {
     return this.universities.filter((university) => university.city === city);
   }
 
-  async findByState(state: string): Promise<University[] | []> {
+  async findByState(state: string): Promise<University[]> {
     return this.universities.filter((university) => university.state === state);
   }
 }

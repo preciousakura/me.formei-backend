@@ -15,6 +15,7 @@ describe('Update admin', () => {
     adminRequest.username = 'Novo username';
 
     const { admin: adminUpdated } = await updateAdmin.execute({
+      id: adminRequest.adminId.toString(),
       admin: adminRequest,
     });
 
