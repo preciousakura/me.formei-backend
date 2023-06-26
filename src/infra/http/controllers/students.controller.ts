@@ -1,4 +1,7 @@
-import { StatusType } from '@application/entities/course-history/course-history';
+import {
+  CourseHistory,
+  StatusType,
+} from '@application/entities/course-history/course-history';
 import { AssociateDisciplineInStudentSemester } from '@application/use-cases/course-history/associate-discipline-in-student-semester';
 import { DisassociateDisciplineInStudentSemester } from '@application/use-cases/course-history/disassociate-discipline-in-student-semester';
 import { FindCourseHistoryByStatusAndStudentRegistration } from '@application/use-cases/course-history/find-course-history-by-status';
@@ -124,20 +127,26 @@ export class StudentsController {
   @Post(':studentRegistration/semester/:semester')
   @ApiResponse({ type: StudentResponse, isArray: true })
   async addDisciplineInSemester(
-    @Body() body: AssociateDisciplineInStudentSemesterBody,
+    @Body() request: AssociateDisciplineInStudentSemesterBody,
     @Param('studentRegistration') studentRegistration: string,
     @Param('semester') semester: number,
   ) {
-    const { courseHistory } =
-      await this.associateDisciplineInStudentSemester.execute({
-        ...body,
-        semester: semester,
-        studentRegistration: studentRegistration,
-      });
+    const { disciplines } = request;
+    const courseHistories: CourseHistory[] = [];
+
+    disciplines.forEach(async (discipline) => {
+      const { courseHistory } =
+        await this.associateDisciplineInStudentSemester.execute({
+          ...discipline,
+          semester: semester,
+          studentRegistration: studentRegistration,
+        });
+      courseHistories.push(courseHistory);
+    });
 
     return {
-      message: 'Disciplina associada com sucesso!',
-      disciplineHistory: CourseHistoryViewModel.toHTTP(courseHistory),
+      message: 'Disciplina(s) associada(s) com sucesso!',
+      disciplineHistory: CourseHistoryViewModel.toFront(courseHistories),
     };
   }
 

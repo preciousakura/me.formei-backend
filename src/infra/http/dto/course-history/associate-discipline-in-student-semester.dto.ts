@@ -27,6 +27,12 @@ export enum StatusCourseHistory {
 export class AssociateDisciplineInStudentSemesterBody {
   @ApiProperty()
   @IsNotEmpty()
+  disciplines: AssociateDiscipline[];
+}
+
+export class AssociateDiscipline {
+  @ApiProperty()
+  @IsNotEmpty()
   disciplineId: string;
 
   @ApiProperty()
