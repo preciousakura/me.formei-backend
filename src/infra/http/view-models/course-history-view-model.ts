@@ -129,7 +129,7 @@ export class CourseHistoryViewModel {
   }
 }
 
-function findFirstOccurrences(objects: CourseHistory[]): number[] {
+export function findFirstOccurrences(objects: CourseHistory[]): number[] {
   const uniqueValues: number[] = [];
   const firstOccurrences: number[] = [];
 
@@ -143,7 +143,7 @@ function findFirstOccurrences(objects: CourseHistory[]): number[] {
   return firstOccurrences;
 }
 
-type DisciplineToFront = {
+export type DisciplineToFront = {
   id: string;
   name: string;
   cod: string;
@@ -155,7 +155,7 @@ type DisciplineToFront = {
   workload: number;
 };
 
-type ToFront = {
+export type ToFront = {
   period: number;
   disciplines: DisciplineToFront[];
 };

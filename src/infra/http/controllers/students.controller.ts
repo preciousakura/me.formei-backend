@@ -203,7 +203,7 @@ export class StudentsController {
     });
 
     return {
-      disciplines: disciplinesTodo.map(DisciplineViewModel.toHTTP),
+      disciplines: DisciplineViewModel.toFront(disciplinesTodo),
     };
   }
 
