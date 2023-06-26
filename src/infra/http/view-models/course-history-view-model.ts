@@ -143,19 +143,31 @@ export function findFirstOccurrences(objects: CourseHistory[]): number[] {
   return firstOccurrences;
 }
 
-export type DisciplineToFront = {
+export abstract class DisciplineToFront {
+  @ApiProperty()
   id: string;
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   cod: string;
+  @ApiProperty()
   menu: string;
+  @ApiProperty()
   curriculumId: string;
+  @ApiProperty()
   description: string;
+  @ApiProperty()
   isOptional: boolean;
+  @ApiProperty({ example: ['CK0101', 'CK0110'] })
   prerequisites: string[] | [];
+  @ApiProperty()
   workload: number;
-};
+}
 
-export type ToFront = {
+export abstract class ToFront {
+  @ApiProperty()
   period: number;
+
+  @ApiProperty({ isArray: true, type: DisciplineToFront })
   disciplines: DisciplineToFront[];
-};
+}

@@ -34,8 +34,12 @@ import { ResponseWithMessage } from '../dto/response-message';
 import { CreateStudentBody } from '../dto/student/create-student.dto';
 import { UpdateStudentBody } from '../dto/student/update-student.dto';
 import { CourseHistoryHttp } from '../types-class-http/course-history-http';
+import { ExtraCurricularActivityHttp } from '../types-class-http/extra-curricular-activity-http';
 import { StudentHttp } from '../types-class-http/student-http';
-import { CourseHistoryViewModel } from '../view-models/course-history-view-model';
+import {
+  CourseHistoryViewModel,
+  ToFront,
+} from '../view-models/course-history-view-model';
 import { DisciplineViewModel } from '../view-models/discipline-view-model';
 import { ExtraCurricularActivityViewModel } from '../view-models/extra-curricular-activity-view-model';
 import { StudentViewModel } from '../view-models/student-view-model';
@@ -45,9 +49,24 @@ export class StudentResponse {
   student: StudentHttp;
 }
 
+export class StudentResponseWithMessage extends ResponseWithMessage {
+  @ApiProperty()
+  student: StudentHttp;
+}
+
 export class CourseHistoryResponse {
   @ApiProperty()
   disciplineHistory: CourseHistoryHttp;
+}
+
+export class CourseHistoryToFrontResponse {
+  @ApiProperty({ isArray: true, type: ToFront })
+  disciplineHistory: ToFront[];
+}
+
+export class ExtraCurricularActivityResponse extends ResponseWithMessage {
+  @ApiProperty({ isArray: true, type: ExtraCurricularActivityHttp })
+  disciplineHistory: ExtraCurricularActivityHttp[];
 }
 
 @Controller('students')
@@ -82,7 +101,7 @@ export class StudentsController {
   }
 
   @Get(':id')
-  @ApiResponse({ type: StudentResponse && ResponseWithMessage })
+  @ApiResponse({ type: StudentResponseWithMessage })
   async getStudent(@Param('id') id: string) {
     const { student } = await this.findStudent.execute({ studentId: id });
 
@@ -93,7 +112,7 @@ export class StudentsController {
   }
 
   @Post()
-  @ApiResponse({ type: StudentResponse && ResponseWithMessage })
+  @ApiResponse({ type: StudentResponseWithMessage })
   async postStudent(@Body() createStudentBody: CreateStudentBody) {
     const { student } = await this.createStudent.execute(createStudentBody);
 
@@ -125,7 +144,7 @@ export class StudentsController {
   //semester
 
   @Post(':studentRegistration/semester/:semester')
-  @ApiResponse({ type: StudentResponse, isArray: true })
+  @ApiResponse({ type: CourseHistoryToFrontResponse })
   async addDisciplineInSemester(
     @Body() request: AssociateDisciplineInStudentSemesterBody,
     @Param('studentRegistration') studentRegistration: string,
@@ -235,7 +254,7 @@ export class StudentsController {
   //extracurricularactivity
 
   @Post(':studentRegistration/extracurricular')
-  @ApiResponse({ type: StudentResponse, isArray: true })
+  @ApiResponse({ type: ExtraCurricularActivityResponse })
   async addExtracurricularActivity(
     @Body() body: CreateExtraCurricularActivityBody,
     @Param('studentRegistration') studentRegistration: string,

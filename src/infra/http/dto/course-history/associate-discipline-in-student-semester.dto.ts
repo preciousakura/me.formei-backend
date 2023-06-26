@@ -24,16 +24,10 @@ export enum StatusCourseHistory {
   WITHDRAWAL = 'WITHDRAWAL',
 }
 
-export class AssociateDisciplineInStudentSemesterBody {
-  @ApiProperty()
-  @IsNotEmpty()
-  disciplines: AssociateDiscipline[];
-}
-
 export class AssociateDiscipline {
   @ApiProperty()
   @IsNotEmpty()
-  disciplineId: string;
+  public disciplineId: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -64,4 +58,10 @@ export class AssociateDiscipline {
   @ApiProperty()
   @IsNotEmpty()
   daysWeek: string[];
+}
+
+export class AssociateDisciplineInStudentSemesterBody {
+  @IsNotEmpty()
+  @ApiProperty({ isArray: true, type: AssociateDiscipline })
+  disciplines: AssociateDiscipline[];
 }
