@@ -2,6 +2,7 @@ import { Discipline } from '@application/entities/discipline/discipline';
 export abstract class DisciplinesRepository {
   abstract create(discipline: Discipline): Promise<void>;
   abstract findById(disciplineId: string): Promise<Discipline | null>;
+  abstract findByCod(cod: string): Promise<Discipline | null>;
   abstract update(discipline: Discipline): Promise<Discipline>;
   abstract delete(disciplineId: string): Promise<void>;
   abstract list(): Promise<Discipline[] | []>;

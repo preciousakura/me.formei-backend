@@ -21,6 +21,22 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
     if (!discipline) {
       return null;
     }
+    return PrismaDisciplineMapper.toDomain(discipline);
+  }
+
+  async findByCod(cod: string): Promise<Discipline | null> {
+    const discipline = await this.prisma.discipline.findFirst({
+      where: {
+        cod: cod,
+      },
+      include: {
+        prerequisitesDisciplines: true,
+      },
+    });
+
+    if (!discipline) {
+      return null;
+    }
 
     return PrismaDisciplineMapper.toDomain(discipline);
   }
@@ -62,7 +78,14 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
     const raw = PrismaDisciplineMapper.toPrisma(discipline);
 
     await this.prisma.discipline.create({
-      data: raw,
+      data: {
+        ...raw,
+        prerequisitesDisciplines: {
+          connect: raw.prerequisitesDisciplines.map((cod: string) => {
+            return { cod: cod };
+          }),
+        },
+      },
     });
   }
 
@@ -90,7 +113,14 @@ export class PrismaDisciplinesRepository implements DisciplinesRepository {
       include: {
         prerequisitesDisciplines: true,
       },
-      data: raw,
+      data: {
+        ...raw,
+        prerequisitesDisciplines: {
+          connect: raw.prerequisitesDisciplines.map((cod: string) => {
+            return { cod: cod };
+          }),
+        },
+      },
     });
 
     return PrismaDisciplineMapper.toDomain(disciplineFinded);

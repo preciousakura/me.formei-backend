@@ -1,7 +1,11 @@
 import { NotFoundException } from '@nestjs/common';
 
 export class DisciplineNotFound extends NotFoundException {
-  constructor() {
-    super('Discipline not found.');
+  constructor(override?: string) {
+    if (override) {
+      super(override);
+    } else {
+      super('Discipline not found.');
+    }
   }
 }

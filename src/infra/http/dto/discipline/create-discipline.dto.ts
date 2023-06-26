@@ -28,5 +28,5 @@ export class CreateDisciplineBody {
 
   @ApiProperty({ example: ['CK0101', 'CK0201'] })
   @IsNotEmpty()
-  prerequisiteDisciplines: string[];
+  prerequisites: string[];
 }
