@@ -78,6 +78,7 @@ model Discipline {
   optional                 Boolean
   name                     String
   courseOutline            String?
+  bibliography             String[]
   semester                 Int
   prerequisites            Discipline[]    @relation("prequisitesToDiscipline")
   prerequisitesDisciplines Discipline[]    @relation("prequisitesToDiscipline")

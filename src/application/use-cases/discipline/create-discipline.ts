@@ -15,6 +15,7 @@ interface CreateDisciplineRequest {
   description: string;
   curriculumId: string;
   prerequisites: string[];
+  bibliography: string[];
 }
 
 interface CreateDisciplineResponse {
@@ -40,6 +41,7 @@ export class CreateDiscipline {
       description,
       curriculumId,
       prerequisites,
+      bibliography,
     } = request;
     const prerequisiteDisciplines: Discipline[] = [];
     const curriculum = await this.curriculumsRepository.findById(curriculumId);
@@ -67,6 +69,7 @@ export class CreateDiscipline {
       prerequisiteDisciplines: prerequisiteDisciplines.map(
         (discipline) => discipline.cod,
       ),
+      bibliography,
     });
 
     await this.disciplinesRepository.create(discipline);

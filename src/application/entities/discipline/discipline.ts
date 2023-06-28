@@ -7,7 +7,8 @@ export interface DisciplineProps {
   courseOutline: string;
   semester: number;
   description: string;
-  prerequisiteDisciplines: string[] | [];
+  prerequisiteDisciplines: string[];
+  bibliography: string[];
   curriculumId: string;
 }
 
@@ -69,6 +70,14 @@ export class Discipline extends Entity<DisciplineProps> {
     return this.props.courseOutline;
   }
 
+  public set bibliography(bibliography: string[]) {
+    this.props.bibliography = bibliography;
+  }
+
+  public get bibliography() {
+    return this.props.bibliography;
+  }
+
   public get prerequisiteDisciplines() {
     return this.props.prerequisiteDisciplines;
   }
@@ -79,5 +88,21 @@ export class Discipline extends Entity<DisciplineProps> {
 
   public get curriculumId() {
     return this.props.curriculumId;
+  }
+
+  public addOneBibliography(bibliography: string) {
+    if (!this.bibliography.includes(bibliography)) {
+      this.props.bibliography.push(bibliography);
+    }
+  }
+
+  public removeOneBibliography(bibliography: string) {
+    const index = this.props.bibliography.findIndex(
+      (bibliograph) => bibliograph === bibliography,
+    );
+
+    this.props.bibliography = this.props.bibliography.filter(
+      (bh, i) => i != index,
+    );
   }
 }

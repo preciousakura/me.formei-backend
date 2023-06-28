@@ -14,6 +14,7 @@ export class PrismaDisciplineMapper {
       description: discipline.description,
       curriculumId: discipline.curriculumId,
       prerequisitesDisciplines: discipline.prerequisiteDisciplines,
+      bibliography: discipline.bibliography,
     };
   }
 
@@ -30,6 +31,7 @@ export class PrismaDisciplineMapper {
         prerequisiteDisciplines: raw?.prerequisitesDisciplines?.map(
           (discipline) => discipline.cod,
         ),
+        bibliography: raw.bibliography,
       },
       new UniqueEntityID(raw.id),
     );

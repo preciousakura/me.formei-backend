@@ -38,6 +38,7 @@ export class PrismaCourseHistoryMapper {
                 (discipline) => discipline.cod,
               ),
             curriculumId: raw.discipline.curriculumId,
+            bibliography: raw.discipline.bibliography,
           },
           new UniqueEntityID(raw.discipline.id),
         ),

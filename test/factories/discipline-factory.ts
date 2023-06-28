@@ -15,6 +15,7 @@ export function makeDiscipline(override: Override = {}) {
     description: 'Example description',
     curriculumId: 'example-curriculum-id',
     prerequisiteDisciplines: [],
+    bibliography: [],
     ...override,
   });
 }

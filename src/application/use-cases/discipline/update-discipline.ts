@@ -7,7 +7,7 @@ import { DisciplineNotFound } from '../errors/discipline-not-found';
 
 interface UpdateDisciplineRequest {
   id: string;
-  discipline: UpdateDisciplineBody; // a fazer
+  discipline: UpdateDisciplineBody;
 }
 interface UpdateDisciplineResponse {
   discipline: Discipline;

@@ -19,6 +19,7 @@ import { CreateUniversityBody } from '../dto/university/create-university.dto';
 import { CourseHttp } from '../types-class-http/course-http';
 import { CurriculumHttp } from '../types-class-http/curriculum-http';
 import { UniversityHttp } from '../types-class-http/university-http';
+import { ToFront } from '../view-models/course-history-view-model';
 import { CurriculumViewModel } from '../view-models/curriculum-view-model';
 import { DisciplineViewModel } from '../view-models/discipline-view-model';
 import { UniversityViewModel } from '../view-models/university-view-model';
@@ -36,6 +37,11 @@ abstract class CreateCurriculumResponse extends ResponseWithMessage {
 abstract class UniversityResponse extends ResponseWithMessage {
   @ApiProperty()
   university: UniversityHttp;
+}
+
+export abstract class DisciplineToFrontResponse {
+  @ApiProperty({ isArray: true, type: ToFront })
+  disciplines: ToFront[];
 }
 
 @Controller('universities')
@@ -234,6 +240,10 @@ export class UniversitiesController {
   }
 
   @Get(':id/courses/:curriculumId/disciplines')
+  @ApiResponse({
+    type: DisciplineToFrontResponse,
+    description: 'Busca as disciplinas de uma matriz curricular',
+  })
   async findDisciplinesByCurriculum(
     @Param('curriculumId') curriculumId: string,
   ) {
@@ -241,7 +251,7 @@ export class UniversitiesController {
       curriculumId,
     });
     return {
-      disciplines: disciplines.map(DisciplineViewModel.toHTTP),
+      disciplines: DisciplineViewModel.toFront(disciplines),
     };
   }
 
