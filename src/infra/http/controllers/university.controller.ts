@@ -1,8 +1,8 @@
-import { Discipline } from '@application/entities/discipline/discipline';
 import { CreateCurriculum } from '@application/use-cases/curriculum/create-curriculum';
 import { FindCurriculumsByUniversityId } from '@application/use-cases/curriculum/find-by-universityId';
 import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-cases/curriculum/find-by-universityId-and-curriculumId';
 import { CreateDiscipline } from '@application/use-cases/discipline/create-discipline';
+import { CreateManyDiscipline } from '@application/use-cases/discipline/create-many-disciplines';
 import { FindDiscipline } from '@application/use-cases/discipline/find-discipline';
 import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
 import { CreateUniversity } from '@application/use-cases/university/create-university';
@@ -14,7 +14,7 @@ import { ListUniversities } from '@application/use-cases/university/list-univers
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCurriculumBody } from '../dto/curriculum/create-curriculum.dto';
-import { CreateDisciplineBody } from '../dto/discipline/create-discipline.dto';
+import { CreateManyDisciplineBody } from '../dto/discipline/create-discipline.dto';
 import { ResponseWithMessage } from '../dto/response-message';
 import { CreateUniversityBody } from '../dto/university/create-university.dto';
 import { CourseHttp } from '../types-class-http/course-http';
@@ -58,6 +58,7 @@ export class UniversitiesController {
     private createCurriculum: CreateCurriculum,
     private findCurriculumsByUniversityIdAndCurriculumId: FindCurriculumsByUniversityIdAndCurriculumId,
     private createDiscipline: CreateDiscipline,
+    private createManyDiscipline: CreateManyDiscipline,
     private findDiscipline: FindDiscipline,
     private findDisciplineByCurriculum: FindDisciplinesByCurriculum,
     private findUniversitiesByCityAndState: FindUniversitiesByCityAndState,
@@ -229,15 +230,11 @@ export class UniversitiesController {
   @Post(':id/courses/:curriculumId/disciplines')
   async associateDisciplineInCurriculum(
     @Param('curriculumId') curriculumId: string,
-    @Body() disciplineBody: CreateDisciplineBody,
+    @Body() disciplineBody: CreateManyDisciplineBody,
   ) {
-    const disciplines: Discipline[] = [];
-    disciplineBody.disciplines.forEach(async (discipline) => {
-      const { discipline: disc } = await this.createDiscipline.execute({
-        ...discipline,
-        curriculumId,
-      });
-      disciplines.push(disc);
+    const { disciplines } = await this.createManyDiscipline.execute({
+      ...disciplineBody,
+      curriculumId,
     });
 
     return {

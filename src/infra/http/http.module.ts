@@ -18,6 +18,7 @@ import { CreateCurriculum } from '@application/use-cases/curriculum/create-curri
 import { FindCurriculumsByUniversityId } from '@application/use-cases/curriculum/find-by-universityId';
 import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-cases/curriculum/find-by-universityId-and-curriculumId';
 import { CreateDiscipline } from '@application/use-cases/discipline/create-discipline';
+import { CreateManyDiscipline } from '@application/use-cases/discipline/create-many-disciplines';
 import { FindDiscipline } from '@application/use-cases/discipline/find-discipline';
 import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
 import { CreateExtraCurricularActivity } from '@application/use-cases/extracurricular-activities/create-extracurricular-activity';
@@ -80,6 +81,7 @@ import { UniversitiesController } from './controllers/university.controller';
     ValidToken,
     FindCurriculumsByUniversityIdAndCurriculumId,
     CreateDiscipline,
+    CreateManyDiscipline,
     FindDiscipline,
     FindDisciplinesByCurriculum,
     AssociateDisciplineInStudentSemester,

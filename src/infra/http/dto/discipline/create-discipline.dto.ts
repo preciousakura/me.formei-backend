@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateDiscipline {
+export class CreateDisciplineBody {
   @ApiProperty({ example: 'CK0101' })
   @IsNotEmpty()
   cod: string;
@@ -43,8 +43,8 @@ export class CreateDiscipline {
   @IsNotEmpty()
   bibliography: string[];
 }
-export class CreateDisciplineBody {
-  @ApiProperty({ isArray: true, type: CreateDiscipline })
+export class CreateManyDisciplineBody {
+  @ApiProperty({ isArray: true, type: CreateDisciplineBody })
   @IsNotEmpty()
-  disciplines: CreateDiscipline[];
+  disciplines: CreateDisciplineBody[];
 }
