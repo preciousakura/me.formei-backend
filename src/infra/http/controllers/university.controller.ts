@@ -1,3 +1,4 @@
+import { Discipline } from '@application/entities/discipline/discipline';
 import { CreateCurriculum } from '@application/use-cases/curriculum/create-curriculum';
 import { FindCurriculumsByUniversityId } from '@application/use-cases/curriculum/find-by-universityId';
 import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-cases/curriculum/find-by-universityId-and-curriculumId';
@@ -228,14 +229,19 @@ export class UniversitiesController {
   @Post(':id/courses/:curriculumId/disciplines')
   async associateDisciplineInCurriculum(
     @Param('curriculumId') curriculumId: string,
-    @Body() disciplineBody: CreateDisciplineBody,
+    @Body() disciplineBody: CreateDisciplineBody[],
   ) {
-    const { discipline } = await this.createDiscipline.execute({
-      ...disciplineBody,
-      curriculumId,
+    const disciplines: Discipline[] = [];
+    disciplineBody.map(async (discipline) => {
+      const { discipline: disc } = await this.createDiscipline.execute({
+        ...discipline,
+        curriculumId,
+      });
+      disciplines.push(disc);
     });
+
     return {
-      discipline: DisciplineViewModel.toHTTP(discipline),
+      disciplines: DisciplineViewModel.toFront(disciplines),
     };
   }
 
