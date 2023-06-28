@@ -232,7 +232,7 @@ export class UniversitiesController {
     @Body() disciplineBody: CreateDisciplineBody[],
   ) {
     const disciplines: Discipline[] = [];
-    disciplineBody.map(async (discipline) => {
+    disciplineBody.forEach(async (discipline) => {
       const { discipline: disc } = await this.createDiscipline.execute({
         ...discipline,
         curriculumId,
