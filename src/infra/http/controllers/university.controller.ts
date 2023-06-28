@@ -1,3 +1,4 @@
+import { Discipline } from '@application/entities/discipline/discipline';
 import { CreateCurriculum } from '@application/use-cases/curriculum/create-curriculum';
 import { FindCurriculumsByUniversityId } from '@application/use-cases/curriculum/find-by-universityId';
 import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-cases/curriculum/find-by-universityId-and-curriculumId';
@@ -232,14 +233,35 @@ export class UniversitiesController {
     @Param('curriculumId') curriculumId: string,
     @Body() disciplineBody: CreateManyDisciplineBody,
   ) {
-    const { disciplines, feedback } = await this.createManyDiscipline.execute({
-      ...disciplineBody,
-      curriculumId,
-    });
+    const disciplines: Discipline[] = [];
+    const codErrors: string[] = [];
+    let message = '';
+    for (const discipline of disciplineBody.disciplines) {
+      const {
+        discipline: disciplineUseCase,
+        error,
+        cod,
+      } = await this.createDiscipline.execute({
+        ...discipline,
+        curriculumId,
+      });
+
+      if (!error) {
+        disciplines.push(disciplineUseCase);
+      }
+      if (cod) {
+        codErrors.push(cod);
+      }
+    }
+
+    if (codErrors.length > 0) {
+      message = 'Codigos de disciplinas que houve erro ao cadastra-la:';
+    }
 
     return {
-      feedback,
       disciplines: DisciplineViewModel.toFront(disciplines),
+      message,
+      codErrors: codErrors,
     };
   }
 

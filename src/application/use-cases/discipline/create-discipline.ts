@@ -4,7 +4,6 @@ import { DisciplinesRepository } from '@application/repositories/disciplines-rep
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
 import { Injectable } from '@nestjs/common';
 import { CurriculumNotFound } from '../errors/curriculum-not-found';
-import { DisciplineNotFound } from '../errors/discipline-not-found';
 
 interface CreateDisciplineRequest {
   cod: string;
@@ -20,6 +19,8 @@ interface CreateDisciplineRequest {
 
 interface CreateDisciplineResponse {
   discipline: Discipline;
+  error: boolean;
+  cod?: string;
 }
 
 @Injectable()
@@ -43,21 +44,30 @@ export class CreateDiscipline {
       prerequisites,
       bibliography,
     } = request;
+    let hasErrorPrerequite = false;
     const prerequisiteDisciplines: Discipline[] = [];
     const curriculum = await this.curriculumsRepository.findById(curriculumId);
 
     if (!curriculum) {
       throw new CurriculumNotFound();
     }
-    prerequisites.forEach(async (cod) => {
-      const discipline = await this.disciplinesRepository.findByCod(cod);
+    for (const prerequisiteCod of prerequisites) {
+      const discipline = await this.disciplinesRepository.findByCod(
+        prerequisiteCod,
+      );
       if (!discipline) {
-        throw new DisciplineNotFound(
-          'Could not find discipline of prerequisites',
-        );
+        hasErrorPrerequite = true;
+        return {
+          discipline: null,
+          error: hasErrorPrerequite,
+          cod: cod,
+        };
+        // throw new DisciplineNotFound(
+        //   'Could not find discipline of prerequisites',
+        // );
       }
       prerequisiteDisciplines.push(discipline);
-    });
+    }
     const discipline = Discipline.create({
       cod,
       optional,
@@ -76,6 +86,7 @@ export class CreateDiscipline {
 
     return {
       discipline,
+      error: null,
     };
   }
 }

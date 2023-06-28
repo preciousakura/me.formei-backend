@@ -27,7 +27,6 @@ export interface CreateDisciplineResponse {
 }
 export interface FeedbackDiscipline {
   cod?: string;
-  prerequisitesCod?: string[];
 }
 
 export interface Feedback {
@@ -65,25 +64,18 @@ export class CreateManyDiscipline {
       if (!curriculum) {
         throw new CurriculumNotFound();
       }
-      let prerequisitesCod: string[] = [];
+
       for (const cod of discipline.prerequisites) {
         const disciplineFinded = await this.disciplinesRepository.findByCod(
           cod,
         );
         if (!disciplineFinded) {
           hasErrorPrerequite = true;
-          const index = feedback.error.disciplines.findIndex(
-            (disc) => disc.cod === discipline.cod,
-          );
-          prerequisitesCod = [
-            ...prerequisitesCod,
-            ...feedback.error.disciplines[index].prerequisitesCod,
-          ];
 
           feedback.error.disciplines.push({
             cod: discipline.cod,
-            prerequisitesCod: [...prerequisitesCod, cod],
           });
+
           // throw new DisciplineNotFound(
           //   'Could not find discipline of prerequisites',
           // );
