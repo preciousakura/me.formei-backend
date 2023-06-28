@@ -281,6 +281,42 @@ export class UniversitiesController {
     };
   }
 
+  @Get(':id/courses/:curriculumId/disciplines/optional')
+  @ApiResponse({
+    type: DisciplineToFrontResponse,
+    description: 'Busca as disciplinas de uma matriz curricular',
+  })
+  async findDisciplinesOptionalByCurriculum(
+    @Param('curriculumId') curriculumId: string,
+  ) {
+    const { disciplines } = await this.findDisciplineByCurriculum.execute({
+      curriculumId,
+    });
+    return {
+      disciplines: DisciplineViewModel.toFront(
+        disciplines.filter((discipline) => discipline.optional === true),
+      ),
+    };
+  }
+
+  @Get(':id/courses/:curriculumId/disciplines/required')
+  @ApiResponse({
+    type: DisciplineToFrontResponse,
+    description: 'Busca as disciplinas de uma matriz curricular',
+  })
+  async findDisciplinesRequiredByCurriculum(
+    @Param('curriculumId') curriculumId: string,
+  ) {
+    const { disciplines } = await this.findDisciplineByCurriculum.execute({
+      curriculumId,
+    });
+    return {
+      disciplines: DisciplineViewModel.toFront(
+        disciplines.filter((discipline) => discipline.optional === false),
+      ),
+    };
+  }
+
   @Get(':id/courses/:curriculumId/disciplines/:disciplineId')
   async findDisciplineById(@Param('disciplineId') disciplineId: string) {
     const { discipline } = await this.findDiscipline.execute({
