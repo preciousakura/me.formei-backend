@@ -7,21 +7,41 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class PrismaDisciplinesRepository implements DisciplinesRepository {
   constructor(private prisma: PrismaService) {}
+  // prerequisites: {
+  //   connect: discipline.prerequisiteDisciplines.map((cod: string) => {
+  //     return { cod: cod };
+  //   }),
+  // },
   async createMany(disciplines: Discipline[]): Promise<void> {
-    const rawArray = disciplines.map((discipline) => {
+    const disciplinesMapped = disciplines.map((discipline) => {
       return {
         ...PrismaDisciplineMapper.toPrisma(discipline),
-        prerequisitesDisciplines: {
-          connect: discipline.prerequisiteDisciplines.map((cod: string) => {
-            return { cod: cod };
-          }),
-        },
       };
     });
+
+    const rawArray = disciplinesMapped.map(
+      ({ prerequisitesDisciplines, ...rest }) => rest,
+    );
 
     await this.prisma.discipline.createMany({
       data: rawArray,
     });
+
+    const idsDisciplinas = disciplinesMapped.map((disciplina) => disciplina.id);
+
+    await Promise.all(
+      disciplinesMapped.map(async (disciplina, index) => {
+        const { prerequisitesDisciplines } = disciplina;
+        await this.prisma.discipline.update({
+          where: { id: idsDisciplinas[index] },
+          data: {
+            prerequisitesDisciplines: {
+              connect: prerequisitesDisciplines.map((cod) => ({ cod })),
+            },
+          },
+        });
+      }),
+    );
   }
 
   async findById(disciplineId: string): Promise<Discipline | null> {

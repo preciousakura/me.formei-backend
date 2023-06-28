@@ -232,12 +232,13 @@ export class UniversitiesController {
     @Param('curriculumId') curriculumId: string,
     @Body() disciplineBody: CreateManyDisciplineBody,
   ) {
-    const { disciplines } = await this.createManyDiscipline.execute({
+    const { disciplines, feedback } = await this.createManyDiscipline.execute({
       ...disciplineBody,
       curriculumId,
     });
 
     return {
+      feedback,
       disciplines: DisciplineViewModel.toFront(disciplines),
     };
   }

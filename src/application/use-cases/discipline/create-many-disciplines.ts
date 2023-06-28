@@ -4,7 +4,6 @@ import { DisciplinesRepository } from '@application/repositories/disciplines-rep
 import { CurriculumsRepository } from '@application/repositories/curriculums-repository';
 import { Injectable } from '@nestjs/common';
 import { CurriculumNotFound } from '../errors/curriculum-not-found';
-import { DisciplineNotFound } from '../errors/discipline-not-found';
 
 interface CreateDiscipline {
   cod: string;
@@ -22,8 +21,20 @@ interface CreateDisciplineRequest {
   curriculumId: string;
 }
 
-interface CreateDisciplineResponse {
+export interface CreateDisciplineResponse {
   disciplines: Discipline[];
+  feedback: Feedback;
+}
+export interface FeedbackDiscipline {
+  cod?: string;
+  prerequisitesCod?: string[];
+}
+
+export interface Feedback {
+  error: {
+    message: string;
+    disciplines: FeedbackDiscipline[];
+  };
 }
 
 @Injectable()
@@ -38,7 +49,14 @@ export class CreateManyDiscipline {
   ): Promise<CreateDisciplineResponse> {
     const { disciplines, curriculumId } = request;
     const disciplinesData: Discipline[] = [];
-    disciplines.forEach(async (discipline) => {
+    const feedback: Feedback = {
+      error: {
+        message: '',
+        disciplines: [],
+      },
+    };
+    for (const discipline of disciplines) {
+      let hasErrorPrerequite = false;
       const prerequisiteDisciplines: Discipline[] = [];
       const curriculum = await this.curriculumsRepository.findById(
         curriculumId,
@@ -47,18 +65,37 @@ export class CreateManyDiscipline {
       if (!curriculum) {
         throw new CurriculumNotFound();
       }
-
-      discipline.prerequisites.forEach(async (cod) => {
+      let prerequisitesCod: string[] = [];
+      for (const cod of discipline.prerequisites) {
         const disciplineFinded = await this.disciplinesRepository.findByCod(
           cod,
         );
         if (!disciplineFinded) {
-          throw new DisciplineNotFound(
-            'Could not find discipline of prerequisites',
+          hasErrorPrerequite = true;
+          const index = feedback.error.disciplines.findIndex(
+            (disc) => disc.cod === discipline.cod,
           );
+          prerequisitesCod = [
+            ...prerequisitesCod,
+            ...feedback.error.disciplines[index].prerequisitesCod,
+          ];
+
+          feedback.error.disciplines.push({
+            cod: discipline.cod,
+            prerequisitesCod: [...prerequisitesCod, cod],
+          });
+          // throw new DisciplineNotFound(
+          //   'Could not find discipline of prerequisites',
+          // );
         }
         prerequisiteDisciplines.push(disciplineFinded);
-      });
+      }
+
+      if (hasErrorPrerequite) {
+        feedback.error.message =
+          'Houve um problema com alguns codigos de prérequisito, disciplinas que não foram cadastradas corretamente:';
+        continue;
+      }
 
       const disciplineInstancied = Discipline.create({
         cod: discipline.cod,
@@ -74,12 +111,13 @@ export class CreateManyDiscipline {
         bibliography: discipline.bibliography,
       });
       disciplinesData.push(disciplineInstancied);
-    });
+    }
 
     await this.disciplinesRepository.createMany(disciplinesData);
 
     return {
       disciplines: disciplinesData,
+      feedback,
     };
   }
 }

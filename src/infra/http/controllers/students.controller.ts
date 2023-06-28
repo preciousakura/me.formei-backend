@@ -153,7 +153,7 @@ export class StudentsController {
     const { disciplines } = request;
     const courseHistories: CourseHistory[] = [];
 
-    disciplines.forEach(async (discipline) => {
+    for (const discipline of disciplines) {
       const { courseHistory } =
         await this.associateDisciplineInStudentSemester.execute({
           ...discipline,
@@ -161,7 +161,7 @@ export class StudentsController {
           studentRegistration: studentRegistration,
         });
       courseHistories.push(courseHistory);
-    });
+    }
 
     return {
       message: 'Disciplina(s) associada(s) com sucesso!',
