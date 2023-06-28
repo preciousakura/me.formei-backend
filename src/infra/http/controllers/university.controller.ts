@@ -229,10 +229,10 @@ export class UniversitiesController {
   @Post(':id/courses/:curriculumId/disciplines')
   async associateDisciplineInCurriculum(
     @Param('curriculumId') curriculumId: string,
-    @Body() disciplineBody: CreateDisciplineBody[],
+    @Body() disciplineBody: CreateDisciplineBody,
   ) {
     const disciplines: Discipline[] = [];
-    disciplineBody.forEach(async (discipline) => {
+    disciplineBody.disciplines.forEach(async (discipline) => {
       const { discipline: disc } = await this.createDiscipline.execute({
         ...discipline,
         curriculumId,
