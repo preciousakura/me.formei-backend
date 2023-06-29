@@ -5,6 +5,7 @@ import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-c
 import { CreateDiscipline } from '@application/use-cases/discipline/create-discipline';
 import { CreateManyDiscipline } from '@application/use-cases/discipline/create-many-disciplines';
 import { FindDiscipline } from '@application/use-cases/discipline/find-discipline';
+import { FindDisciplineByCodArray } from '@application/use-cases/discipline/find-disciplines-by-cod-array';
 import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
 import { CreateUniversity } from '@application/use-cases/university/create-university';
 import { FindUniversitiesByCity } from '@application/use-cases/university/find-universities-by-city';
@@ -16,6 +17,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCurriculumBody } from '../dto/curriculum/create-curriculum.dto';
 import { CreateManyDisciplineBody } from '../dto/discipline/create-discipline.dto';
+import { FindDisciplineByCodsBody } from '../dto/discipline/find-discipline-by-cods.dto';
 import { ResponseWithMessage } from '../dto/response-message';
 import { CreateUniversityBody } from '../dto/university/create-university.dto';
 import { CourseHttp } from '../types-class-http/course-http';
@@ -61,6 +63,7 @@ export class UniversitiesController {
     private createDiscipline: CreateDiscipline,
     private createManyDiscipline: CreateManyDiscipline,
     private findDiscipline: FindDiscipline,
+    private findDisciplineByCodArray: FindDisciplineByCodArray,
     private findDisciplineByCurriculum: FindDisciplinesByCurriculum,
     private findUniversitiesByCityAndState: FindUniversitiesByCityAndState,
   ) {}
@@ -281,21 +284,17 @@ export class UniversitiesController {
     };
   }
 
-  @Get(':id/courses/:curriculumId/disciplines/optional')
+  @Get(':id/courses/:curriculumId/disciplines/cod')
   @ApiResponse({
     type: DisciplineToFrontResponse,
-    description: 'Busca as disciplinas de uma matriz curricular',
+    description: 'Busca as disciplinas por codigo',
   })
-  async findDisciplinesOptionalByCurriculum(
-    @Param('curriculumId') curriculumId: string,
-  ) {
-    const { disciplines } = await this.findDisciplineByCurriculum.execute({
-      curriculumId,
+  async findDisciplinesByCods(@Body() body: FindDisciplineByCodsBody) {
+    const { disciplines } = await this.findDisciplineByCodArray.execute({
+      cods: body.cods,
     });
     return {
-      disciplines: DisciplineViewModel.toFront(
-        disciplines.filter((discipline) => discipline.optional === true),
-      ),
+      disciplines: disciplines.map(DisciplineViewModel.toHTTP),
     };
   }
 

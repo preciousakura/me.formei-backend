@@ -8,7 +8,7 @@ export interface CourseHistoryProps {
   studentRegistration: string;
   discipline: Discipline;
   status: StatusType;
-  createdAt: string;
+  createdAt?: Date;
   semester: number;
   startTime: string;
   endTime: string;
@@ -19,7 +19,11 @@ export interface CourseHistoryProps {
 export class CourseHistory extends Entity<CourseHistoryProps> {
   public _props: CourseHistoryProps;
   static create(props: CourseHistoryProps, id?: UniqueEntityID) {
-    const courseHistory = new CourseHistory(props, id);
+    const courseHistory = new CourseHistory(
+      { ...props, createdAt: props.createdAt ?? new Date() },
+      id,
+    );
+
     return courseHistory;
   }
 
@@ -47,7 +51,7 @@ export class CourseHistory extends Entity<CourseHistoryProps> {
     return this.props.status;
   }
 
-  public set createdAt(createdAt: string) {
+  public set createdAt(createdAt: Date) {
     this.props.createdAt = createdAt;
   }
 

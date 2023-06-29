@@ -27,6 +27,10 @@ export class CreateDisciplineBody {
 
   @ApiProperty()
   @IsNotEmpty()
+  hours: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({ example: ['CK0101', 'CK0201'] })

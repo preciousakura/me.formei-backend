@@ -20,6 +20,7 @@ import { FindCurriculumsByUniversityIdAndCurriculumId } from '@application/use-c
 import { CreateDiscipline } from '@application/use-cases/discipline/create-discipline';
 import { CreateManyDiscipline } from '@application/use-cases/discipline/create-many-disciplines';
 import { FindDiscipline } from '@application/use-cases/discipline/find-discipline';
+import { FindDisciplineByCodArray } from '@application/use-cases/discipline/find-disciplines-by-cod-array';
 import { FindDisciplinesByCurriculum } from '@application/use-cases/discipline/find-disciplines-by-curriculum';
 import { CreateExtraCurricularActivity } from '@application/use-cases/extracurricular-activities/create-extracurricular-activity';
 import { DeleteExtraCurricular } from '@application/use-cases/extracurricular-activities/delete-extracurricular-activity';
@@ -83,6 +84,7 @@ import { UniversitiesController } from './controllers/university.controller';
     CreateDiscipline,
     CreateManyDiscipline,
     FindDiscipline,
+    FindDisciplineByCodArray,
     FindDisciplinesByCurriculum,
     AssociateDisciplineInStudentSemester,
     DisassociateDisciplineInStudentSemester,

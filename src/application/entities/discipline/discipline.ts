@@ -10,6 +10,7 @@ export interface DisciplineProps {
   prerequisiteDisciplines: string[];
   bibliography: string[];
   curriculumId: string;
+  hours: number;
 }
 
 export class Discipline extends Entity<DisciplineProps> {
@@ -52,6 +53,14 @@ export class Discipline extends Entity<DisciplineProps> {
 
   public get optional() {
     return this.props.optional;
+  }
+
+  public set hours(hours: number) {
+    this.props.hours = hours;
+  }
+
+  public get hours() {
+    return this.props.hours;
   }
 
   public set semester(semester: number) {

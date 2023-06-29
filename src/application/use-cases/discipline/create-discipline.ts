@@ -15,6 +15,7 @@ interface CreateDisciplineRequest {
   curriculumId: string;
   prerequisites: string[];
   bibliography: string[];
+  hours: number;
 }
 
 interface CreateDisciplineResponse {
@@ -43,6 +44,7 @@ export class CreateDiscipline {
       curriculumId,
       prerequisites,
       bibliography,
+      hours,
     } = request;
     let hasErrorPrerequite = false;
     const prerequisiteDisciplines: Discipline[] = [];
@@ -80,6 +82,7 @@ export class CreateDiscipline {
         (discipline) => discipline.cod,
       ),
       bibliography,
+      hours,
     });
 
     await this.disciplinesRepository.create(discipline);

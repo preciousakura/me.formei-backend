@@ -14,7 +14,6 @@ interface CreateCourseHistoryRequest {
   studentRegistration: string;
   disciplineId: string;
   status: StatusType;
-  createdAt: string;
   semester: number;
   startTime: string;
   endTime: string;
@@ -41,7 +40,6 @@ export class AssociateDisciplineInStudentSemester {
       studentRegistration,
       disciplineId,
       status,
-      createdAt,
       semester,
       startTime,
       endTime,
@@ -65,7 +63,6 @@ export class AssociateDisciplineInStudentSemester {
       studentRegistration,
       discipline,
       status,
-      createdAt,
       semester,
       startTime,
       endTime,

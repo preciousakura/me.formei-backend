@@ -7,6 +7,14 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class PrismaDisciplinesRepository implements DisciplinesRepository {
   constructor(private prisma: PrismaService) {}
+  async findByCodArray(cods: string[]): Promise<Discipline[]> {
+    const disciplines = await this.prisma.discipline.findMany({
+      where: {
+        cod: { in: cods },
+      },
+    });
+    return disciplines.map(PrismaDisciplineMapper.toDomain);
+  }
   // prerequisites: {
   //   connect: discipline.prerequisiteDisciplines.map((cod: string) => {
   //     return { cod: cod };

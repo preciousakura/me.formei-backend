@@ -14,6 +14,8 @@ export class DisciplineViewModel {
       optional,
       semester,
       prerequisiteDisciplines,
+      bibliography,
+      hours,
     } = discipline;
 
     return {
@@ -25,7 +27,9 @@ export class DisciplineViewModel {
       description,
       isOptional: optional,
       semester,
+      bibliography,
       prerequisites: prerequisiteDisciplines,
+      hours,
     };
   }
 

@@ -14,6 +14,7 @@ interface CreateDiscipline {
   description: string;
   prerequisites: string[];
   bibliography: string[];
+  hours: number;
 }
 
 interface CreateDisciplineRequest {
@@ -101,6 +102,7 @@ export class CreateManyDiscipline {
           (discipline) => discipline.cod,
         ),
         bibliography: discipline.bibliography,
+        hours: discipline.hours,
       });
       disciplinesData.push(disciplineInstancied);
     }

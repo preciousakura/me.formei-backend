@@ -34,10 +34,6 @@ export class AssociateDiscipline {
   @IsEnum(StatusCourseHistory)
   status: StatusType;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  createdAt: string;
-
   // @ApiProperty()
   // @IsOptional()
   // @IsEnum(Semester)

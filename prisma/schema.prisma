@@ -86,6 +86,7 @@ model Discipline {
   curriculum               Curriculum      @relation(fields: [curriculumId], references: [id])
   curriculumId             String
   courseHistory            CourseHistory[]
+  hours                    Int
 }
 
 model CourseHistory {

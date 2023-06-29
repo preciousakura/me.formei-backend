@@ -4,6 +4,7 @@ export abstract class DisciplinesRepository {
   abstract createMany(disciplines: Discipline[]): Promise<void>;
   abstract findById(disciplineId: string): Promise<Discipline | null>;
   abstract findByCod(cod: string): Promise<Discipline | null>;
+  abstract findByCodArray(cods: string[]): Promise<Discipline[] | null>;
   abstract update(discipline: Discipline): Promise<Discipline>;
   abstract delete(disciplineId: string): Promise<void>;
   abstract list(): Promise<Discipline[] | []>;
