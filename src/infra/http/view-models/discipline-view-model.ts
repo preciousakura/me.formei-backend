@@ -29,7 +29,7 @@ export class DisciplineViewModel {
       semester,
       bibliography,
       prerequisites: prerequisiteDisciplines,
-      hours,
+      workload: hours,
     };
   }
 
@@ -89,6 +89,7 @@ type DisciplineViewToFront = {
   description: string;
   isOptional: boolean;
   prerequisites: string[] | [];
+  workload: number;
 };
 
 type ToFront = {
