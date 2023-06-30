@@ -25,10 +25,10 @@ export class CourseHistoryHttp {
   semester: number;
 
   @ApiProperty()
-  startTime: string;
+  startTime: Date;
 
   @ApiProperty()
-  endTime: string;
+  endTime: Date;
 
   @ApiProperty()
   hours: number;

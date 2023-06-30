@@ -10,8 +10,8 @@ export interface CourseHistoryProps {
   status: StatusType;
   createdAt?: Date;
   semester: number;
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
   hours: number;
   daysWeek: string[];
 }
@@ -67,7 +67,7 @@ export class CourseHistory extends Entity<CourseHistoryProps> {
     return this.props.semester;
   }
 
-  public set startTime(startTime: string) {
+  public set startTime(startTime: Date) {
     this.props.startTime = startTime;
   }
 
@@ -75,7 +75,7 @@ export class CourseHistory extends Entity<CourseHistoryProps> {
     return this.props.startTime;
   }
 
-  public set endTime(endTime: string) {
+  public set endTime(endTime: Date) {
     this.props.endTime = endTime;
   }
 
