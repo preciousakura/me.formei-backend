@@ -41,11 +41,11 @@ export class AssociateDiscipline {
 
   @ApiProperty()
   @IsNotEmpty()
-  startTime: string;
+  startTime: Date;
 
   @ApiProperty()
   @IsNotEmpty()
-  endTime: string;
+  endTime: Date;
 
   @ApiProperty()
   @IsNotEmpty()

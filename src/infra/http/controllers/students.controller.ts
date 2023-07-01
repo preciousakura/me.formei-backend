@@ -21,6 +21,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   Patch,
@@ -240,6 +241,16 @@ export class StudentsController {
     @Param('studentRegistration') studentRegistration: string,
     @Param('status') status: StatusType,
   ) {
+    if (
+      status !== 'DONE' &&
+      status !== 'INPROGRESS' &&
+      status !== 'FAILED' &&
+      status !== 'WITHDRAWAL'
+    ) {
+      throw new ForbiddenException(
+        "Status must be 'DONE' or 'INPROGRESS ' or 'WITHDRAWAL or FAILED'",
+      );
+    }
     const { courseHistory } =
       await this.findCourseHistoryByStatusAndStudentRegistration.execute({
         studentRegistration,

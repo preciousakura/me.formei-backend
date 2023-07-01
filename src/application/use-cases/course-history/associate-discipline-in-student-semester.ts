@@ -15,8 +15,8 @@ interface CreateCourseHistoryRequest {
   disciplineId: string;
   status: StatusType;
   semester: number;
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
   hours: number;
   daysWeek: string[];
 }
