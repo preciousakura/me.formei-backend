@@ -221,7 +221,7 @@ export class StudentsController {
     };
   }
 
-  @Get(':studentRegistration/disciplines/todo')
+  @Post(':studentRegistration/disciplines/todo')
   async findDisciplinesTodoByStudents(
     @Param('studentRegistration') studentRegistration: string,
     @Body() body: FindDisciplinesTodoBody,
